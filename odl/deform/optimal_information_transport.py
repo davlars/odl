@@ -31,7 +31,12 @@ import numpy as np
 
 from odl.discr import Gradient
 from odl.trafos import FourierTransform
+<<<<<<< HEAD
 import odl
+=======
+from odl.util import snr
+
+>>>>>>> EHN: put snr into util.
 
 __all__ = ('optimal_information_transport_solver',)
 
@@ -39,6 +44,7 @@ __all__ = ('optimal_information_transport_solver',)
 def padded_ft_op(space, padded_size):
     """Create zero-padding fft setting
 
+<<<<<<< HEAD
     Parameters
     ----------
     space : the space needs to do FT
@@ -60,6 +66,17 @@ def optimal_information_transport_solver(gradS, I, niter, eps,
     optimal information transportation.
 
     The model is:
+=======
+if __name__ == '__main__':
+    import matplotlib.pyplot as plt
+    import odl
+
+    I0name = '../../ddmatch/Example3 letters/c_highres.png'
+    I1name = '../../ddmatch/Example3 letters/i_highres.png'
+
+    I0 = np.rot90(plt.imread(I0name).astype('float'), -1)[::2, ::2]
+    I1 = np.rot90(plt.imread(I1name).astype('float'), -1)[::2, ::2]
+>>>>>>> EHN: put snr into util.
 
     min sigma * (1 - sqrt{DetJacInvPhi})^2 + (T(phi.I) - g)^2,
     where phi.I := DetJacInvPhi * I(InvPhi) is a mass-preserving deformation.
@@ -120,6 +137,7 @@ def optimal_information_transport_solver(gradS, I, niter, eps,
 #    k2 = ft.range.element(np.maximum(np.abs(k2_values), 0.005))
 #    poisson_solver = ft.inverse * (1 / k2) * ft
 
+<<<<<<< HEAD
     # Begin iteration
     for _ in range(niter):
         # Convert the invphi into an array for efficient interpolation
@@ -150,6 +168,10 @@ def optimal_information_transport_solver(gradS, I, niter, eps,
 
         # Compute the minus L2 gradient
         u = sigma * grad(1 - np.sqrt(DPhiJacobian)) - 2 * tmp
+=======
+    # Compute the signal-to-noise ratio in dB
+    snr = snr(proj_data, noise, impl='dB')
+>>>>>>> EHN: put snr into util.
 
         # Check the mass
         # print(np.sum(PhiStarX))

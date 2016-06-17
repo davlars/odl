@@ -1,0 +1,3 @@
+# Bobfile - defaults for Bob
+size = 95 100 80
+file = rna_phantom.byte
