@@ -204,6 +204,10 @@ class DiscreteLp(DiscretizedSpace):
         """Number of dimensions."""
         return self.partition.ndim
 
+    def index(self, value, floating=False):
+        """TODO: documentation"""
+        return self.partition.index(value, floating)
+
     @property
     def size(self):
         """Total number of underlying partition cells."""
