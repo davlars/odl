@@ -44,6 +44,8 @@ class MaskingOperator(odl.Operator):
             if not np.isclose(idx_max_flt[j], idx_max[j]):
                 idx_max[j] = int(np.ceil(idx_max_flt[j]))
 
+        # FIXME: something wrong here, lower index too low
+
         slc = tuple(slice(imin, imax) for imin, imax in zip(idx_min, idx_max))
         out.assign(x)
         with writable_array(out) as out_arr:
