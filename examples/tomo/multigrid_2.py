@@ -6,109 +6,26 @@ Created on Tue Oct 25 15:58:10 2016
 @author: hkohr
 """
 
-import numpy as np
 import odl
-from odl.util import writable_array
-from builtins import super
+import numpy as np
 
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-from matplotlib.image import BboxImage
-from matplotlib.transforms import Bbox, TransformedBbox
+import sys
+sys.path.append('/home/jw/code/odl/examples/tomo/')
 
+from multigrid import MaskingOperator
 
 # %%
-
-def show_both(coarse_data, fine_data):
-    fig, ax = plt.subplots()
-    
-    low = np.min([np.min(coarse_data), np.min(fine_data)])
-    high = np.max([np.max(coarse_data), np.max(fine_data)])
-   
-    normalization = mpl.colors.Normalize(vmin=low, vmax=high)
-    
-    ax.set_xlim(coarse_data.space.domain.min_pt[0],
-                coarse_data.space.domain.max_pt[0])
-    ax.set_ylim(coarse_data.space.domain.min_pt[1],
-                coarse_data.space.domain.max_pt[1])
-
-    def show(data):    
-        bbox0 = Bbox.from_bounds(*data.space.domain.min_pt,
-                                 *(data.space.domain.max_pt -
-                                   data.space.domain.min_pt))
-        bbox = TransformedBbox(bbox0, ax.transData)
-        bbox_image = BboxImage(bbox, norm=normalization, cmap='bone',
-                               interpolation='nearest', origin=False)
-        bbox_image.set_data(np.rot90(data.asarray()))
-        ax.add_artist(bbox_image)
-        
-    show(coarse_data)
-    show(fine_data)
-
-# %%
-
-class MaskingOperator(odl.Operator):
-
-    def __init__(self, space, min_pt, max_pt):
-
-        super().__init__(domain=space, range=space, linear=True)
-        self.min_pt = min_pt
-        self.max_pt = max_pt
-
-    def _call(self, x, out):
-        # TODO: find better way of getting the indices
-        idx_min_flt = ((self.min_pt - self.domain.min_pt) /
-                       self.domain.cell_sides)
-        idx_max_flt = ((self.max_pt - self.domain.min_pt) /
-                       self.domain.cell_sides)
-
-        # to deal with coinciding boundaries we introduce an epsilon tolerance
-        epsilon = 1e-6
-        idx_min = np.floor(idx_min_flt - epsilon).astype(int)
-        idx_max = np.ceil(idx_max_flt + epsilon).astype(int)
-        
-        coeffs = lambda d: (1.0 - (idx_min_flt[d] - idx_min[d]),
-                            1.0 - (idx_max[d] - idx_max_flt[d]))
-        
-        # we need an extra level of indirection for capturing `d` inside
-        # the lambda
-        def fn_pair(d):
-            return (lambda x: x * coeffs(d)[0], lambda x: x * coeffs(d)[1])
-            
-        boundary_scale_fns = [fn_pair(d) for d in range(x.ndim)]
-        
-        slc = tuple(slice(imin, imax) for imin, imax in zip(idx_min, idx_max))
-        slc_inner = tuple(slice(imin + 1, imax - 1) for imin, imax in
-                          zip(idx_min, idx_max))
-        
-        out.assign(x)
-        with writable_array(out) as out_arr:
-            out_arr[slc_inner] = 0
-            odl.util.numerics.apply_on_boundary(out_arr[slc],
-                                                boundary_scale_fns,
-                                                only_once=False,
-                                                out=out_arr[slc])
-            odl.util.numerics.apply_on_boundary(out_arr[slc],
-                                                lambda x: 1.0 - x,
-                                                only_once=True,
-                                                out=out_arr[slc])
-
-    @property
-    def adjoint(self):
-        return self
-
-
-# %%
-coarse_discr = odl.uniform_discr([-10, -10], [10, 10], [50, 50])
-fine_min = [-1, -1]
-fine_max = [1, 1]
-fine_discr = odl.uniform_discr(fine_min, fine_max, [100, 100])
-
 angle_partition = odl.uniform_partition(0, np.pi, 180)
 det_partition = odl.uniform_partition(-15, 15, 3000)
 
 geometry = odl.tomo.Parallel2dGeometry(angle_partition, det_partition,
                                        det_init_pos=[20, 0])
+
+# make sinogram and show it
+coarse_discr = odl.uniform_discr([-10, -10], [10, 10], [50, 50])
+fine_min = [2.0, 2.0]
+fine_max = [4.0, 4.0]
+fine_discr = odl.uniform_discr(fine_min, fine_max, [100, 100])
 
 ray_trafo_coarse = odl.tomo.RayTransform(coarse_discr, geometry,
                                          impl='astra_cpu')
@@ -121,18 +38,64 @@ ray_trafo_fine = odl.tomo.RayTransform(fine_discr, geometry,
 
 pspace_ray_trafo = odl.ReductionOperator(masked_ray_trafo_coarse,
                                          ray_trafo_fine)
+
 pspace = pspace_ray_trafo.domain
 phantom_c = odl.phantom.shepp_logan(coarse_discr, modified=True)
 phantom_f = odl.phantom.shepp_logan(fine_discr, modified=True)
-phantom = pspace.element([phantom_c, phantom_f])
+phantom = pspace.element([coarse_discr.zero(), fine_discr.zero()])
+phantom.show()
 
-data = pspace_ray_trafo([phantom_c, phantom_f])
+show_both(*phantom)
+data = pspace_ray_trafo(phantom)
+data.show('data')
+
+# 0 - 3
+# |   |
+# 1 - 2
+corners = [[fine_min[0], fine_max[1]],
+           [fine_min[0], fine_min[1]],
+           [fine_max[0], fine_min[1]],
+           [fine_max[0], fine_max[1]]]
+
+# want do define piecewise function that plots these things on the sinogram
+   
+show_extent(data, corners, geometry.det_refpoint)
+
+# %%
+coarse_discr = odl.uniform_discr([-10, -10], [10, 10], [50, 50])
+fine_min = [2, 2]
+fine_max = [4, 4]
+fine_discr = odl.uniform_discr(fine_min, fine_max, [100, 100])
+
+angle_partition = odl.uniform_partition(0, np.pi, 180)
+det_partition = odl.uniform_partition(-15, 15, 3000)
+
+geometry = odl.tomo.FanFlatGeometry(angle_partition, det_partition, 200.0, 20.0)
+
+ray_trafo_coarse = odl.tomo.RayTransform(coarse_discr, geometry,
+                                         impl='astra_cpu')
+
+coarse_mask = MaskingOperator(coarse_discr, fine_min, fine_max)
+masked_ray_trafo_coarse = ray_trafo_coarse * coarse_mask
+
+ray_trafo_fine = odl.tomo.RayTransform(fine_discr, geometry,
+                                       impl='astra_cpu')
+
+pspace_ray_trafo = odl.ReductionOperator(masked_ray_trafo_coarse,
+                                         ray_trafo_fine)
+
+pspace = pspace_ray_trafo.domain
+phantom = pspace.element([coarse_discr.zero(), fine_discr.one()])
+
+data = pspace_ray_trafo(phantom)
 data.show('data')
 
 noisy_data = data + odl.phantom.white_noise(ray_trafo_coarse.range, stddev=0.1)
 noisy_data.show('noisy data')
 
 reco = pspace_ray_trafo.domain.zero()
+
+phantom.show()
 
 # %%
 # CG reconstruction
@@ -206,3 +169,14 @@ xmin = [-1.2, -1.2]
 xmax = [1, 1]
 fine_grid = odl.uniform_discr(xmin, xmax, [5, 5])
 show_both(coarse_grid.zero(), fine_grid.one())
+
+# %%
+
+coarse_grid = odl.uniform_discr([-2.5, -2.5], [2.5, 2.5], [5, 5])
+xmin = [1, 1]
+xmax = [2, 2]
+fine_grid = odl.uniform_discr(xmin, xmax, [5, 5])
+
+coarse_mask = MaskingOperator(coarse_grid, xmin, xmax)
+
+coarse_mask(coarse_grid.one()).show()
