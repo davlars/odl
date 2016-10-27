@@ -27,12 +27,15 @@ def show_both(coarse_data, fine_data):
    
     normalization = mpl.colors.Normalize(vmin=low, vmax=high)
     
-    ax.set_xlim(coarse_data.space.domain.min_pt[0], coarse_data.space.domain.max_pt[0])
-    ax.set_ylim(coarse_data.space.domain.min_pt[1], coarse_data.space.domain.max_pt[1])
+    ax.set_xlim(coarse_data.space.domain.min_pt[0],
+                coarse_data.space.domain.max_pt[0])
+    ax.set_ylim(coarse_data.space.domain.min_pt[1],
+                coarse_data.space.domain.max_pt[1])
 
     def show(data):    
         bbox0 = Bbox.from_bounds(*data.space.domain.min_pt,
-                                 *(data.space.domain.max_pt - data.space.domain.min_pt))
+                                 *(data.space.domain.max_pt -
+                                   data.space.domain.min_pt))
         bbox = TransformedBbox(bbox0, ax.transData)
         bbox_image = BboxImage(bbox, norm=normalization, cmap='bone',
                                interpolation='nearest', origin=False)
