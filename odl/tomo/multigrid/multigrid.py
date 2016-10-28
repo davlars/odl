@@ -176,7 +176,7 @@ def show_both(coarse_data, fine_data):
         bbox = TransformedBbox(bbox0, ax.transData)
         bbox_image = BboxImage(bbox, norm=normalization, cmap='bone',
                                interpolation='nearest', origin=False)
-        bbox_image.set_data(np.rot90(data.asarray()))
+        bbox_image.set_data(np.rot90(data.asarray(),-1))
         ax.add_artist(bbox_image)
 
     show(coarse_data)
