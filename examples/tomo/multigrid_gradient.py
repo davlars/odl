@@ -40,6 +40,143 @@ class MaskingOperator(odl.Operator):
         return self
 
 
+# %% Helper function for averaging a function over a partition
+
+import numpy as np
+import odl
+
+
+def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
+                          out=None):
+    """Reduce a discrete function blockwise over a coarser partition.
+
+    TODO: more specific
+
+    Parameters
+    ----------
+    discr_func : `DiscreteLp` element
+        Element in a uniformly discretized function space that is to be
+        reduced over blocks defined by ``partition``.
+    partition : uniform `RectPartition`
+        Coarser partition than ``discr_func.space.partition`` that defines
+        the large cells (blocks) over which ``discr_func`` is reduced.
+    reduction : callable
+        Reduction function defining the operation on each block of values
+        in ``discr_func``. It needs to be callable as
+        ``reduction(array, axes=my_axes, out=out_array)``, where
+        ``array, out_array`` are `numpy.ndarray`'s, and ``my_axes`` a
+        sequence of ints specifying over which axes is being reduced.
+        The typical examples are NumPy ufuncs like `np.sum` or `np.mean`,
+        but custom functions are also possible.
+    pad_value : scalar, optional
+        This value is filled into the parts that are not covered by the
+        function.
+    out : `numpy.ndarray`, optional
+        Bla
+    """
+    spc = discr_func.space
+    smin, smax = spc.min_pt, spc.max_pt
+    scsides = spc.cell_sides
+    sshape = spc.shape
+    part = partition
+    pmin, pmax = part.min_pt, part.max_pt
+    pcsides = part.cell_sides
+    pshape = part.shape
+
+    assert spc.is_uniform
+    assert part.is_uniform
+
+    # Vector of tolerances for grid computations
+    eps = 1e-8 * spc.partition.extent()
+
+    func_arr = discr_func.asarray()
+    if out is None:
+        out = np.empty(part.shape, dtype=discr_func.dtype,
+                       order=discr_func.dtype)
+    else:
+        assert isinstance(out, np.ndarray)
+        assert np.can_cast(discr_func.dtype, out.dtype)
+        assert np.array_equal(out.shape, part.shape)
+
+    out.fill(pad_value)
+
+    print('smin:', smin)
+    print('smax:', smax)
+
+    # Check input parameters
+
+    # Partition must be larger than space
+    # TODO: allow some tolerance
+    assert part.set.contains_set(spc.partition.set)
+    ndim = spc.ndim
+
+    # Partition cell sides must be an integer multiple of space cell sides
+    csides_ratio_f = part.cell_sides / spc.cell_sides
+    csides_ratio = np.around(csides_ratio_f).astype(int)
+    print('csides_ratio (float):', csides_ratio_f)
+    print('csides_ratio:', csides_ratio)
+    assert np.allclose(csides_ratio_f, csides_ratio)
+
+    # Shift must be an integer multiple of space cell sides
+    rel_shift_f = (smin - pmin) / scsides
+    print('rel shift (grid units):', rel_shift_f)
+    assert np.allclose(np.round(rel_shift_f), rel_shift_f)
+
+    # Calculate relative position of a number of interesting points
+
+    # Positions of the space domain min and max vectors relative to the
+    # partition
+    cvecs = part.cell_boundary_vecs
+    smin_idx = part.index(smin)
+    smin_partpt = np.array([cvec[si + 1] for si, cvec in zip(smin_idx, cvecs)])
+    smax_idx = part.index(smax)
+    smax_partpt = np.array([cvec[si] for si, cvec in zip(smax_idx, cvecs)])
+
+    print('smin_idx:', smin_idx)
+    print('smin_partpt:', smin_partpt)
+    print('smax_idx:', smax_idx)
+    print('smax_partpt:', smax_partpt)
+
+    # Inner part of the partition in the space domain, i.e. partition cells
+    # that do not touch the boundary of the space
+    p_inner_slc = [slice(li + 1, ri) for li, ri in zip(smin_idx, smax_idx)]
+    print(p_inner_slc)
+
+    # Positions of the first and last partition points that still lie in
+    # the space domain, relative to the space partition
+    pl_idx = np.round(spc.index(smin_partpt, floating=True)).astype(int)
+    pr_idx = np.round(spc.index(smax_partpt, floating=True)).astype(int)
+    s_inner_slc = [slice(li, ri) for li, ri in zip(pl_idx, pr_idx)]
+    print(s_inner_slc)
+
+    # Compute the block average of the inner part. This can be done by
+    # reshaping from
+    # (n_0, ..., n_(d-1)) to (n_0/k_0, k_0, ..., n_(d-1)/k_(d-1), k_(d-1))
+    # and reducing over the "k" axes. The result will retain length-1
+    # dimensions there, so we slice into the output array accordingly.
+    new_shape, red_slice = [], []
+    inner_shape = func_arr[s_inner_slc].shape
+    for n, k in zip(inner_shape, csides_ratio):
+        print(n, k)
+        new_shape.extend([n // k, k])
+
+    axes = tuple(2 * i + 1 for i in range(ndim))
+    print('new_shape:', new_shape)
+    print('func inner part shape:', func_arr[s_inner_slc].shape)
+    print('reduced shape:', out[p_inner_slc].shape)
+    reduction(func_arr[tuple(s_inner_slc)].reshape(new_shape), axis=axes,
+              out=out[tuple(p_inner_slc)])
+
+    # TODO: handle boundaries
+
+    return out
+
+part = odl.uniform_partition([0, 0], [1, 2], (10, 5))
+space = odl.uniform_discr([0.0, 0.5], [0.35, 2.0], (35, 150))
+func = space.one()
+reduce_over_partition(func, part, reduction=np.sum).T
+
+
 # %% MultigridGradient
 
 class MultiGridGradient(odl.DiagonalOperator):
