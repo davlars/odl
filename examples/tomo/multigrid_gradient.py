@@ -63,6 +63,7 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
     reduction : callable
         Reduction function defining the operation on each block of values
         in ``discr_func``. It needs to be callable as
+        ``reduction(array, axes=my_axes)`` or
         ``reduction(array, axes=my_axes, out=out_array)``, where
         ``array, out_array`` are `numpy.ndarray`'s, and ``my_axes`` a
         sequence of ints specifying over which axes is being reduced.
@@ -164,8 +165,12 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
     print('new_shape:', new_shape)
     print('func inner part shape:', func_arr[s_inner_slc].shape)
     print('reduced shape:', out[p_inner_slc].shape)
-    reduction(func_arr[tuple(s_inner_slc)].reshape(new_shape), axis=axes,
-              out=out[tuple(p_inner_slc)])
+    try:
+        reduction(func_arr[tuple(s_inner_slc)].reshape(new_shape), axis=axes,
+                  out=out[tuple(p_inner_slc)])
+    except TypeError:
+        out[tuple(p_inner_slc)] = reduction(
+            func_arr[tuple(s_inner_slc)].reshape(new_shape), axis=axes)
 
     # TODO: handle boundaries
 
