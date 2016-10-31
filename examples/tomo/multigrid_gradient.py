@@ -6,6 +6,7 @@ Created on Tue Oct 25 15:58:10 2016
 @author: hkohr
 """
 
+from itertool import product
 import numpy as np
 import odl
 from odl.util import writable_array
@@ -44,6 +45,13 @@ class MaskingOperator(odl.Operator):
 
 import numpy as np
 import odl
+
+
+def _apply_reduction(arr, out, reduction, axes):
+    try:
+        reduction(arr, axis=axes, out=out)
+    except TypeError:
+        out[:] = reduction(arr, axis=axes)
 
 
 def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
@@ -155,31 +163,103 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
     # (n_0, ..., n_(d-1)) to (n_0/k_0, k_0, ..., n_(d-1)/k_(d-1), k_(d-1))
     # and reducing over the "k" axes. The result will retain length-1
     # dimensions there, so we slice into the output array accordingly.
-    new_shape, red_slice = [], []
+    reduce_shape = []
     inner_shape = func_arr[s_inner_slc].shape
     for n, k in zip(inner_shape, csides_ratio):
         print(n, k)
-        new_shape.extend([n // k, k])
+        reduce_shape.extend([n // k, k])
 
-    axes = tuple(2 * i + 1 for i in range(ndim))
-    print('new_shape:', new_shape)
+    reduce_axes = tuple(2 * i + 1 for i in range(ndim))
+    print('reduce_shape:', reduce_shape)
     print('func inner part shape:', func_arr[s_inner_slc].shape)
     print('reduced shape:', out[p_inner_slc].shape)
-    try:
-        reduction(func_arr[tuple(s_inner_slc)].reshape(new_shape), axis=axes,
-                  out=out[tuple(p_inner_slc)])
-    except TypeError:
-        out[tuple(p_inner_slc)] = reduction(
-            func_arr[tuple(s_inner_slc)].reshape(new_shape), axis=axes)
+    _apply_reduction(arr=func_arr[tuple(s_inner_slc)].reshape(reduce_shape),
+                     out=out[tuple(p_inner_slc)],
+                     axes=reduce_axes, reduction=reduction)
 
-    # TODO: handle boundaries
+    # For the block averages of the overlapping part, we need to consider
+    # all 2 ** (ndim + 1) boundaries separately since it determines the
+    # way we reshape and reduce, and this is not possible to do at once
+    # for a given axis.
+
+    # Slice for all cells in the partition touched by the function domain
+    p_full_slc = [slice(li, ri + 1) for li, ri in zip(smin_idx, smax_idx)]
+    # Slices to constrain to left and right boundary in each axis
+    pl_slc = [slice(li, li + 1) for li in smin_idx]
+    pr_slc = [slice(ri, ri + 1) for ri in smax_idx]
+
+    # Slices for the overlapping space cells to the left and the right
+    # (up to left index excl. / from right index incl.)
+    sl_slc = [slice(None, li) for li in pl_idx]
+    sl_slc = [slice(ri, None) for ri in pr_idx]
+
+    # TODO: enumerate the faces/edges/corners and reduce the corresponding
+    # views
+
+    for i in range(ndim):
+        # FIXME: this doesn' work due to wrong shapes, see above.
+
+        # Space: make full slice in all axes except i, where we
+        # take everything to pl_idx (excl.) / from pr_idx (incl.)
+        sl_slc, sr_slc = [slice(None)] * ndim, [slice(None)] * ndim
+        sl_slc[i] = slice(None, pl_idx[i])
+        sr_slc[i] = slice(pr_idx[i], None)
+
+        print('func view left shape:', func_arr[sl_slc].shape)
+        print('func view right shape:', func_arr[sr_slc].shape)
+
+        # Partition: take all cells touched by the function grid
+        # (smin_idx to smax_idx + 1), and restrict to the first/last
+        # cell in axis i.
+        pl_slc, pr_slc = list(p_full_slc), list(p_full_slc)
+        pl_slc[i] = slice(smin_idx[i], smin_idx[i] + 1)
+        pr_slc[i] = slice(smax_idx[i], smax_idx[i] + 1)
+
+        # print('TEST: setting out to 1, 2, 3, 4 in the sliced parts')
+        # out[pl_slc] = 2 * i + 1
+        # out[pr_slc] = 2 * i + 2
+        # print('out view left:', out[pl_slc])
+        # print('out view right:', out[pr_slc])
+        print('out view left shape:', out[pl_slc].shape)
+        print('out view right shape:', out[pr_slc].shape)
+
+        # Get the shape of the function overlap, and then do the same kind
+        # of reduction as for the inner part. However, we need to treat
+        # all 2 ** (ndim + 1) boundaries separately since otherwise
+        # reduced shapes don't match.
+        sl_arr = func_arr[tuple(sl_slc)]
+        sr_arr = func_arr[tuple(sr_slc)]
+        sl_shape = sl_arr.shape
+        sr_shape = sr_arr.shape
+        sl_reduce_shape, sr_reduce_shape = [], []
+        for j, (nl, nr, k) in enumerate(zip(sl_shape, sr_shape, csides_ratio)):
+            if j == i:
+                # Reduce to size 1 in axis i, use all values
+                sl_reduce_shape.extend([1, nl])
+                sr_reduce_shape.extend([1, nr])
+            else:
+                sl_reduce_shape.extend([nl // k, k])
+                sr_reduce_shape.extend([nr // k, k])
+
+        print('func left shape:', sl_shape)
+        print('func left reduce shape:', sl_reduce_shape)
+        print('func right shape:', sr_shape)
+        print('func right reduce shape:', sr_reduce_shape)
+
+        _apply_reduction(arr=sl_arr.reshape(sl_reduce_shape),
+                         out=out[tuple(pl_slc)],
+                         axes=reduce_axes, reduction=reduction)
+
+        _apply_reduction(arr=sr_arr.reshape(sr_reduce_shape),
+                         out=out[tuple(pr_slc)],
+                         axes=reduce_axes, reduction=reduction)
 
     return out
 
 part = odl.uniform_partition([0, 0], [1, 2], (10, 5))
 space = odl.uniform_discr([0.0, 0.5], [0.35, 2.0], (35, 150))
 func = space.one()
-reduce_over_partition(func, part, reduction=np.sum).T
+reduce_over_partition(func, part, reduction=np.sum).T.tolist()
 
 
 # %% MultigridGradient
