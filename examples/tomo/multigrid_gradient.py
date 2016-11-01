@@ -6,7 +6,6 @@ Created on Tue Oct 25 15:58:10 2016
 @author: hkohr
 """
 
-from itertool import product
 import numpy as np
 import odl
 from odl.util import writable_array
@@ -45,6 +44,7 @@ class MaskingOperator(odl.Operator):
 
 import numpy as np
 import odl
+from itertools import product
 
 
 def _apply_reduction(arr, out, reduction, axes):
@@ -158,32 +158,12 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
     s_inner_slc = [slice(li, ri) for li, ri in zip(pl_idx, pr_idx)]
     print(s_inner_slc)
 
-    # Compute the block average of the inner part. This can be done by
-    # reshaping from
-    # (n_0, ..., n_(d-1)) to (n_0/k_0, k_0, ..., n_(d-1)/k_(d-1), k_(d-1))
-    # and reducing over the "k" axes. The result will retain length-1
-    # dimensions there, so we slice into the output array accordingly.
-    reduce_shape = []
-    inner_shape = func_arr[s_inner_slc].shape
-    for n, k in zip(inner_shape, csides_ratio):
-        print(n, k)
-        reduce_shape.extend([n // k, k])
-
-    reduce_axes = tuple(2 * i + 1 for i in range(ndim))
-    print('reduce_shape:', reduce_shape)
-    print('func inner part shape:', func_arr[s_inner_slc].shape)
-    print('reduced shape:', out[p_inner_slc].shape)
-    _apply_reduction(arr=func_arr[tuple(s_inner_slc)].reshape(reduce_shape),
-                     out=out[tuple(p_inner_slc)],
-                     axes=reduce_axes, reduction=reduction)
-
+    # TODO: update the comments
     # For the block averages of the overlapping part, we need to consider
     # all 2 ** (ndim + 1) boundaries separately since it determines the
     # way we reshape and reduce, and this is not possible to do at once
     # for a given axis.
 
-    # Slice for all cells in the partition touched by the function domain
-    p_full_slc = [slice(li, ri + 1) for li, ri in zip(smin_idx, smax_idx)]
     # Slices to constrain to left and right boundary in each axis
     pl_slc = [slice(li, li + 1) for li in smin_idx]
     pr_slc = [slice(ri, ri + 1) for ri in smax_idx]
@@ -191,11 +171,94 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
     # Slices for the overlapping space cells to the left and the right
     # (up to left index excl. / from right index incl.)
     sl_slc = [slice(None, li) for li in pl_idx]
-    sl_slc = [slice(ri, None) for ri in pr_idx]
+    sr_slc = [slice(ri, None) for ri in pr_idx]
 
-    # TODO: enumerate the faces/edges/corners and reduce the corresponding
-    # views
+    # Shapes for reduction of the inner part by summing over axes.
+    reduce_inner_shape = []
+    reduce_axes = tuple(2 * i + 1 for i in range(ndim))
+    inner_shape = func_arr[s_inner_slc].shape
+    for n, k in zip(inner_shape, csides_ratio):
+        print(n, k)
+        reduce_inner_shape.extend([n // k, k])
 
+    # Now we loop over boundary parts of all dimensions from 0 to ndim-1.
+    # They are encoded as follows:
+    # - We select inner (1) and outer (2) parts per axis by looping over
+    #   `product([1, 2], repeat=ndim)`, using the name `parts`.
+    # - Wherever there is a 2 in the sequence, 2 slices must be generated,
+    #   one for left and one for right. The total number of slices is the
+    #   product of the numbers in `parts`, i.e. `num_slcs = prod(parts)`.
+    # - We get the indices of the 2's in the sequence and put them in
+    #   `outer_indcs`.
+    # - The "p" and "s" slice lists are initialized with the inner part.
+    #   We need `num_slcs` such lists for this particular sequence `parts`.
+    # - Now we enumerate `outer_indcs` as `i, oi` and put into the
+    #   (2*i)-th entry of the slice lists the "left" outer slice and into
+    #   the (2*i+1)-th entry the "right" outer slice.
+    #
+    # The total number of slices to loop over is equal to
+    # 2 ** ndim * fac(ndim), which is
+    # 8 for ndim = 2, 48 for ndim = 3, 384 for ndim = 4
+    # This should not add too much computational overhead.
+
+    for parts in product([1, 2], repeat=ndim):
+
+        print('')
+        print('')
+        print('parts:', parts)
+        print('')
+        print('')
+
+        # Number of slices to consider
+        num_slcs = np.prod(parts)
+        print('num_slcs:', num_slcs)
+
+        # Indices where we need to consider the outer parts
+        outer_indcs = tuple(np.where(np.equal(parts, 2))[0])
+        print('outer_indcs:', outer_indcs)
+
+        # Initialize the "p" and "s" slice lists with the inner slices.
+        # Each list contains `num_slcs` of those.
+        p_slcs = [list(p_inner_slc) for _ in range(num_slcs)]
+        print('p_slcs before mod:', p_slcs)
+        s_slcs = [list(s_inner_slc) for _ in range(num_slcs)]
+        print('s_slcs before mod:', s_slcs)
+        # Put the left/right slice in the even/odd sublists at the
+        # position indexed by the outer_indcs thing.
+        # We also need to initialize the `reduce_shape`'s for all cases,
+        # which has the value (n // k, k) for the "inner" axes and
+        # (1, n) in the "outer" axes.
+        reduce_shapes = [list(reduce_inner_shape) for _ in range(num_slcs)]
+        for i, oi in enumerate(outer_indcs):
+            p_slcs[2 * i][oi] = pl_slc[oi]
+            p_slcs[2 * i + 1][oi] = pr_slc[oi]
+            s_slcs[2 * i][oi] = sl_slc[oi]
+            s_slcs[2 * i + 1][oi] = sr_slc[oi]
+
+            fl_view = func_arr[s_slcs[2 * i]]
+            fr_view = func_arr[s_slcs[2 * i + 1]]
+            reduce_shapes[2 * i][2 * oi] = 1
+            reduce_shapes[2 * i][2 * oi + 1] = fl_view.shape[oi]
+            reduce_shapes[2 * i + 1][2 * oi] = 1
+            reduce_shapes[2 * i + 1][2 * oi + 1] = fr_view.shape[oi]
+
+        print('p_slcs after mod:', p_slcs)
+        print('s_slcs after mod:', s_slcs)
+        print('reduce_shapes:', reduce_shapes)
+
+        # Compute the block average of all views represented by the current
+        # `parts`. This is done by reshaping from
+        # (n_0, ..., n_(d-1)) to (n_0/k_0, k_0, ..., n_(d-1)/k_(d-1), k_(d-1))
+        # and reducing over the "k" axes. The result will retain length-1
+        # dimensions there, so we slice into the output array accordingly.
+
+        for p_s, s_s, red_shp in zip(p_slcs, s_slcs, reduce_shapes):
+            f_view = func_arr[s_s]
+            out_view = out[p_s]
+
+            _apply_reduction(arr=f_view.reshape(red_shp), out=out_view,
+                             axes=reduce_axes, reduction=reduction)
+    """
     for i in range(ndim):
         # FIXME: this doesn' work due to wrong shapes, see above.
 
@@ -253,7 +316,7 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
         _apply_reduction(arr=sr_arr.reshape(sr_reduce_shape),
                          out=out[tuple(pr_slc)],
                          axes=reduce_axes, reduction=reduction)
-
+    """
     return out
 
 part = odl.uniform_partition([0, 0], [1, 2], (10, 5))
