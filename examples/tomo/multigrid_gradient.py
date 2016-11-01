@@ -81,7 +81,15 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
         This value is filled into the parts that are not covered by the
         function.
     out : `numpy.ndarray`, optional
-        Bla
+        Array to which the output is written. It needs to have the same
+        ``shape`` as ``partition`` and a ``dtype`` to which
+        ``discr_func.dtype`` can be cast.
+
+    Returns
+    -------
+    out : `numpy.ndarray`
+        Array holding the result of the reduction operation. If ``out``
+        was given, the returned object is a reference to it.
     """
     spc = discr_func.space
     smin, smax = spc.min_pt, spc.max_pt
@@ -229,23 +237,25 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
         # which has the value (n // k, k) for the "inner" axes and
         # (1, n) in the "outer" axes.
         reduce_shapes = [list(reduce_inner_shape) for _ in range(num_slcs)]
-        for i, oi in enumerate(outer_indcs):
-            p_slcs[2 * i][oi] = pl_slc[oi]
-            p_slcs[2 * i + 1][oi] = pr_slc[oi]
-            s_slcs[2 * i][oi] = sl_slc[oi]
-            s_slcs[2 * i + 1][oi] = sr_slc[oi]
+        for islc, bdry in enumerate(product('lr', repeat=len(outer_indcs))):
+            for oi, l_or_r in zip(outer_indcs, bdry):
+                if l_or_r == 'l':
+                    p_slcs[islc][oi] = pl_slc[oi]
+                    s_slcs[islc][oi] = sl_slc[oi]
+                else:
+                    p_slcs[islc][oi] = pr_slc[oi]
+                    s_slcs[islc][oi] = sr_slc[oi]
 
-            fl_view = func_arr[s_slcs[2 * i]]
-            fr_view = func_arr[s_slcs[2 * i + 1]]
-            reduce_shapes[2 * i][2 * oi] = 1
-            reduce_shapes[2 * i][2 * oi + 1] = fl_view.shape[oi]
-            reduce_shapes[2 * i + 1][2 * oi] = 1
-            reduce_shapes[2 * i + 1][2 * oi + 1] = fr_view.shape[oi]
+            f_view = func_arr[s_slcs[islc]]
+            for oi in outer_indcs:
+                reduce_shapes[islc][2 * oi] = 1
+                reduce_shapes[islc][2 * oi + 1] = f_view.shape[oi]
 
         print('p_slcs after mod:', p_slcs)
         print('s_slcs after mod:', s_slcs)
         print('reduce_shapes:', reduce_shapes)
 
+        # TODO: update description
         # Compute the block average of all views represented by the current
         # `parts`. This is done by reshaping from
         # (n_0, ..., n_(d-1)) to (n_0/k_0, k_0, ..., n_(d-1)/k_(d-1), k_(d-1))
@@ -258,71 +268,12 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
 
             _apply_reduction(arr=f_view.reshape(red_shp), out=out_view,
                              axes=reduce_axes, reduction=reduction)
-    """
-    for i in range(ndim):
-        # FIXME: this doesn' work due to wrong shapes, see above.
-
-        # Space: make full slice in all axes except i, where we
-        # take everything to pl_idx (excl.) / from pr_idx (incl.)
-        sl_slc, sr_slc = [slice(None)] * ndim, [slice(None)] * ndim
-        sl_slc[i] = slice(None, pl_idx[i])
-        sr_slc[i] = slice(pr_idx[i], None)
-
-        print('func view left shape:', func_arr[sl_slc].shape)
-        print('func view right shape:', func_arr[sr_slc].shape)
-
-        # Partition: take all cells touched by the function grid
-        # (smin_idx to smax_idx + 1), and restrict to the first/last
-        # cell in axis i.
-        pl_slc, pr_slc = list(p_full_slc), list(p_full_slc)
-        pl_slc[i] = slice(smin_idx[i], smin_idx[i] + 1)
-        pr_slc[i] = slice(smax_idx[i], smax_idx[i] + 1)
-
-        # print('TEST: setting out to 1, 2, 3, 4 in the sliced parts')
-        # out[pl_slc] = 2 * i + 1
-        # out[pr_slc] = 2 * i + 2
-        # print('out view left:', out[pl_slc])
-        # print('out view right:', out[pr_slc])
-        print('out view left shape:', out[pl_slc].shape)
-        print('out view right shape:', out[pr_slc].shape)
-
-        # Get the shape of the function overlap, and then do the same kind
-        # of reduction as for the inner part. However, we need to treat
-        # all 2 ** (ndim + 1) boundaries separately since otherwise
-        # reduced shapes don't match.
-        sl_arr = func_arr[tuple(sl_slc)]
-        sr_arr = func_arr[tuple(sr_slc)]
-        sl_shape = sl_arr.shape
-        sr_shape = sr_arr.shape
-        sl_reduce_shape, sr_reduce_shape = [], []
-        for j, (nl, nr, k) in enumerate(zip(sl_shape, sr_shape, csides_ratio)):
-            if j == i:
-                # Reduce to size 1 in axis i, use all values
-                sl_reduce_shape.extend([1, nl])
-                sr_reduce_shape.extend([1, nr])
-            else:
-                sl_reduce_shape.extend([nl // k, k])
-                sr_reduce_shape.extend([nr // k, k])
-
-        print('func left shape:', sl_shape)
-        print('func left reduce shape:', sl_reduce_shape)
-        print('func right shape:', sr_shape)
-        print('func right reduce shape:', sr_reduce_shape)
-
-        _apply_reduction(arr=sl_arr.reshape(sl_reduce_shape),
-                         out=out[tuple(pl_slc)],
-                         axes=reduce_axes, reduction=reduction)
-
-        _apply_reduction(arr=sr_arr.reshape(sr_reduce_shape),
-                         out=out[tuple(pr_slc)],
-                         axes=reduce_axes, reduction=reduction)
-    """
     return out
 
 part = odl.uniform_partition([0, 0], [1, 2], (10, 5))
 space = odl.uniform_discr([0.0, 0.5], [0.35, 2.0], (35, 150))
 func = space.one()
-reduce_over_partition(func, part, reduction=np.sum).T.tolist()
+np.flipud(reduce_over_partition(func, part, reduction=np.sum).T[:5, :5])
 
 
 # %% MultigridGradient
