@@ -1178,6 +1178,29 @@ tiltseries_nonoise = forward_op.range.element(
 (tiltseries_nonoise - np.mean(tiltseries_nonoise)).show(
     indices=np.s_[tiltseries_nonoise.shape[0] // 2, :, :],
     title='Middle projection (noise-free)')
+
+
+## CTF correction
+# acc_voltage = 200
+wave_length = 0.0027
+wave_number_k = 2 * np.pi / wave_length
+aperture = 40
+focal_length = 2.7
+b = wave_number_k * aperture / focal_length
+cs = 2.1
+defocus_delta_z = 3.0
+
+# Generate sampling on detector region, assume (0,0) is in the middle
+data_space = odl.uniform_discr(-data_csides[0:2] / 2, data_csides[0:2] / 2,
+                               data_shape[0:2])  
+FT_op = odl.trafos.FourierTransform(data_space)
+CTF_optics = lambda x: np.exp(1.0j * (defocus_delta_z * sum(xi**2 for xi in x) / (2 * wave_number_k) - cs * sum(xi**4 for xi in x) / (4 * wave_number_k**3)))
+CTF_optics = FT_op.range.element(CTF_optics)
+CTF_corrected = tiltseries.space.element([FT_op.inverse(CTF_optics * FT_op(tilt)) for tilt in tiltseries_nonoise.asarray()])
+
+CTF_corrected.show(indices=np.s_[tiltseries_nonoise.shape[0] // 2, :, :],
+    title='Middle corrected projection (noise-free)')
+
 ## Check why we get such high values in data!
 #particle = forward_op.domain.one() * 100000000
 #a = forward_op(particle)
