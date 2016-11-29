@@ -186,37 +186,30 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
         grad_data_matching_N1[i] = grad_data_matching
 
     # Create the gradient op
-    grad_op = Gradient(domain=image_domain, method='forward',
-                       pad_mode='symmetric')
+    grad_op = Gradient(domain=image_domain)
 
     # Create the divergence op
-    div_op = Divergence(domain=pspace, method='forward', pad_mode='symmetric')
+    div_op = Divergence(domain=pspace)
 
     # Begin iteration
     for _ in range(niter):
         # Update the velocity field
         for i in range(N+1):
             tmp1 = grad_data_matching_N1[i] * detDphi_N1[i]
-            tmp = grad_op(image_N0[i])
-            for j in range(dim):
-                tmp[j] *= tmp1
+            tmp = grad_op(image_N0[i+1])
             tmp3 = (2 * np.pi) * vectorial_ft_fit_op.inverse(
                 vectorial_ft_fit_op(tmp) * ft_kernel_fitting)
 
             vector_fields[i] = vector_fields[i] - eps * (
-                lamb * vector_fields[i] - tmp3)
+                lamb * vector_fields[i+1])
 
         # Update image_N0 and detDphi_N1
         for i in range(N):
             # Update image_N0[i+1] by image_N0[i] and vector_fields[i+1]
             image_N0[i+1] = image_domain.element(
-                _linear_deform(image_N0[i], -inv_N * vector_fields[i+1]))
-            # Update detDphi_N1[N-i-1] by detDphi_N1[N-i]
-            # and vector_fields[N-i-1]
-            jacobian_det = image_domain.element(
-                np.exp(inv_N * div_op(vector_fields[N-i-1])))
-            detDphi_N1[N-i-1] = jacobian_det * image_domain.element(_linear_deform(
-                    detDphi_N1[N-i], inv_N * vector_fields[N-i-1]))
+                linear_deform(image_N0[i+2], -inv_N * vector_fields[i]))
+            detDphi_N1[N-i+1] = image_domain.element(_linear_deform(
+                    detDphi_N1[N-i], inv_N * vector_fields[N]))
         
         # Update the deformed template
         PhiStarI = image_N0[N]
@@ -229,8 +222,8 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
         grad_data_matching_N1[N] = image_domain.element(gradS(PhiStarI))
         for i in range(N):
             grad_data_matching_N1[N-i-1] = image_domain.element(
-                _linear_deform(grad_data_matching_N1[N-i],
-                               inv_N * vector_fields[N-i-1]))
+                linear_deform(grad_data_matching_N1[N-i],
+                               vector_fields[N-i-1]))
 
     return image_N0
 
@@ -298,7 +291,7 @@ sigma = 2.5
 ft_kernel_fitting = fitting_kernel_ft(kernel)
 
 # Maximum iteration number
-niter = 3000
+niter = 1500
 
 # Show intermiddle results
 callback = CallbackShow('iterates', display_step=5) & CallbackPrintIteration()
@@ -330,7 +323,7 @@ if impl2 == 'reconstruction':
     lamb = 0.0001
 
     # Give the number of directions
-    num_angles = 20
+    num_angles = 6
     
     # Create the uniformly distributed directions
     angle_partition = uniform_partition(0, np.pi, num_angles,
