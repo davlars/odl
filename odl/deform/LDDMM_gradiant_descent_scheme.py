@@ -207,8 +207,8 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
         for i in range(N):
             # Update image_N0[i+1] by image_N0[i] and vector_fields[i+1]
             image_N0[i+1] = image_domain.element(
-                linear_deform(image_N0[i+2], -inv_N * vector_fields[i]))
-            detDphi_N1[N-i+1] = image_domain.element(_linear_deform(
+                _linear_deform(image_N0[i+2], -inv_N * vector_fields[i]))
+            detDphi_N1[N-i-1] = image_domain.element(_linear_deform(
                     detDphi_N1[N-i], inv_N * vector_fields[N]))
         
         # Update the deformed template
@@ -222,8 +222,8 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
         grad_data_matching_N1[N] = image_domain.element(gradS(PhiStarI))
         for i in range(N):
             grad_data_matching_N1[N-i-1] = image_domain.element(
-                linear_deform(grad_data_matching_N1[N-i],
-                               vector_fields[N-i-1]))
+                _linear_deform(grad_data_matching_N1[N-i],
+                               inv_N * vector_fields[N-i-1]))
 
     return image_N0
 
