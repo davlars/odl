@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with ODL.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Discretizations in ODL."""
+"""Sub-package for discretizations."""
 
 from __future__ import absolute_import
 
@@ -44,3 +44,6 @@ __all__ += tensor_ops.__all__
 
 from .diff_ops import *
 __all__ += diff_ops.__all__
+
+from .multires import *
+__all__ += multires.__all__
