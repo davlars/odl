@@ -30,8 +30,10 @@ from matplotlib.image import BboxImage
 from matplotlib.transforms import Bbox, TransformedBbox
 import numpy as np
 
+from odl.discr.lp_discr import DiscreteLpElement
+from odl.discr.partition import RectPartition
 from odl.operator import Operator
-from odl.util import writable_array
+from odl.util import writable_array, dtype_repr
 from odl.util.numerics import apply_on_boundary
 
 
@@ -131,7 +133,7 @@ def _apply_reduction(arr, out, reduction, axes):
         out[:] = reduction(arr, axis=axes)
 
 
-def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
+def reduce_over_partition(discr_func, partition, reduction, pad_const=0,
                           out=None):
     """Reduce a discrete function blockwise over a coarser partition.
 
@@ -143,7 +145,7 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
 
     Parameters
     ----------
-    discr_func : `DiscreteLp` element
+    discr_func : `DiscreteLpElement`
         Element in a uniformly discretized function space that is to be
         reduced over blocks defined by ``partition``.
     partition : uniform `RectPartition`
@@ -160,7 +162,7 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
         sequence of ints specifying over which axes is being reduced.
         The typical examples are NumPy reductions like `np.sum` or `np.mean`,
         but custom functions are also possible.
-    pad_value : scalar, optional
+    pad_const : scalar, optional
         This value is filled into the parts that are not covered by the
         function.
     out : `numpy.ndarray`, optional
@@ -174,58 +176,73 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
         Array holding the result of the reduction operation. If ``out``
         was given, the returned object is a reference to it.
     """
+    if not isinstance(discr_func, DiscreteLpElement):
+        raise TypeError('`discr_func` must be a `DiscreteLpElement` instance, '
+                        'got {!r}'.format(discr_func))
+    if not discr_func.space.is_uniform:
+        raise ValueError('`discr_func.space` is not uniformly discretized')
+    if not isinstance(partition, RectPartition):
+        raise TypeError('`partition` must be a `RectPartition` instance, '
+                        'got {!r}'.format(partition))
+    if not partition.is_uniform:
+        raise ValueError('`partition` is not uniform')
+
+    # TODO: use different eps in each axis?
+    dom_eps = 1e-8 * max(discr_func.space.partition.extent())
+    if not partition.set.contains_set(discr_func.space.domain, atol=dom_eps):
+        raise ValueError('`partition.set` {} does not contain '
+                         '`discr_func.space.domain` {}'
+                         ''.format(partition.set, discr_func.space.domain))
+
+    if out is None:
+        out = np.empty(partition.shape, dtype=discr_func.dtype,
+                       order=discr_func.dtype)
+    if not isinstance(out, np.ndarray):
+        raise TypeError('`out` must be a `numpy.ndarray` instance, got '
+                        '{!r}'.format(out))
+    if not np.can_cast(discr_func.dtype, out.dtype):
+        raise ValueError('cannot safely cast from `discr_func.dtype` {} '
+                         'to `out.dtype` {}'
+                         ''.format(dtype_repr(discr_func.dtype),
+                                   dtype_repr(out.dtype)))
+    if not np.array_equal(out.shape, partition.shape):
+        raise ValueError('`out.shape` differs from `partition.shape` '
+                         '({} != {})'.format(out.shape, partition.shape))
+    if not np.can_cast(pad_const, out.dtype):
+        raise ValueError('cannot safely cast `pad_const` {} '
+                         'to `out.dtype` {}'
+                         ''.format(pad_const, dtype_repr(out.dtype)))
+    out.fill(pad_const)
+
+    # Some abbreviations for easier notation
+    # All variables starting with "s" refer to properties of
+    # `discr_func.space`, whereas "p" quantities refer to the (coarse)
+    # `partition`.
     spc = discr_func.space
     smin, smax = spc.min_pt, spc.max_pt
     scsides = spc.cell_sides
     part = partition
     pmin = part.min_pt, part.max_pt
-
-    assert spc.is_uniform
-    assert part.is_uniform
-
-    # Vector of tolerances for grid computations, relative to extent
-    # TODO: need to make a single number for now
-    eps = 1e-8 * max(spc.partition.extent())
-
     func_arr = discr_func.asarray()
-    if out is None:
-        out = np.empty(part.shape, dtype=discr_func.dtype,
-                       order=discr_func.dtype)
-    else:
-        assert isinstance(out, np.ndarray)
-        assert np.can_cast(discr_func.dtype, out.dtype)
-        assert np.array_equal(out.shape, part.shape)
-
-    out.fill(pad_value)
-
-    print('smin:', smin)
-    print('smax:', smax)
-
-    # Check input parameters
-
-    # Partition must be larger than space
-    # TODO: turn into check
-    assert part.set.contains_set(spc.partition.set, atol=eps)
     ndim = spc.ndim
 
     # Partition cell sides must be an integer multiple of space cell sides
-    # TODO: turn into check
     csides_ratio_f = part.cell_sides / spc.cell_sides
     csides_ratio = np.around(csides_ratio_f).astype(int)
-    print('csides_ratio (float):', csides_ratio_f)
-    print('csides_ratio:', csides_ratio)
-    assert np.allclose(csides_ratio_f, csides_ratio)
+    if not np.allclose(csides_ratio_f, csides_ratio):
+        raise ValueError('`partition.cell_sides` is a non-integer multiple '
+                         '({}) of `discr_func.space.cell_sides'
+                         ''.format(csides_ratio_f))
 
     # Shift must be an integer multiple of space cell sides
-    # TODO: turn into check
     rel_shift_f = (smin - pmin) / scsides
-    print('rel shift (grid units):', rel_shift_f)
-    assert np.allclose(np.round(rel_shift_f), rel_shift_f)
+    if not np.allclose(np.round(rel_shift_f), rel_shift_f):
+        raise ValueError('shift between `partition` and `discr_func.space` '
+                         'is a non-integer multiple ({}) of '
+                         '`discr_func.space.cell_sides'
+                         ''.format(rel_shift_f))
 
     # Calculate relative position of a number of interesting points
-    # All variables starting with "s" refer to properties of
-    # `discr_func.space`, whereas "p" quantities refer to the (coarse)
-    # partition.
 
     # Positions of the space domain min and max vectors relative to the
     # partition
@@ -235,23 +252,16 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
     smax_idx = part.index(smax)
     smax_partpt = np.array([cvec[si] for si, cvec in zip(smax_idx, cvecs)])
 
-    print('smin_idx:', smin_idx)
-    print('smin_partpt:', smin_partpt)
-    print('smax_idx:', smax_idx)
-    print('smax_partpt:', smax_partpt)
-
     # Inner part of the partition in the space domain, i.e. partition cells
     # that are completely contained in the spatial domain and do not touch
     # its boundary
     p_inner_slc = [slice(li + 1, ri) for li, ri in zip(smin_idx, smax_idx)]
-    print(p_inner_slc)
 
     # Positions of the first and last partition points that still lie in
     # the spatial domain, relative to the space partition
     pl_idx = np.round(spc.index(smin_partpt, floating=True)).astype(int)
     pr_idx = np.round(spc.index(smax_partpt, floating=True)).astype(int)
     s_inner_slc = [slice(li, ri) for li, ri in zip(pl_idx, pr_idx)]
-    print(s_inner_slc)
 
     # Slices to constrain to left and right boundary in each axis
     pl_slc = [slice(li, li + 1) for li in smin_idx]
@@ -267,7 +277,6 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
     reduce_axes = tuple(2 * i + 1 for i in range(ndim))
     inner_shape = func_arr[s_inner_slc].shape
     for n, k in zip(inner_shape, csides_ratio):
-        print(n, k)
         reduce_inner_shape.extend([n // k, k])
 
     # Now we loop over boundary parts of all dimensions from 0 to ndim-1.
@@ -286,32 +295,20 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
     #   the (2*i+1)-th entry the "right" outer slice.
     #
     # The total number of slices to loop over is equal to
-    # 2 ** ndim * factorial(ndim), which is
-    # 8 for ndim = 2, 48 for ndim = 3, 384 for ndim = 4
+    # sum(k=0->ndim, binom(ndim, k) * 2^k) = 3^ndim.
     # This should not add too much computational overhead.
-
     for parts in product([1, 2], repeat=ndim):
-
-        print('')
-        print('')
-        print('parts:', parts)
-        print('')
-        print('')
 
         # Number of slices to consider
         num_slcs = np.prod(parts)
-        print('num_slcs:', num_slcs)
 
         # Indices where we need to consider the outer parts
         outer_indcs = tuple(np.where(np.equal(parts, 2))[0])
-        print('outer_indcs:', outer_indcs)
 
         # Initialize the "p" and "s" slice lists with the inner slices.
         # Each list contains `num_slcs` of those.
         p_slcs = [list(p_inner_slc) for _ in range(num_slcs)]
-        print('p_slcs before mod:', p_slcs)
         s_slcs = [list(s_inner_slc) for _ in range(num_slcs)]
-        print('s_slcs before mod:', s_slcs)
         # Put the left/right slice in the even/odd sublists at the
         # position indexed by the outer_indcs thing.
         # We also need to initialize the `reduce_shape`'s for all cases,
@@ -332,10 +329,6 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
                 reduce_shapes[islc][2 * oi] = 1
                 reduce_shapes[islc][2 * oi + 1] = f_view.shape[oi]
 
-        print('p_slcs after mod:', p_slcs)
-        print('s_slcs after mod:', s_slcs)
-        print('reduce_shapes:', reduce_shapes)
-
         # Compute the block reduction of all views represented by the current
         # `parts`. This is done by reshaping from the original shape to the
         # above calculated `reduce_shapes` and reducing over `reduce_axes`.
@@ -343,8 +336,10 @@ def reduce_over_partition(discr_func, partition, reduction, pad_value=0,
             f_view = func_arr[s_s]
             out_view = out[p_s]
 
-            _apply_reduction(arr=f_view.reshape(red_shp), out=out_view,
-                             axes=reduce_axes, reduction=reduction)
+            if 0 not in f_view.shape:
+                # View not empty, reduction makes sense
+                _apply_reduction(arr=f_view.reshape(red_shp), out=out_view,
+                                 axes=reduce_axes, reduction=reduction)
     return out
 
 

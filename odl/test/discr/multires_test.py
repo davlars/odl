@@ -35,6 +35,21 @@ from odl.util.testutils import (
 reduction = simple_fixture('reduction',
                            params=[np.sum, np.mean, np.average],
                            fmt=' {name} = np.{value.__name__} ')
+pad_const = simple_fixture('pad_const', params=[0.0, -1.0])
+
+
+def test_reduce_over_partition_partial_coverage(reduction, pad_const):
+    """Check result against simple impl for partially covering domains."""
+    part = odl.uniform_partition([0, 0], [1, 2], (4, 4))
+    # Covers the inner 2x2 block of the 4x4 partition
+    space = odl.uniform_discr([0.25, 0.5], [0.75, 1.5], (10, 10))
+    func = space.one()
+
+    result = reduce_over_partition(func, part, reduction, pad_const)
+    expected_result = np.full(part.shape, pad_const)
+    expected_result[1:-1, 1:-1] = reduction(func.asarray().reshape([2, 2, -1]),
+                                            axis=-1)
+    assert all_almost_equal(result, expected_result)
 
 
 def test_reduce_over_partition_full_coverage(reduction):
@@ -86,6 +101,58 @@ def test_reduce_over_partition_explicit():
 
     result = reduce_over_partition(func, part, reduction=np.sum)
     assert all_almost_equal(result, expected_result)
+
+    out = np.empty(part.shape)
+    reduce_over_partition(func, part, reduction=np.sum, out=out)
+    assert all_almost_equal(out, expected_result)
+
+
+def test_reduce_over_partition_raise():
+    """Check that exceptions are raised under certain error conditions."""
+    part = odl.uniform_partition([0, 0], [1, 2], (4, 4))
+    # Covers the inner 2x2 block of the 4x4 partition
+    space = odl.uniform_discr([0.25, 0.5], [0.75, 1.5], (10, 10))
+    func = space.one()
+
+    # Bogus input parameters
+    with pytest.raises(TypeError):
+        reduce_over_partition(func.asarray(), part, np.sum)
+    with pytest.raises(TypeError):
+        reduce_over_partition(func, part.grid, np.sum)
+    with pytest.raises(TypeError):
+        reduce_over_partition(func, part, np.sum, out=func)
+
+    # Non-castable data types
+    out = np.empty(part.shape, dtype=int)
+    with pytest.raises(ValueError):
+        reduce_over_partition(func, part, np.sum, out=out)
+    with pytest.raises(ValueError):
+        reduce_over_partition(func, part, np.sum, pad_const=1j)
+
+    # Non-uniform stuff
+    nonuni_part = odl.nonuniform_partition([0, 1, 2, 3], [0, 1, 2])
+    with pytest.raises(ValueError):
+        reduce_over_partition(func, nonuni_part, np.sum)
+
+    # Partition too small for space
+    small_part = odl.uniform_partition([0, 0], [1, 1], (4, 4))
+    with pytest.raises(ValueError):
+        reduce_over_partition(func, small_part, np.sum)
+
+    # Bad output shape
+    out = np.empty((10, 10))
+    with pytest.raises(ValueError):
+        reduce_over_partition(func, part, np.sum, out=out)
+
+    # Cell side ratio or relative shift non-integer multiple of space cell
+    # sides
+    bad_space1 = odl.uniform_discr([0.25, 0.5], [0.75, 1.5], (11, 11))
+    with pytest.raises(ValueError):
+        reduce_over_partition(bad_space1.one(), part, np.sum)
+
+    bad_space2 = odl.uniform_discr([0.22, 0.5], [0.72, 1.5], (10, 10))
+    with pytest.raises(ValueError):
+        reduce_over_partition(bad_space2.one(), part, np.sum)
 
 
 if __name__ == '__main__':
