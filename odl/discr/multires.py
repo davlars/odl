@@ -42,7 +42,12 @@ __all__ = ('MaskingOperator', 'show_extent', 'show_both',
 
 
 class MaskingOperator(Operator):
+
     """An operator that masks a given spatial region.
+
+    This operator sets the region between ``min_pt`` and ``max_pt`` to 0.
+    The cut-off is "soft" in the sense that partially masked cells are
+    weighted by the relative volume of the unmasked part.
 
     Notes
     -----
@@ -65,28 +70,69 @@ class MaskingOperator(Operator):
         Parameters
         ----------
         space : `DiscreteLp`
-            Discretized space, the domain of the masked function
+            Domain of the operator, the space of functions to be masked.
         min_pt, max_pt:  float or sequence of floats
             Minimum/maximum corners of the masked region.
 
-        Notes
-        -----
-        This operator sets the region between ``min_pt`` and ``max_pt`` to 0
-        scales the contribution from the overlap according to its size.
+        Examples
+        --------
+        >>> space = odl.uniform_discr(0, 1, 5)
+        >>> space.partition.cell_boundary_vecs
+        (array([ 0. ,  0.2,  0.4,  0.6,  0.8,  1. ]),)
+
+        If the masked region aligns with the cell boundaries, we make a
+        "hard" cut-out:
+
+        >>> min_pt = 0.2
+        >>> max_pt = 0.6
+        >>> mask_op = MaskingOperator(space, min_pt, max_pt)
+        >>> masked_one = mask_op(space.one())
+        >>> print(masked_one.asarray())
+        [ 1.  0.  0.  1.  1.]
+
+        Otherwise, the values linearly drop to 0:
+
+        >>> min_pt = 0.3
+        >>> max_pt = 0.75
+        >>> mask_op = MaskingOperator(space, min_pt, max_pt)
+        >>> masked_one = mask_op(space.one())
+        >>> print(masked_one.asarray())
+        [ 1.    0.5   0.    0.25  1.  ]
         """
         super().__init__(domain=space, range=space, linear=True)
-        self.min_pt = min_pt
-        self.max_pt = max_pt
+        self.__min_pt = np.array(min_pt, ndmin=1)
+        self.__max_pt = np.array(max_pt, ndmin=1)
+        if self.min_pt.shape != (self.domain.ndim,):
+            raise ValueError('`min_pt` shape not equal to `(ndim,)` '
+                             '({} != ({},))'
+                             ''.format(self.min_pt.shape, self.domain.ndim))
+        if self.max_pt.shape != (self.domain.ndim,):
+            raise ValueError('`max_pt` shape not equal to `(ndim,)` '
+                             '({} != ({},))'
+                             ''.format(self.max_pt.shape, self.domain.ndim))
+
+    @property
+    def min_pt(self):
+        """Minimum coordinates of the masked region."""
+        return self.__min_pt
+
+    @property
+    def max_pt(self):
+        """Maximum coordinates of the masked region."""
+        return self.__max_pt
 
     def _call(self, x, out):
         """Mask ``x`` and store the result in ``out`` if given."""
-        # TODO: find better way of getting the indices
-        idx_min_flt = ((self.min_pt - self.domain.min_pt) /
-                       self.domain.cell_sides)
-        idx_max_flt = ((self.max_pt - self.domain.min_pt) /
-                       self.domain.cell_sides)
+        # Find the indices of the mask min and max. The floating point
+        # versions are also required for the linear transition.
+        idx_min_flt = np.array(
+            self.domain.index(self.min_pt, floating=True),
+            ndmin=1)
+        idx_max_flt = np.array(
+            self.domain.index(self.max_pt, floating=True),
+            ndmin=1)
 
-        # to deal with coinciding boundaries we introduce an epsilon tolerance
+        # To deal with coinciding boundaries we introduce an epsilon tolerance
         epsilon = 1e-6
         idx_min = np.floor(idx_min_flt - epsilon).astype(int)
         idx_max = np.ceil(idx_max_flt + epsilon).astype(int)
@@ -95,7 +141,7 @@ class MaskingOperator(Operator):
             return (1.0 - (idx_min_flt[d] - idx_min[d]),
                     1.0 - (idx_max[d] - idx_max_flt[d]))
 
-        # we need an extra level of indirection in order to capture `d` inside
+        # Need an extra level of indirection in order to capture `d` inside
         # the lambda expressions
         def fn_pair(d):
             return (lambda x: x * coeffs(d)[0], lambda x: x * coeffs(d)[1])
@@ -106,23 +152,28 @@ class MaskingOperator(Operator):
         slc_inner = tuple(slice(imin + 1, imax - 1) for imin, imax in
                           zip(idx_min, idx_max))
 
-        out.assign(x)
+        # Make a mask that is 1 outside the masking region, 0 inside
+        # and has a linear transition where the region boundary does not
+        # coincide with a cell boundary
         mask = np.ones_like(x)
+        mask[slc_inner] = 0
+        apply_on_boundary(mask[slc],
+                          boundary_scale_fns,
+                          only_once=False,
+                          out=mask[slc])
+        apply_on_boundary(mask[slc],
+                          lambda x: 1.0 - x,
+                          only_once=True,
+                          out=mask[slc])
+
+        # out = masked version of x
+        out.assign(x)
         with writable_array(out) as out_arr:
-            mask[slc_inner] = 0
-            apply_on_boundary(mask[slc],
-                              boundary_scale_fns,
-                              only_once=False,
-                              out=mask[slc])
-            apply_on_boundary(mask[slc],
-                              lambda x: 1.0 - x,
-                              only_once=True,
-                              out=mask[slc])
             out_arr[slc] = mask[slc] * out_arr[slc]
 
     @property
     def adjoint(self):
-        """Returns the (self-adjoint) masking operator."""
+        """The (self-adjoint) masking operator."""
         return self
 
 
@@ -175,6 +226,40 @@ def reduce_over_partition(discr_func, partition, reduction, pad_const=0,
     out : `numpy.ndarray`
         Array holding the result of the reduction operation. If ``out``
         was given, the returned object is a reference to it.
+
+    Examples
+    --------
+    Consider a simple 1D example with 4 small cells per large cell,
+    and summing a constant function over the large cells:
+
+    >>> partition = odl.uniform_partition(0, 1, 5)
+    >>> partition.cell_boundary_vecs
+    (array([ 0. ,  0.2,  0.4,  0.6,  0.8,  1. ]),)
+    >>> space = odl.uniform_discr(0, 0.5, 10)  # 0.5 falls between
+    >>> func = space.one()
+    >>> reduce_over_partition(func, partition, reduction=np.sum)
+    array([ 4.,  4.,  2.,  0.,  0.])
+    >>> # The value 4 is due to summing 4 ones from 4 small cells per
+    >>> # large cell.
+    >>> # The "2" in the third cell is expected since it only counts half --
+    >>> # the overlap of func.domain is only half a cell ([0.4, 0.5]).
+
+    In 2D, everything (including partial overlap weighting) works per
+    axis:
+
+    >>> partition = odl.uniform_partition([0, 0], [1, 1], [5, 5])
+    >>> space = odl.uniform_discr([0, 0], [0.5, 0.7], [10, 14])
+    >>> func = space.one()
+    >>> reduce_over_partition(func, partition, reduction=np.sum)
+    array([[ 16.,  16.,  16.,   8.,   0.],
+           [ 16.,  16.,  16.,   8.,   0.],
+           [  8.,   8.,   8.,   4.,   0.],
+           [  0.,   0.,   0.,   0.,   0.],
+           [  0.,   0.,   0.,   0.,   0.]])
+    >>> # 16 = sum of 16 ones from 4 x 4 small cells per large cell
+    >>> # 8: cells have half weight due to half overlap
+    >>> # 4: the corner cell overlaps half in both axes, i.e. 1/4 in
+    >>> # total
     """
     if not isinstance(discr_func, DiscreteLpElement):
         raise TypeError('`discr_func` must be a `DiscreteLpElement` instance, '
@@ -247,9 +332,9 @@ def reduce_over_partition(discr_func, partition, reduction, pad_const=0,
     # Positions of the space domain min and max vectors relative to the
     # partition
     cvecs = part.cell_boundary_vecs
-    smin_idx = part.index(smin)
+    smin_idx = np.array(part.index(smin), ndmin=1)
     smin_partpt = np.array([cvec[si + 1] for si, cvec in zip(smin_idx, cvecs)])
-    smax_idx = part.index(smax)
+    smax_idx = np.array(part.index(smax), ndmin=1)
     smax_partpt = np.array([cvec[si] for si, cvec in zip(smax_idx, cvecs)])
 
     # Inner part of the partition in the space domain, i.e. partition cells
@@ -259,8 +344,12 @@ def reduce_over_partition(discr_func, partition, reduction, pad_const=0,
 
     # Positions of the first and last partition points that still lie in
     # the spatial domain, relative to the space partition
-    pl_idx = np.round(spc.index(smin_partpt, floating=True)).astype(int)
-    pr_idx = np.round(spc.index(smax_partpt, floating=True)).astype(int)
+    pl_idx = np.array(
+        np.round(spc.index(smin_partpt, floating=True)).astype(int),
+        ndmin=1)
+    pr_idx = np.array(
+        np.round(spc.index(smax_partpt, floating=True)).astype(int),
+        ndmin=1)
     s_inner_slc = [slice(li, ri) for li, ri in zip(pl_idx, pr_idx)]
 
     # Slices to constrain to left and right boundary in each axis
@@ -426,3 +515,8 @@ def show_both(coarse_data, fine_data):
 # - Add a 'multi-grid' space, which can be used for reconstruction and so on
 # - Add support multi-resolution phantoms
 # - Define definitive API for multi-grid reconstruction
+
+if __name__ == '__main__':
+    # pylint: disable=wrong-import-position
+    from odl.util.testutils import run_doctests
+    run_doctests()
