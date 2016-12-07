@@ -508,7 +508,7 @@ def show_both(coarse_data, fine_data):
         ax.add_artist(bbox_image)
 
     show(coarse_data)
-    show(fine_data, eps=1e-6)
+    show(fine_data, eps=0.01)
 
     # TODO: set aspect from physical sizes
     ax.set_aspect('auto', 'box')
