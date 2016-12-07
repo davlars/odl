@@ -491,24 +491,26 @@ def show_both(coarse_data, fine_data):
 
     normalization = mpl.colors.Normalize(vmin=low, vmax=high)
 
-    ax.set_xlim(coarse_data.space.domain.min_pt[0],
-                coarse_data.space.domain.max_pt[0])
-    ax.set_ylim(coarse_data.space.domain.min_pt[1],
-                coarse_data.space.domain.max_pt[1])
+    ax.set_xlim(coarse_data.space.min_pt[0], coarse_data.space.max_pt[0])
+    ax.set_ylim(coarse_data.space.min_pt[1], coarse_data.space.max_pt[1])
 
-    def show(data):
-        bbox0 = Bbox.from_bounds(*data.space.domain.min_pt,
-                                 *(data.space.domain.max_pt -
-                                   data.space.domain.min_pt))
+    def show(data, eps=0.0):
+        # Make box slightly larger
+        box_extent = data.space.partition.extent() * (1.0 + eps)
+        box_min = data.space.min_pt - data.space.partition.extent() * eps / 2.0
+
+        bbox0 = Bbox.from_bounds(*box_min, *box_extent)
         bbox = TransformedBbox(bbox0, ax.transData)
+        # TODO: adapt interpolation
         bbox_image = BboxImage(bbox, norm=normalization, cmap='bone',
                                interpolation='nearest', origin=False)
-        bbox_image.set_data(np.rot90(data.asarray(), -1))
+        bbox_image.set_data(np.transpose(data))
         ax.add_artist(bbox_image)
 
     show(coarse_data)
-    show(fine_data)
+    show(fine_data, eps=1e-6)
 
+    # TODO: set aspect from physical sizes
     ax.set_aspect('auto', 'box')
 
 # TODO:
