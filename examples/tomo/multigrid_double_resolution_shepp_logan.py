@@ -71,11 +71,13 @@ pspace = sum_ray_trafo.domain
 phantom = pspace.element([phantom_c, phantom_insert])
 
 # Create noise-free data
-data = sum_ray_trafo(phantom)
+fine_ray_trafo = odl.tomo.RayTransform(fine_discr, geometry,
+                                       impl='astra_cpu')
+data = fine_ray_trafo(phantom_f)
 data.show('data')
 
 # Make noisy data
-noisy_data = data + odl.phantom.white_noise(sum_ray_trafo.range, stddev=0.1)
+noisy_data = data + odl.phantom.white_noise(fine_ray_trafo.range, stddev=0.1)
 noisy_data.show('noisy data')
 
 reco = sum_ray_trafo.domain.zero()
@@ -83,9 +85,9 @@ reco = sum_ray_trafo.domain.zero()
 # %% Reconstruction
 reco_method = 'CG'
 if reco_method == 'CG':
-    callback = odl.solvers.CallbackShow(display_step=5)
-    odl.solvers.conjugate_gradient_normal(sum_ray_trafo, reco, data,
-                                          niter=20, callback=callback)
+    callback = odl.solvers.CallbackShow(display_step=1)
+    odl.solvers.conjugate_gradient_normal(sum_ray_trafo, reco, noisy_data,
+                                          niter=5, callback=callback)
     show_both(reco[0], reco[1])
 
 elif reco_method == 'TV':
@@ -140,10 +142,10 @@ elif reco_method == 'TV':
     assert convergence_criterion
     # %%
     callback = odl.solvers.CallbackShow(display_step=2)
-    x = pspace.zero()  # starting point
-    odl.solvers.forward_backward_pd(x, f=f, g=nonsmooth_funcs, L=lin_ops,
+    reco = pspace.zero()  # starting point
+    odl.solvers.forward_backward_pd(reco, f=f, g=nonsmooth_funcs, L=lin_ops,
                                     h=smooth_func,
                                     tau=tau, sigma=[sigma], niter=60,
                                     callback=callback)
 
-    show_both(x[0], x[1])
+    show_both(reco[0], reco[1])
