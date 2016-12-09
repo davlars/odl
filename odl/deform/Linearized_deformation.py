@@ -25,7 +25,7 @@ from future import standard_library
 from builtins import super
 from odl.operator.operator import Operator
 from odl.deform import LinDeformFixedTempl
-from odl.phantom import shepp_logan
+from odl.phantom import shepp_logan, disc_phantom
 from odl.deform.mass_preserving import geometric_deform
 from odl.solvers import CallbackShow, CallbackPrintIteration
 import odl
@@ -692,66 +692,218 @@ def fitting_kernel_ft(kernel):
     return vectorial_ft_fit_op(discretized_kernel)
 
 
-## Fix the sigma parameter in the kernel
-#sigma = 5.0
-#
-## Discretization of the space, number of gridpoints for discretization
-#m = 101
-#
-## Create 2-D discretization reconstruction space
-## discr_space = odl.uniform_discr([-0.5, -0.5], [0.5, 0.5], [m, m],
-##                                dtype='float32', interp='linear')
-#
-## Create 3-D discretization reconstruction space
-#discr_space = odl.uniform_discr(
-#    [-0.5, -0.5, -0.5], [0.5, 0.5, 0.5], [m, m, m],
-#    dtype='float32', interp='linear')
-#
-## Deformation space, number of gridpoints for deformation, usually n << m
-#n = 101
-#
-## Create 2-D discretization space for control points
-## cptsspace = odl.uniform_discr([-0.5, -0.5], [0.5, 0.5], [n, n],
-##                               dtype='float32', interp='linear')
-#
-## Create 3-D discretization space for control points
-#cptsspace = odl.uniform_discr([-0.5, -0.5, -0.5], [0.5, 0.5, 0.5], [n, n, n],
-#                              dtype='float32', interp='linear')
-#
-## Create discretization space for vector field
-#vspace = odl.ProductSpace(cptsspace, cptsspace.ndim)
-#
-## Create input function as Shepp-Logan phantom
-#template = odl.util.shepp_logan(discr_space, modified=True)
-#
-## Create ground_truth function as Shepp-Logan phantom
-#ground_truth = odl.util.shepp_logan(discr_space, modified=True)
-#
-## Create input function as disc phantom
-## template = odl.util.disc_phantom(discr_space, smooth=True, taper=50.0)
-## template.show('Template')
-#
-## Create ground_truth function as submarine phantom
-## ground_truth = odl.util.submarine_phantom(
-##    discr_space, smooth=True, taper=50.0)
-## ground_truth.show('Ground Truth')
-#
-## Create 2-D projection domain
-## detector_partition = odl.uniform_partition(-0.75, 0.75, 151)
-#
-## Create 3-D projection domain
-#detector_partition = odl.uniform_partition(
-#    [-0.75, -0.75], [0.75, 0.75], [151, 151])
-#
-## Create angle partition, Create projection directions
-#angle_partition = odl.uniform_partition(0, np.pi/4, 2, nodes_on_bdry=True)
-#
-## Create 2-D parallel projection geometry
-## geometry = odl.tomo.Parallel2dGeometry(angle_partition, detector_partition)
-#
-## Create 3-D axis parallel projection geometry
-#geometry = odl.tomo.Parallel3dAxisGeometry(angle_partition, detector_partition)
+def shepp_logan_ellipse_2d_template():
+    """Return ellipse parameters for a 2d Shepp-Logan phantom.
 
+    This assumes that the ellipses are contained in the square
+    [-1, -1]x[-1, -1].
+    """
+    # 5/A, 7/A + noise
+    return [[2.00, .6000, .6000, 0.0000, 0.1200, 0],
+            [-.98, .5624, .5640, 0.0000, -.0184 + 0.12, 0],
+            [-.02, .1100, .1100, 0.2600, 0.1500, -18],
+            [-.02, .1300, .1300, -.2500, 0.1900, 18],
+            [0.01, .1650, .1650, 0.0000, 0.3000, 0],
+            [0.01, .0300, .0300, 0.0000, 0.1600, 0],
+            [0.01, .0300, .0300, -.1500, 0.1000, 0],
+            [0.01, .0360, .0230, -.0770, -.0750, 0],
+            [0.01, .0230, .0230, 0.0000, -.0760, 0],
+            [0.01, .0230, .0360, 0.0600, -.0750, 0]] 
+
+
+def modified_shepp_logan_ellipses(ellipses):
+    """Modify ellipses to give the modified Shepp-Logan phantom.
+
+    Works for both 2d and 3d.
+    """
+    intensities = [1.0, -0.8, -0.2, -0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+
+    assert len(ellipses) == len(intensities)
+
+    for ellipse, intensity in zip(ellipses, intensities):
+        ellipse[0] = intensity
+
+
+def shepp_logan_ellipses(ndim, modified=False):
+    """Ellipses for the standard `Shepp-Logan phantom`_ in 2 or 3 dimensions.
+
+    Parameters
+    ----------
+    ndim : {2, 3}
+        Dimension of the space the ellipses should be in.
+    modified : bool, optional
+        True if the modified Shepp-Logan phantom should be given.
+        The modified phantom has greatly amplified contrast to aid
+        visualization.
+
+    See Also
+    --------
+    ellipse_phantom : Function for creating arbitrary ellipse phantoms
+    shepp_logan : Create a phantom with these ellipses
+
+    References
+    ----------
+    .. _Shepp-Logan phantom: en.wikipedia.org/wiki/Shepp–Logan_phantom
+    """
+    if ndim == 2:
+        ellipses = shepp_logan_ellipse_2d_template()
+    else:
+        raise ValueError('dimension not 2, no phantom available')
+
+    if modified:
+        modified_shepp_logan_ellipses(ellipses)
+
+    return ellipses
+
+
+def shepp_logan_2d(space, modified=False):
+    """Standard `Shepp-Logan phantom`_ in 2 or 3 dimensions.
+
+    Parameters
+    ----------
+    space : `DiscreteLp`
+        Space in which the phantom is created, must be 2- or 3-dimensional.
+    modified : `bool`, optional
+        True if the modified Shepp-Logan phantom should be given.
+        The modified phantom has greatly amplified contrast to aid
+        visualization.
+
+    See Also
+    --------
+    shepp_logan_ellipses : Get the parameters that define this phantom
+    ellipse_phantom : Function for creating arbitrary ellipse phantoms
+
+    References
+    ----------
+    .. Shepp-Logan phantom: en.wikipedia.org/wiki/Shepp–Logan_phantom
+    """
+    ellipses = shepp_logan_ellipses(space.ndim, modified)
+
+    return odl.phantom.geometric.ellipse_phantom(space, ellipses)
+
+
+def donut(discr, smooth=True, taper=20.0):
+    """Return a 'donut' phantom.
+
+    This phantom is used in [Okt2015]_ for shape-based reconstruction.
+
+    Parameters
+    ----------
+    discr : `DiscreteLp`
+        Discretized space in which the phantom is supposed to be created
+    smooth : `bool`, optional
+        If `True`, the boundaries are smoothed out. Otherwise, the
+        function steps from 0 to 1 at the boundaries.
+    taper : `float`, optional
+        Tapering parameter for the boundary smoothing. Larger values
+        mean faster taper, i.e. sharper boundaries.
+
+    Returns
+    -------
+    phantom : `DiscreteLpElement`
+    """
+    if discr.ndim == 2:
+        if smooth:
+            return _donut_2d_smooth(discr, taper)
+        else:
+            return _donut_2d_nonsmooth(discr)
+    else:
+        raise ValueError('Phantom only defined in 2 dimensions, got {}.'
+                         ''.format(discr.dim))
+
+
+def _donut_2d_smooth(discr, taper):
+    """Return a 2d smooth 'donut' phantom."""
+
+    def logistic(x, c):
+        """Smoothed step function from 0 to 1, centered at 0."""
+        return 1. / (1 + np.exp(-c * x))
+
+    def blurred_circle_1(x):
+        """Blurred characteristic function of an circle.
+        If ``discr.domain`` is a rectangle ``[-1, 1] x [-1, 1]``,
+        the circle is centered at ``(0.0, 0.0)`` and has half-axes
+        ``(0.25, 0.25)``. For other domains, the values are scaled
+        accordingly.
+        """
+        halfaxes = np.array([0.26, 0.26]) * discr.domain.extent() / 2
+        center = np.array([0.0, 0.0]) * discr.domain.extent() / 2
+
+        # Efficiently calculate |z|^2, z = (x - center) / radii
+        sq_ndist = np.zeros_like(x[0])
+        for xi, rad, cen in zip(x, halfaxes, center):
+            sq_ndist = sq_ndist + ((xi - cen) / rad) ** 2
+
+        out = np.sqrt(sq_ndist)
+        out -= 1
+        # Return logistic(taper * (1 - |z|))
+        return logistic(out, -taper)
+
+    def blurred_circle_2(x):
+        """Blurred characteristic function of an circle.
+        If ``discr.domain`` is a rectangle ``[-1, 1] x [-1, 1]``,
+        the circle is centered at ``(0.0, 0.0)`` and has half-axes
+        ``(0.25, 0.25)``. For other domains, the values are scaled
+        accordingly.
+        """
+        halfaxes = np.array([0.115, 0.115]) * discr.domain.extent() / 2
+        center = np.array([0.0, 0.0]) * discr.domain.extent() / 2
+
+        # Efficiently calculate |z|^2, z = (x - center) / radii
+        sq_ndist = np.zeros_like(x[0])
+        for xi, rad, cen in zip(x, halfaxes, center):
+            sq_ndist = sq_ndist + ((xi - cen) / rad) ** 2
+
+        out = np.sqrt(sq_ndist)
+        out -= 1
+        # Return logistic(taper * (1 - |z|))
+        return logistic(out, -taper)
+
+    out = discr.element(blurred_circle_1) - discr.element(blurred_circle_2)
+    return out.ufunc.minimum(1, out=out)
+
+
+def _donut_2d_nonsmooth(discr):
+    """Return a 2d nonsmooth 'donut' phantom."""
+
+    def circle_1(x):
+        """Characteristic function of an ellipse.
+        If ``discr.domain`` is a rectangle ``[-1, 1] x [-1, 1]``,
+        the circle is centered at ``(0.0, 0.0)`` and has half-axes
+        ``(0.25, 0.25)``. For other domains, the values are scaled
+        accordingly.
+        """
+        halfaxes = np.array([0.2, 0.2]) * discr.domain.extent() / 2
+        center = np.array([0.0, 0.0]) * discr.domain.extent() / 2
+
+        sq_ndist = np.zeros_like(x[0])
+        for xi, rad, cen in zip(x, halfaxes, center):
+            sq_ndist = sq_ndist + ((xi - cen) / rad) ** 2
+
+        return np.where(sq_ndist <= 1, 1, 0)
+
+    def circle_2(x):
+        """Characteristic function of an circle.
+        If ``discr.domain`` is a rectangle ``[-1, 1] x [-1, 1]``,
+        the circle is centered at ``(0.0, 0.0)`` and has half-axes
+        ``(0.25, 0.25)``. For other domains, the values are scaled
+        accordingly.
+        """
+        halfaxes = np.array([0.1, 0.1]) * discr.domain.extent() / 2
+        center = np.array([0.0, 0.0]) * discr.domain.extent() / 2
+
+        sq_ndist = np.zeros_like(x[0])
+        for xi, rad, cen in zip(x, halfaxes, center):
+            sq_ndist = sq_ndist + ((xi - cen) / rad) ** 2
+
+        return np.where(sq_ndist <= 1, 1, 0)
+
+    out = discr.element(circle_1) - discr.element(circle_2)
+    return out.ufunc.minimum(1, out=out)
+
+
+
+# Create seed for random generator
 # np.random.seed(0)
 
 # Give the path of images
@@ -777,97 +929,99 @@ I1 = np.rot90(plt.imread(I1name).astype('float'), -1)
 
 # Create 2-D discretization reconstruction space
 # The size of the domain should be proportional to the given images
-discr_space = odl.uniform_discr([-16, -16], [16, 16], [128, 128],
+# 128 for shepp-logan
+discr_space = odl.uniform_discr([-16, -16], [16, 16], [101, 101],
                                 dtype='float32', interp='linear')
 
 # Create 2-D discretization space for control points
-cptsspace = odl.uniform_discr([-16, -16], [16, 16], [128, 128],
+cptsspace = odl.uniform_discr([-16, -16], [16, 16], [101, 101],
                               dtype='float32', interp='linear')
 
 # Create discretization space for vector field
 vspace = odl.ProductSpace(cptsspace, cptsspace.ndim)
 
 
-
-
-
 ## Create the ground truth as the given image
 #ground_truth = discr_space.element(I0)
 
 # Create the ground truth as the Shepp-Logan phantom
-ground_truth = shepp_logan(discr_space, modified=True)
+#ground_truth = shepp_logan(discr_space, modified=True)
+ground_truth = donut(discr_space, smooth=True, taper=50)
+
+ground_truth.show('ground truth')
+
+#template = shepp_logan_2d(discr_space, modified=True)
+#template = disc_phantom(discr_space, smooth=True, taper=50)
+template = donut(discr_space, smooth=True, taper=50)
 
 ## Create the template as the given image
 #template = discr_space.element(I1)
 
-# Create the template for Shepp-Logan phantom
-deform_field_space = discr_space.vector_field_space
-disp_func = [
-    lambda x: 16.0 * np.sin(np.pi * x[0] / 40.0),
-    lambda x: 16.0 * np.sin(np.pi * x[1] / 36.0)]
-# Discretization of the space
-spc = odl.uniform_discr([0, 0], [1, 1], [128, 128])
+## Create the template for Shepp-Logan phantom
+#deform_field_space = discr_space.vector_field_space
+#disp_func = [
+#    lambda x: 16.0 * np.sin(np.pi * x[0] / 40.0),
+#    lambda x: 16.0 * np.sin(np.pi * x[1] / 36.0)]
+## Discretization of the space
+#spc = odl.uniform_discr([0, 0], [1, 1], [128, 128])
+#
+## deformation space
+## n: number of gridpoints for deformation, usually smaller than m
+#pspace = odl.ProductSpace(odl.uniform_discr([0, 0], [1, 1], [5, 5]), 2)
+#
+## Deformation operator
+#deformation = LinearDeformation(spc, pspace, pspace[0].grid, sigma=0.2)
+#
+## Create input function
+#f = shepp_logan(spc, True)
+#
+## Create deformation field
+#values = np.zeros([2, 5, 5])
+#values[0, :, :5//2] = 0.02  # movement in "x" direction
+#values[1, 5//2, :] = 0.01   # movement in "y" direction
+#def_coeff = pspace.element(values)
+## Show input
+#f.show(title='f')
+#def_coeff.show(title='deformation')
+#
+## Calculate deformed function
+#result = deformation([f, def_coeff])
+#result.show(title='result')
+#template_deformed_1 = discr_space.element(result)
+#
+#disp_field = deform_field_space.element(disp_func)
+### Create the template from the deformed ground truth
+#template = discr_space.element(geometric_deform(
+#    template_deformed_1, disp_field))
 
-# deformation space
-# n: number of gridpoints for deformation, usually smaller than m
-pspace = odl.ProductSpace(odl.uniform_discr([0, 0], [1, 1], [5, 5]), 2)
-
-# Deformation operator
-deformation = LinearDeformation(spc, pspace, pspace[0].grid, sigma=0.2)
-
-# Create input function
-f = shepp_logan(spc, True)
-
-# Create deformation field
-values = np.zeros([2, 5, 5])
-values[0, :, :5//2] = 0.02  # movement in "x" direction
-values[1, 5//2, :] = 0.01   # movement in "y" direction
-def_coeff = pspace.element(values)
-# Show input
-f.show(title='f')
-def_coeff.show(title='deformation')
-
-# Calculate deformed function
-result = deformation([f, def_coeff])
-result.show(title='result')
-template_deformed_1 = discr_space.element(result)
-
-disp_field = deform_field_space.element(disp_func)
-## Create the template from the deformed ground truth
-template = discr_space.element(geometric_deform(
-    template_deformed_1, disp_field))
-
-ground_truth.show('ground truth')
 template.show('template')
 
-
-
 # Give the number of directions
-num_angles = 6
+num_angles = 4
 
 # Create the uniformly distributed directions
-angle_partition = odl.uniform_partition(0, np.pi, num_angles, nodes_on_bdry=[(True, False)])
+angle_partition = odl.uniform_partition(0, 3.*np.pi/4., num_angles,
+                                        nodes_on_bdry=[(True, True)])
 
 # Create 2-D projection domain
 # The length should be 1.5 times of that of the reconstruction space
-detector_partition = odl.uniform_partition(-24, 24, 182)
+# 181 for 128 shepp-logan
+detector_partition = odl.uniform_partition(-24, 24, 151)
 
 # Create 2-D parallel projection geometry
 geometry = odl.tomo.Parallel2dGeometry(angle_partition, detector_partition)
 
 # Create forward projection operator by X-ray transform
-xray_trafo_op = odl.tomo.RayTransform(discr_space,
-                                      geometry,
-                                      impl='astra_cuda')
+xray_trafo_op = odl.tomo.RayTransform(discr_space, geometry, impl='astra_cuda')
 
 # Create projection data by given setting
 proj_data = xray_trafo_op(ground_truth)
 
 # Create white Gaussian noise
-noise = 1.0 * odl.phantom.white_noise(xray_trafo_op.range)
+noise = 0.1 * odl.phantom.white_noise(xray_trafo_op.range)
 
 # Add white Gaussion noise from file
-# noise = xray_trafo_op.range.element(np.load('noise_20angles.npy'))
+#noise = xray_trafo_op.range.element(np.load('noise_20angles.npy'))
 
 # Create the noisy projection data
 noise_proj_data = proj_data + noise
@@ -901,7 +1055,7 @@ vectorial_ft_fit_op = odl.DiagonalOperator(
 momenta = vspace.zero()
 
 # Fix the sigma parameter in the kernel
-sigma = 7.0
+sigma = 4.0
 
 # Compute Fourier trasform of the kernel function in data matching term
 ft_kernel_fitting = fitting_kernel_ft(kernel)
@@ -940,13 +1094,13 @@ l2_data_fit_func = L2DataMatchingFunctional(xray_trafo_op.range,
 shape_func = ShapeRegularizationFunctional(vspace, ft_kernel_shape)
 
 # Shape regularization parameter, should be nonnegtive
-lambda_shape = 0.000001
+lambda_shape = 0.0000001
 
 # Step size for the gradient descent method
-eta = 0.001
+eta = 0.002
 
 # Maximum iteration number
-niter = 2000
+niter = 1000
 
 callback = CallbackShow('iterates', display_step=5) & CallbackPrintIteration()
 
@@ -1023,7 +1177,6 @@ plt.imshow(np.rot90(deformed_template), cmap='bone',
 plt.colorbar()
 plt.title('Reconstructed result')
 
-
 plt.subplot(2, 3, 3)
 plt.imshow(np.rot90(ground_truth), cmap='bone',
            vmin=np.asarray(ground_truth).min(),
@@ -1032,253 +1185,61 @@ plt.colorbar()
 plt.title('Ground truth')
 
 plt.subplot(2, 3, 4)
-plt.plot(np.asarray(proj_data)[0], 'b', np.asarray(noise_proj_data)[0],
-         'r', np.asarray(rec_proj_data)[0], 'g')
-#plt.title('$\Theta=0^\circ$, b: truth, r: noisy, '
-#    'g: rec_proj, SNR = {:.3}dB'.format(snr))
-#plt.gca().axes.yaxis.set_ticklabels([])
+plt.plot(np.asarray(proj_data)[0], 'b', np.asarray(noise_proj_data)[0], 'r')
 plt.axis([0, 181, -3, 10])
 plt.grid(True)
 
 plt.subplot(2, 3, 5)
-plt.plot(np.asarray(proj_data)[2], 'b', np.asarray(noise_proj_data)[2],
-         'r', np.asarray(rec_proj_data)[2], 'g')
-#plt.title('$\Theta=90^\circ$')
-#plt.gca().axes.yaxis.set_ticklabels([])
+plt.plot(np.asarray(proj_data)[2], 'b', np.asarray(noise_proj_data)[2], 'r')
 plt.axis([0, 181, -3, 10])
 plt.grid(True)
-
-#plt.subplot(2, 3, 5)
-#plt.plot(np.asarray(proj_data)[10], 'b', np.asarray(noise_proj_data)[10],
-#         'r', np.asarray(rec_proj_data)[10], 'g')
-##plt.title('$\Theta=90^\circ$')
-##plt.gca().axes.yaxis.set_ticklabels([])
-#plt.axis([0, 191, -3, 10])
-#plt.grid(True)
 
 plt.subplot(2, 3, 6)
-plt.plot(np.asarray(proj_data)[4], 'b', np.asarray(noise_proj_data)[4],
-         'r', np.asarray(rec_proj_data)[4], 'g')
-#plt.title('$\Theta=135^\circ$')
-#plt.gca().axes.yaxis.set_ticklabels([])
+plt.plot(np.asarray(proj_data)[4], 'b', np.asarray(noise_proj_data)[4], 'r')
 plt.axis([0, 181, -3, 10])
 plt.grid(True)
 
-## Plot the results of interest
-#plt.figure(1, figsize=(20, 10))
-#plt.clf()
+
+## TV reconstruction by Chambolle-Pock algorithm
+## Initialize gradient operator
+#gradient = odl.Gradient(discr_space, method='forward')
+## Column vector of two operators
+#op = odl.BroadcastOperator(xray_trafo_op, gradient)
+## Create the proximal operator for unconstrained primal variable
+#proximal_primal = odl.solvers.proximal_const_func(op.domain)
+## Create proximal operators for the dual variable
+## l2-data matching
+#prox_convconj_l2 = odl.solvers.proximal_cconj_l2_squared(xray_trafo_op.range,
+#                                                         g=noise_proj_data)
+## Isotropic TV-regularization i.e. the l1-norm
+#prox_convconj_l1 = odl.solvers.proximal_cconj_l1(gradient.range, lam=0.6,
+#                                                 isotropic=True)
+## Combine proximal operators, order must correspond to the operator K
+#proximal_dual = odl.solvers.combine_proximals(prox_convconj_l2,
+#                                              prox_convconj_l1)
+## --- Select solver parameters and solve using Chambolle-Pock --- #
+## Estimated operator norm, add 10 percent to ensure ||K||_2^2 * sigma * tau < 1
+#op_norm = 1.1 * odl.power_method_opnorm(op)
 #
-#plt.subplot(2, 3, 1)
-#plt.imshow(I0, cmap='bone', vmin=I0.min(), vmax=I0.max())
-#plt.colorbar()
-#plt.title('Ground truth')
+#niter = 1000  # Number of iterations
+#tau = 1.0 / op_norm  # Step size for the primal variable
+#sigma = 1.0 / op_norm  # Step size for the dual variable
+#gamma = 0.2
 #
-#plt.subplot(2, 3, 2)
-#plt.imshow(I1, cmap='bone', vmin=I1.min(), vmax=I1.max())
-#plt.colorbar()
-#plt.title('Template')
+## Optionally pass callback to the solver to display intermediate results
+#callback = (odl.solvers.CallbackPrintIteration() &
+#            odl.solvers.CallbackShow())
 #
-#plt.subplot(2, 3, 3)
-## plt.imshow(np.asarray(backproj).T, cmap='bone',
-##            vmin=np.asarray(backproj).min(), vmax=np.asarray(backproj).max())
-## plt.colorbar()
-## plt.title('Backprojection')
-#plt.title('stepsize = {!r}, $\sigma$ = {!r}'.format(eta, sigma))
-#plt.plot(E)
-#plt.xlabel('Iteration number')
-#plt.ylabel('Energy')
-## plt.gca().axes.yaxis.set_ticklabels(['0']+['']*8)
-#plt.gca().axes.yaxis.set_ticklabels([])
-#plt.grid(True)
+## Choose a starting point
+#x = op.domain.zero()
 #
-#plt.subplot(2, 3, 4)
-#plt.imshow(np.asarray(deformed_template).T, cmap='bone',
-#           vmin=np.asarray(deformed_template).min(),
-#           vmax=np.asarray(deformed_template).max())
-#plt.colorbar()
-#plt.title(
-#    'Reconstructed image by {!r} iters, {!r} projs'.format(niter, num_angles))
+## Run the algorithm
+#odl.solvers.chambolle_pock_solver(
+#    op, x, tau=tau, sigma=sigma, proximal_primal=proximal_primal,
+#    proximal_dual=proximal_dual, niter=niter, callback=callback,
+#    gamma=gamma)
 #
-#plt.subplot(2, 3, 5)
-#plt.plot(np.asarray(proj_data)[0], 'b', np.asarray(noise_proj_data)[0], 'r')
-#plt.title(
-#    'Theta=0, blue: truth_data, red: noisy_data, SNR = {:.3}dB'.format(snr))
-#plt.gca().axes.yaxis.set_ticklabels([])
-#plt.axis([0, 191, -17, 32])
-#
-#plt.subplot(2, 3, 6)
-#plt.plot(np.asarray(proj_data)[0], 'b', np.asarray(rec_proj_data)[0], 'r')
-#plt.title('Theta=0, blue: truth_data, red: rec result')
-#plt.gca().axes.yaxis.set_ticklabels([])
-#plt.axis([0, 191, -17, 32])
-
-
-
-
-## Magnification
-#magnification = 25000
-## Detector pixel size in meter
-#det_pix_size = 16 * 10**(-6)
-## Number of detector pixels
-#det_pix_x = 200
-#det_pix_y = 200
-## Single axis tilting
-#angle_partition_3d = odl.uniform_partition(-60, 120, 61)
-
-
-
-## Load data
-directory = '/home/chong/SwedenWork_Chong/Development_S/odl/odl/\
-deform/ET_testdata/One_particle/'
-data_filename = 'tiltseries.mrc'
-noise_free_data_filename = 'tiltseries_nonoise.mrc'
-tiltseries_reader = MRCFileReader(directory + data_filename)
-tiltseries_data = tiltseries_reader.read_data()
-tiltseries_nonoise_reader = MRCFileReader(directory + noise_free_data_filename)
-tiltseries_nonoise_data = tiltseries_nonoise_reader.read_data()
-
-## Data space
-# Number of detector pixels and directions
-data_shape = tiltseries_reader.data_shape
-# Size of detector region after magnification in nm
-data_csides = tiltseries_reader.cell_sides * 1e9
-# Generate sampling on detector region, assume (0,0) is in the middle
-detector_partition = odl.uniform_partition(-data_csides[0:2] / 2,
-                                           data_csides[0:2] / 2,
-                                           data_shape[0:2])  
-# 61 angles uniformly distributed from -60 to 60
-angle_partition = odl.uniform_partition(np.deg2rad(-60+90), np.deg2rad(60+90), 61,
-                                        nodes_on_bdry=[(True, True)])
-# Create 3-D parallel projection geometry
-single_axis_geometry = odl.tomo.Parallel3dAxisGeometry(angle_partition,
-                                                       detector_partition,
-                                                       axis=[0, 0, -1])
-
-## Reconstruction space
-# Voxels in 3D region of interest
-rec_shape = np.array([200, 200, 200])
-# Define the 3D region centered at the origin in nm
-rec_size = np.array([70.,70., 70.])
-# Reconstruction space
-rec_space = odl.uniform_discr(-rec_size / 2, rec_size / 2, rec_shape,
-                              dtype='float32', interp='linear')
-                              
-## Create forward operator
-forward_op = odl.tomo.RayTransform(rec_space, single_axis_geometry,
-                                   impl='astra_cuda')
-
-## Load data as an element in range of forward operator
-tiltseries = forward_op.range.element(np.swapaxes(tiltseries_data, 0, 2))
-tiltseries_nonoise = forward_op.range.element(
-    np.swapaxes(tiltseries_nonoise_data, 0, 2))
-# Show 2D data for middle angle
-(tiltseries - np.mean(tiltseries)).show(
-    indices=np.s_[tiltseries.shape[0] // 2, :, :],
-    title='Middle projection (noise)')
-(tiltseries_nonoise - np.mean(tiltseries_nonoise)).show(
-    indices=np.s_[tiltseries_nonoise.shape[0] // 2, :, :],
-    title='Middle projection (noise-free)')
-
-
-## CTF correction
-# acc_voltage = 200
-wave_length = 0.0027
-wave_number_k = 2 * np.pi / wave_length
-aperture = 40
-focal_length = 2.7
-b = wave_number_k * aperture / focal_length
-cs = 2.1
-defocus_delta_z = 3.0
-
-# Generate sampling on detector region, assume (0,0) is in the middle
-data_space = odl.uniform_discr(-data_csides[0:2] / 2, data_csides[0:2] / 2,
-                               data_shape[0:2])  
-FT_op = odl.trafos.FourierTransform(data_space)
-CTF_optics = lambda x: np.exp(1.0j * (defocus_delta_z * sum(xi**2 for xi in x) / (2 * wave_number_k) - cs * sum(xi**4 for xi in x) / (4 * wave_number_k**3)))
-CTF_optics = FT_op.range.element(CTF_optics)
-CTF_corrected = tiltseries.space.element([FT_op.inverse(CTF_optics * FT_op(tilt)) for tilt in tiltseries_nonoise.asarray()])
-
-CTF_corrected.show(indices=np.s_[tiltseries_nonoise.shape[0] // 2, :, :],
-    title='Middle corrected projection (noise-free)')
-
-## Check why we get such high values in data!
-#particle = forward_op.domain.one() * 100000000
-#a = forward_op(particle)
-#a.show(indices=np.s_[a.shape[0] // 2, :, :], title='30th projection by forward_op')
-
-                                   
-## Reconstructions
-
-# conjugate_gradient_normal
-niter = 100  # Number of iterations
-# Optionally pass callback to the solver to display intermediate results
-callback = (odl.solvers.CallbackPrintIteration() &
-            odl.solvers.CallbackShow(coords=[None, 0, None]))
-# Choose a starting point
-x = forward_op.domain.zero()   
-# Run the algorithm                          
-odl.solvers.conjugate_gradient_normal(forward_op, x, -(tiltseries_nonoise - np.mean(tiltseries_nonoise)), niter=niter,
-                                      callback=callback)
-
-x.show(coords=[None, 0, None], title='Conjugate gradient reconstruction')
-
-
-
-# TV reconstruction by Chambolle-Pock algorithm
-# Initialize gradient operator
-gradient = odl.Gradient(rec_space, method='forward')
-# Column vector of two operators
-op = odl.BroadcastOperator(forward_op, gradient)
-# Create the proximal operator for unconstrained primal variable
-proximal_primal = odl.solvers.proximal_const_func(op.domain)
-# Create proximal operators for the dual variable
-# l2-data matching
-prox_convconj_l2 = odl.solvers.proximal_cconj_l2_squared(forward_op.range,
-                                                         g=tiltseries_nonoise - np.mean(tiltseries_nonoise))
-# Isotropic TV-regularization i.e. the l1-norm
-prox_convconj_l1 = odl.solvers.proximal_cconj_l1(gradient.range, lam=4000.0,
-                                                 isotropic=True)
-# Combine proximal operators, order must correspond to the operator K
-proximal_dual = odl.solvers.combine_proximals(prox_convconj_l2,
-                                              prox_convconj_l1)
-# --- Select solver parameters and solve using Chambolle-Pock --- #
-# Estimated operator norm, add 10 percent to ensure ||K||_2^2 * sigma * tau < 1
-op_norm = 1.1 * odl.power_method_opnorm(op)
-
-niter = 400  # Number of iterations
-tau = 1.0 / op_norm  # Step size for the primal variable
-sigma = 1.0 / op_norm  # Step size for the dual variable
-gamma = 0.2
-
-# Optionally pass callback to the solver to display intermediate results
-callback = (odl.solvers.CallbackPrintIteration() &
-            odl.solvers.CallbackShow())
-
-# Choose a starting point
-x = op.domain.zero()
-
-# Run the algorithm
-odl.solvers.chambolle_pock_solver(
-    op, x, tau=tau, sigma=sigma, proximal_primal=proximal_primal,
-    proximal_dual=proximal_dual, niter=niter, callback=callback,
-    gamma=gamma)
-    
-
-######################################################
-
-# Read in particle
-particle_filename = 'rna_phantom.mrc'
-particle_reader = MRCFileReader(directory + particle_filename)
-particle = particle_reader.read_data()
-# Extract size 
-particle_shape = particle_reader.data_shape
-particle_csides = particle_reader.cell_sides * 1e9
-# Create particle space
-particle_space = odl.uniform_discr(-particle_csides / 2, particle_csides / 2,
-                                   particle_shape, dtype='float32',
-                                   interp='linear')
-
-# Display images
-particle = particle_space.element(particle)
-particle.show(indices=np.s_[:, :, particle_shape[-1] // 2], title='Particle')
-
+#plt.imshow(np.rot90(x), cmap='bone',
+#           vmin=0., vmax=1.), plt.axis('off')
+##plt.colorbar()
+#plt.title('Reconstructed result')
