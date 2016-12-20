@@ -23,6 +23,7 @@ Test for Bregman-TV method.
 from __future__ import print_function, division, absolute_import
 from future import standard_library
 import numpy as np
+import matplotlib.pyplot as plt
 from odl.discr import (Gradient, uniform_discr, uniform_partition)
 from odl.tomo import Parallel2dGeometry, RayTransform
 from odl.phantom import (shepp_logan, white_noise)
@@ -34,13 +35,62 @@ from odl.solvers import (CallbackShow, CallbackPrintIteration,
 standard_library.install_aliases()
 
 
+def smooth_square(x):
+    mask = (x[0] >= -8) & (x[0] <= 8) & (x[1] >= -8) & (x[1] <= 8)
+    return (mask * x[0] + 8.)/16.
+
+
+def snr(signal, noise, impl):
+    """Compute the signal-to-noise ratio.
+    Parameters
+    ----------
+    signal : `array-like`
+        Noiseless data.
+    noise : `array-like`
+        Noise.
+    impl : {'general', 'dB'}
+        Implementation method.
+        'general' means SNR = variance(signal) / variance(noise),
+        'dB' means SNR = 10 * log10 (variance(signal) / variance(noise)).
+    Returns
+    -------
+    snr : `float`
+        Value of signal-to-noise ratio.
+        If the power of noise is zero, then the return is 'inf',
+        otherwise, the computed value.
+    """
+    if np.abs(np.asarray(noise)).sum() != 0:
+        ave1 = np.sum(signal) / signal.size
+        ave2 = np.sum(noise) / noise.size
+        s_power = np.sqrt(np.sum((signal - ave1) * (signal - ave1)))
+        n_power = np.sqrt(np.sum((noise - ave2) * (noise - ave2)))
+        if impl == 'general':
+            return s_power / n_power
+        elif impl == 'dB':
+            return 10.0 * np.log10(s_power / n_power)
+        else:
+            raise ValueError('unknown `impl` {}'.format(impl))
+    else:
+        return float('inf')
+
+
+#phantom = space.element(smooth_square)
+#phantom.show()
+
 # Discrete reconstruction space: discretized functions on the rectangle
 rec_space = uniform_discr(
-    min_pt=[-16, -16], max_pt=[16, 16], shape=[256, 256],
+    min_pt=[-16, -16], max_pt=[16, 16], shape=[128, 128],
     dtype='float32', interp='linear')
 
-# Create the ground truth as the Shepp-Logan phantom
-ground_truth = shepp_logan(rec_space, modified=True)
+## Create the ground truth as the Shepp-Logan phantom
+#ground_truth = shepp_logan(rec_space, modified=True)
+
+# Create the ground truth as the given image
+#I0name = './pictures/edges_and_smooth.png'
+#I0 = np.rot90(plt.imread(I0name).astype('float'), -1)
+#ground_truth = rec_space.element(I0)
+ground_truth = rec_space.element(smooth_square)
+ground_truth.show('ground_truth')
 
 # Give the number of directions
 num_angles = 22
@@ -51,7 +101,7 @@ angle_partition = uniform_partition(0.0, np.pi, num_angles,
     
 # Create 2-D projection domain
 # The length should be 1.5 times of that of the reconstruction space
-detector_partition = uniform_partition(-24, 24, 362)
+detector_partition = uniform_partition(-24, 24, 182)
     
 # Create 2-D parallel projection geometry
 geometry = Parallel2dGeometry(angle_partition, detector_partition)
@@ -67,6 +117,12 @@ noise = 0.1 * white_noise(forward_op.range)
 
 # Create the noisy projection data
 noise_proj_data = proj_data + noise
+
+# Compute the signal-to-noise ratio in dB
+snr = snr(proj_data, noise, impl='dB')
+
+# Output the signal-to-noise ratio
+print('snr = {!r}'.format(snr))
 
 # TV reconstruction by Chambolle-Pock algorithm
 # Initialize gradient operator
@@ -90,10 +146,10 @@ proximal_primal = proximal_const_func(op.domain)
 prox_convconj_l1 = proximal_cconj_l1(grad_op.range, lam=0.03, isotropic=True)
 
 # Maximum exterior iteration number
-exterior_niter = 3
+exterior_niter = 1
 
 # Maximum interior iteration number
-interior_niter = 100
+interior_niter = 300
 
 # Choose a starting point
 x = forward_op.domain.zero()
@@ -124,4 +180,4 @@ for _ in range(exterior_niter):
     v = v - forward_op(x) + noise_proj_data
 
 # Show final result
-x.show(title='Reconstructed result by Bregman-TV with 300 iterations')
+x.show(title='Reconstructed result by TV with 300 iterations')

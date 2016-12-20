@@ -395,7 +395,7 @@ template = space.element(I1)
 #    shepp_logan(space, modified=True), deform_field))
 
 # Maximum iteration number
-niter = 1000
+niter = 400
 
 # Show intermiddle results
 callback = odl.solvers.CallbackShow(
@@ -404,7 +404,7 @@ callback = odl.solvers.CallbackShow(
 # Implementation method for mass preserving or not,
 # impl chooses 'mp' or 'nmp', 'mp' means mass-preserving method,
 # 'nmp' means non-mass-preserving method
-impl1 = 'nmp'
+impl1 = 'mp'
 
 # Implementation method for image matching or image reconstruction,
 # impl chooses 'matching' or 'reconstruction', 'matching' means image matching,
@@ -531,10 +531,10 @@ if impl2 == 'reconstruction':
 # For image matching
 if impl2 == 'matching':
     # Give step size for solver
-    eps = 0.01
+    eps = 0.005
 
     # Give regularization parameter
-    lamb = 0.05
+    lamb = 0.005
 
     # Fix the sigma parameter in the kernel
     sigma = 5.0
@@ -573,13 +573,13 @@ if impl2 == 'matching':
     # Implement different gradient (poisson or RKHS)
     inv_inertia_op = inverse_inertia_op(impl3)
 
-    # Compute by OIT solver based on L2 norm distance
-    rec_result, E = optimal_information_transport_solver(
-        gradS, template, niter, eps, lamb, inv_inertia_op, impl1, callback)
+#    # Compute by OIT solver based on L2 norm distance
+#    rec_result, E = optimal_information_transport_solver(
+#        gradS, template, niter, eps, lamb, inv_inertia_op, impl1, callback)
 
-#    # Compute by OIT solver based on Fisher-Rao distance
-#    rec_result, E = optimal_information_transport_solver2(
-#        template, ground_truth, niter, eps, lamb, inv_inertia_op, callback)
+    # Compute by OIT solver based on Fisher-Rao distance
+    rec_result, E = optimal_information_transport_solver2(
+        template, ground_truth, niter, eps, lamb, inv_inertia_op, callback)
 
     plt.figure(1, figsize=(20, 10))
     plt.clf()

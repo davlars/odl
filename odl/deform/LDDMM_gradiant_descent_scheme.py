@@ -30,7 +30,8 @@ from odl.discr import (Gradient, Divergence, uniform_discr,
 from odl.trafos import FourierTransform
 from odl.space import ProductSpace
 from odl.tomo import Parallel2dGeometry, RayTransform
-from odl.phantom import white_noise, disc_phantom, submarine, shepp_logan
+from odl.phantom import (white_noise, disc_phantom, submarine,
+                         shepp_logan, geometric)
 from odl.operator import (DiagonalOperator, IdentityOperator,
                           ResidualOperator, Operator)
 from odl.solvers import CallbackShow, CallbackPrintIteration
@@ -114,8 +115,122 @@ def fitting_kernel_ft(kernel):
     return vectorial_ft_fit_op(discretized_kernel)
 
 
+def shepp_logan_ellipse_2d_template():
+    """Return ellipse parameters for a 2d Shepp-Logan phantom.
+
+    This assumes that the ellipses are contained in the square
+    [-1, -1]x[-1, -1].
+    """
+#    return [[2.00, .6900, .9200, 0.0000, 0.0000, 0],
+#            [-.98, .6624, .8740, 0.0000, -.0184, 0],
+#            [-.02, .1100, .3100, 0.2200, 0.0000, -18],
+#            [-.02, .1600, .4100, -.2200, 0.0000, 18],
+#            [0.01, .2100, .2500, 0.0000, 0.3500, 0],
+#            [0.01, .0460, .0460, 0.0000, 0.1000, 0],
+#            [0.01, .0460, .0460, 0.0000, -.1000, 0],
+#            [0.01, .0460, .0230, -.0800, -.6050, 0],
+#            [0.01, .0230, .0230, 0.0000, -.6060, 0],
+#            [0.01, .0230, .0460, 0.0600, -.6050, 0]]
+    #       value  axisx  axisy     x       y  rotation           
+#    # Shepp-Logan region of interest
+#    return [[2.00, .6900, .9200, 0.0000, 0.0000, 0],
+#            [-.98, .6624, .8740, 0.0000, -.0184, 0],
+#            [-.02, .1400, .1400, 0.2200, 0.0000, -18],
+#            [-.02, .1600, .4100, -.2200, 0.0000, 18],
+#            [0.01, .2100, .2500, 0.0000, 0.3500, 0],
+#            [0.01, .0460, .0460, 0.0000, 0.1000, 0],
+#            [0.01, .0460, .0460, 0.0000, -.1000, 0],
+#            [0.01, .0460, .0230, -.0800, -.6050, 0],
+#            [0.01, .0230, .0230, 0.0000, -.6060, 0],
+#            [0.01, .0230, .0460, 0.0600, -.6050, 0]]
+    return [[2.00, .6000, .6000, 0.0000, 0.1200, 0],
+            [-.98, .5624, .5640, 0.0000, -.0184 + 0.12, 0],
+            [-.02, .1100, .1100, 0.2600, 0.1500, -18],
+            [-.02, .1300, .1300, -.2500, 0.2000, 18],
+            [0.01, .1650, .1650, 0.0000, 0.3000, 0],
+            [0.01, .0300, .0300, 0.0000, 0.1400, 0],
+            [0.01, .0300, .0300, -.1400, 0.1000, 0],
+            [0.01, .0360, .0230, -.0770, -.2050, 0],
+            [0.01, .0230, .0230, 0.0000, -.2060, 0],
+            [0.01, .0230, .0360, 0.0600, -.2050, 0]] 
+
+#template = shepp_logan_2d(space, modified=True)
+#template.show('template')
+
+
+def modified_shepp_logan_ellipses(ellipses):
+    """Modify ellipses to give the modified Shepp-Logan phantom.
+
+    Works for both 2d and 3d.
+    """
+    intensities = [1.0, -0.8, -0.2, -0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+
+    assert len(ellipses) == len(intensities)
+
+    for ellipse, intensity in zip(ellipses, intensities):
+        ellipse[0] = intensity
+
+
+def shepp_logan_ellipses(ndim, modified=False):
+    """Ellipses for the standard `Shepp-Logan phantom`_ in 2 or 3 dimensions.
+
+    Parameters
+    ----------
+    ndim : {2, 3}
+        Dimension of the space the ellipses should be in.
+    modified : bool, optional
+        True if the modified Shepp-Logan phantom should be given.
+        The modified phantom has greatly amplified contrast to aid
+        visualization.
+
+    See Also
+    --------
+    ellipse_phantom : Function for creating arbitrary ellipse phantoms
+    shepp_logan : Create a phantom with these ellipses
+
+    References
+    ----------
+    .. _Shepp-Logan phantom: en.wikipedia.org/wiki/Shepp–Logan_phantom
+    """
+    if ndim == 2:
+        ellipses = shepp_logan_ellipse_2d_template()
+    else:
+        raise ValueError('dimension not 2, no phantom available')
+
+    if modified:
+        modified_shepp_logan_ellipses(ellipses)
+
+    return ellipses
+
+
+def shepp_logan_2d(space, modified=False):
+    """Standard `Shepp-Logan phantom`_ in 2 or 3 dimensions.
+
+    Parameters
+    ----------
+    space : `DiscreteLp`
+        Space in which the phantom is created, must be 2- or 3-dimensional.
+    modified : `bool`, optional
+        True if the modified Shepp-Logan phantom should be given.
+        The modified phantom has greatly amplified contrast to aid
+        visualization.
+
+    See Also
+    --------
+    shepp_logan_ellipses : Get the parameters that define this phantom
+    ellipse_phantom : Function for creating arbitrary ellipse phantoms
+
+    References
+    ----------
+    .. Shepp-Logan phantom: en.wikipedia.org/wiki/Shepp–Logan_phantom
+    """
+    ellipses = shepp_logan_ellipses(space.ndim, modified)
+
+    return geometric.ellipse_phantom(space, ellipses)
+
+
 def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
-                                         lamb, callback=None):
+                                         lamb, impl='geom', callback=None):
     """
     Solver for the shape-based reconstruction using LDDMM.
 
@@ -177,55 +292,103 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
     # Give the initial two series deformations and series Jacobian determinant
     image_N0 = series_image_space.element()
     grad_data_matching_N1 = series_image_space.element()
-    detDphi_N1 = series_image_space.element()
     grad_data_matching = image_domain.element(gradS(I))
+
+    if impl=='geom':
+        detDphi_N1 = series_image_space.element()
+    if impl=='mp':
+        detDphi_N0 = series_image_space.element()
+        mp_deformed_image_N0 = series_image_space.element()
 
     for i in range(N+1):
         image_N0[i] = image_domain.element(I)
-        detDphi_N1[i] = image_domain.one()
+        if impl=='geom':
+            detDphi_N1[i] = image_domain.one()
+        if impl=='mp':
+            detDphi_N0[i] = image_domain.one()
+            mp_deformed_image_N0[i] = image_N0[i]
         grad_data_matching_N1[i] = grad_data_matching
 
     # Create the gradient op
-    grad_op = Gradient(domain=image_domain)
+    grad_op = Gradient(domain=image_domain, method='forward',
+                       pad_mode='symmetric')
 
     # Create the divergence op
-    div_op = Divergence(domain=pspace)
+    div_op = Divergence(domain=pspace, method='forward', pad_mode='symmetric')
 
-    # Begin iteration
-    for _ in range(niter):
-        # Update the velocity field
-        for i in range(N+1):
-            tmp1 = grad_data_matching_N1[i] * detDphi_N1[i]
-            tmp = grad_op(image_N0[i+1])
-            tmp3 = (2 * np.pi) * vectorial_ft_fit_op.inverse(
-                vectorial_ft_fit_op(tmp) * ft_kernel_fitting)
+    # Begin iteration for non-mass-preserving case
+    if impl=='geom':
+        print(impl)
+        for _ in range(niter):
+            # Update the velocity field
+            for i in range(N+1):
+                tmp1 = grad_data_matching_N1[i] * detDphi_N1[i]
+                tmp = grad_op(image_N0[i])
+                for j in range(dim):
+                    tmp[j] *= tmp1
+                tmp3 = (2 * np.pi) * vectorial_ft_fit_op.inverse(
+                    vectorial_ft_fit_op(tmp) * ft_kernel_fitting)
+    
+                vector_fields[i] = vector_fields[i] - eps * (
+                    lamb * vector_fields[i] - tmp3)
+    
+#            # Update image_N0 and detDphi_N1
+#            for i in range(N):
+#                # Update image_N0[i+1] by image_N0[i] and vector_fields[i+1]
+#                image_N0[i+1] = image_domain.element(
+#                    _linear_deform(image_N0[i], -inv_N * vector_fields[i+1]))
+#                # Update detDphi_N1[N-i-1] by detDphi_N1[N-i]
+#                jacobian_det = image_domain.element(
+#                    np.exp(inv_N * div_op(vector_fields[N-i-1])))
+#                detDphi_N1[N-i-1] = jacobian_det * image_domain.element(_linear_deform(
+#                        detDphi_N1[N-i], inv_N * vector_fields[N-i-1]))
+            
+            # Update the deformed template
+            PhiStarI = image_N0[N]
+    
+            # Show intermediate result
+            if callback is not None:
+                callback(PhiStarI)
+    
+            # Update gradient of the data matching: grad S(W_I(v^k))
+            grad_data_matching_N1[N] = image_domain.element(gradS(PhiStarI))
+            for i in range(N):
+                grad_data_matching_N1[N-i-1] = image_domain.element(
+                    _linear_deform(grad_data_matching_N1[N-i],
+                                   inv_N * vector_fields[N-i-1]))
+    
+        return image_N0
 
-            vector_fields[i] = vector_fields[i] - eps * (
-                lamb * vector_fields[i+1])
-
-        # Update image_N0 and detDphi_N1
-        for i in range(N):
-            # Update image_N0[i+1] by image_N0[i] and vector_fields[i+1]
-            image_N0[i+1] = image_domain.element(
-                _linear_deform(image_N0[i+2], -inv_N * vector_fields[i]))
-            detDphi_N1[N-i-1] = image_domain.element(_linear_deform(
-                    detDphi_N1[N-i], inv_N * vector_fields[N]))
-        
-        # Update the deformed template
-        PhiStarI = image_N0[N]
-
-        # Show intermediate result
-        if callback is not None:
-            callback(PhiStarI)
-
-        # Update gradient of the data matching: grad S(W_I(v^k))
-        grad_data_matching_N1[N] = image_domain.element(gradS(PhiStarI))
-        for i in range(N):
-            grad_data_matching_N1[N-i-1] = image_domain.element(
-                _linear_deform(grad_data_matching_N1[N-i],
-                               inv_N * vector_fields[N-i-1]))
-
-    return image_N0
+    # Begin iteration for mass-preserving case
+    elif impl=='mp':
+        print(impl)
+        for _ in range(niter):
+            # Update the velocity field
+            for i in range(N+1):
+                tmp = grad_op(grad_data_matching_N1[i])
+                for j in range(dim):
+                    tmp[j] *= mp_deformed_image_N0[i]
+                tmp3 = (2 * np.pi) * vectorial_ft_fit_op.inverse(
+                    vectorial_ft_fit_op(tmp) * ft_kernel_fitting)
+    
+                vector_fields[i] = vector_fields[i] - eps * (
+                    lamb * vector_fields[i] + tmp3)
+            
+            # Update the deformed template
+            PhiStarI = mp_deformed_image_N0[N]
+    
+            # Show intermediate result
+            if callback is not None:
+                callback(PhiStarI)
+    
+            # Update gradient of the data matching: grad S(W_I(v^k))
+            grad_data_matching_N1[N] = image_domain.element(gradS(PhiStarI))
+            for i in range(N):
+                grad_data_matching_N1[N-i-1] = image_domain.element(
+                    _linear_deform(grad_data_matching_N1[N-i],
+                                   inv_N * vector_fields[N-i-1]))
+    
+        return mp_deformed_image_N0
 
 
 # Give input images
@@ -235,10 +398,10 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
 #I1name = './pictures/DS0002AxialSlice80.png'
 #I0name = './pictures/hand5.png'
 #I1name = './pictures/hand3.png'
-#I0name = './pictures/handnew1.png'
-#I1name = './pictures/handnew2.png'
-I0name = './pictures/v.png'
-I1name = './pictures/j.png'
+I0name = './pictures/handnew1.png'
+I1name = './pictures/handnew2.png'
+#I0name = './pictures/v.png'
+#I1name = './pictures/j.png'
 #I0name = './pictures/ImageHalf058.png'
 #I1name = './pictures/ImageHalf059.png'
 #I0name = './pictures/ImageHalf068.png'
@@ -252,7 +415,7 @@ I1 = np.rot90(plt.imread(I1name).astype('float'), -1)
 
 # Discrete reconstruction space: discretized functions on the rectangle
 space = uniform_discr(
-    min_pt=[-16, -16], max_pt=[16, 16], shape=[64, 64],
+    min_pt=[-16, -16], max_pt=[16, 16], shape=[256, 256],
     dtype='float32', interp='linear')
 
 # Create the ground truth as the given image
@@ -270,6 +433,9 @@ template = space.element(I1)
 # Create the template as the disc phantom
 # template = disc_phantom(space, smooth=True, taper=50.0)
 
+# Create the template as the deformed Shepp-Logan phantom
+# template = shepp_logan_2d(space, modified=True)
+
 # Create the template for Shepp-Logan phantom
 #deform_field_space = space.vector_field_space
 #disp_func = [
@@ -285,21 +451,18 @@ padded_ft_fit_op = padded_ft_op(space, padded_size)
 vectorial_ft_fit_op = DiagonalOperator(*([padded_ft_fit_op] * space.ndim))
 
 # Fix the sigma parameter in the kernel
-sigma = 2.5
+sigma = 2.0
 
 # Compute the FT of kernel in fitting term
 ft_kernel_fitting = fitting_kernel_ft(kernel)
 
 # Maximum iteration number
-niter = 1500
-
-# Show intermiddle results
-callback = CallbackShow('iterates', display_step=5) & CallbackPrintIteration()
+niter = 6000
 
 # Implementation method for mass preserving or not,
-# impl chooses 'mp' or 'nmp', 'mp' means mass-preserving method,
-# 'nmp' means non-mass-preserving method
-impl1 = 'nmp'
+# impl chooses 'mp' or 'geom', 'mp' means mass-preserving deformation method,
+# 'geom' means geometric deformation method
+impl1 = 'geom'
 
 # Implementation method for image matching or image reconstruction,
 # impl chooses 'matching' or 'reconstruction', 'matching' means image matching,
@@ -309,7 +472,14 @@ impl2 = 'matching'
 # Normalize the template's density as the same as the ground truth if consider
 # mass preserving method
 if impl1 == 'mp':
-    template *= np.sum(ground_truth) / np.sum(template)
+#    template *= np.sum(ground_truth) / np.sum(template)
+    template *= np.linalg.norm(ground_truth, 'fro')/ \
+        np.linalg.norm(template, 'fro')
+
+# Show intermiddle results
+callback = CallbackShow(
+    '{!r} {!r} iterates'.format(impl1, impl2), display_step=5) & \
+    CallbackPrintIteration()
 
 ground_truth.show('ground truth')
 template.show('template')
@@ -317,21 +487,21 @@ template.show('template')
 # For image reconstruction
 if impl2 == 'reconstruction':
     # Give step size for solver
-    eps = 0.05
+    eps = 0.005
 
     # Give regularization parameter
-    lamb = 0.0001
+    lamb = 0.0000001
 
     # Give the number of directions
-    num_angles = 6
+    num_angles = 10
     
     # Create the uniformly distributed directions
-    angle_partition = uniform_partition(0, np.pi, num_angles,
+    angle_partition = uniform_partition(0.0, np.pi, num_angles,
                                         nodes_on_bdry=[(True, False)])
     
     # Create 2-D projection domain
     # The length should be 1.5 times of that of the reconstruction space
-    detector_partition = uniform_partition(-24, 24, 364)
+    detector_partition = uniform_partition(-24, 24, 362)
     
     # Create 2-D parallel projection geometry
     geometry = Parallel2dGeometry(angle_partition, detector_partition)
@@ -346,7 +516,7 @@ if impl2 == 'reconstruction':
     proj_data = op(ground_truth)
 
     # Add white Gaussion noise onto the noiseless data
-    noise = 0.1 * white_noise(op.range)
+    noise = 0.0 * white_noise(op.range)
 
     # Add white Gaussion noise from file
     # noise = op.range.element(np.load('noise_20angles.npy'))
@@ -358,26 +528,48 @@ if impl2 == 'reconstruction':
     #noise_proj_data = op.range.element(
     #    np.load('noise_proj_data_20angles_snr_4_98.npy'))
 
-    # Compute the signal-to-noise ratio in dB
-    snr = snr(proj_data, noise, impl='dB')
+#    # --- Create FilteredBackProjection (FBP) operator --- #    
+#    # Fourier transform in detector direction
+#    fourier = FourierTransform(ray_trafo.range, axes=[1])
+#    
+#    # Create ramp in the detector direction
+#    ramp_function = fourier.range.element(lambda x: np.abs(x[1]) / (2 * np.pi))
+#    
+#    # Create ramp filter via the convolution formula with fourier transforms
+#    ramp_filter = fourier.inverse * ramp_function * fourier
+#    
+#    # Create filtered backprojection by composing the backprojection (adjoint) with
+#    # the ramp filter.
+#    fbp = ray_trafo.adjoint * ramp_filter
+#
+#    # Calculate filtered backprojection of data
+#    fbp_reconstruction = fbp(proj_data)
+#    
+#    # Shows result of FBP reconstruction
+#    fbp_reconstruction.show(title='Filtered backprojection')
 
-    # Output the signal-to-noise ratio
-    print('snr = {!r}'.format(snr))
+#    # Compute the signal-to-noise ratio in dB
+#    snr = snr(proj_data, noise, impl='dB')
+#
+#    # Output the signal-to-noise ratio
+#    print('snr = {!r}'.format(snr))
 
     # Create the gradient operator for the L2 functional
     gradS = op.adjoint * ResidualOperator(op, noise_proj_data)
 
     # Give the number of time points
-    time_itvs = 10
+    time_itvs = 20
 
     # Compute by LDDMM solver
     image_N0 = LDDMM_gradient_descent_scheme_solver(
-        gradS, template, time_itvs, niter, eps, lamb, callback)
+        gradS, template, time_itvs, niter, eps, lamb, impl1, callback)
     
     rec_result_1 = space.element(image_N0[5])
     rec_result_2 = space.element(image_N0[10])
     rec_result_3 = space.element(image_N0[15])
     rec_result = space.element(image_N0[time_itvs])
+
+#    template = rec_result
 
     # Compute the projections of the reconstructed image
     rec_proj_data = op(rec_result)
@@ -398,21 +590,21 @@ if impl2 == 'reconstruction':
                vmin=np.asarray(rec_result_1).min(),
                vmax=np.asarray(rec_result_1).max()) 
     plt.colorbar()
-    plt.title('time_pts = {!r}'.format(5))
+    plt.title('time_pts = {!r}'.format(2))
 
     plt.subplot(3, 3, 3)
     plt.imshow(np.rot90(rec_result_2), cmap='bone',
                vmin=np.asarray(rec_result_2).min(),
                vmax=np.asarray(rec_result_2).max()) 
     plt.colorbar()
-    plt.title('time_pts = {!r}'.format(10))
+    plt.title('time_pts = {!r}'.format(5))
 
     plt.subplot(3, 3, 4)
     plt.imshow(np.rot90(rec_result_3), cmap='bone',
                vmin=np.asarray(rec_result_3).min(),
                vmax=np.asarray(rec_result_3).max()) 
     plt.colorbar()
-    plt.title('time_pts = {!r}'.format(15))
+    plt.title('time_pts = {!r}'.format(8))
 
     plt.subplot(3, 3, 5)
     plt.imshow(np.rot90(rec_result), cmap='bone',
@@ -431,37 +623,30 @@ if impl2 == 'reconstruction':
     
     plt.subplot(3, 3, 7)
     plt.plot(np.asarray(proj_data)[0], 'b', np.asarray(noise_proj_data)[0],
-             'r', np.asarray(rec_proj_data)[0], 'g'), plt.axis([0, 191, -3, 10]), plt.grid(True)
+             'r', np.asarray(rec_proj_data)[0], 'g'), plt.axis([0, 181, -3, 10]), plt.grid(True)
 #    plt.title('$\Theta=0^\circ$, b: truth, r: noisy, '
 #        'g: rec_proj, SNR = {:.3}dB'.format(snr))
 #    plt.gca().axes.yaxis.set_ticklabels([])
 
-
-#    plt.subplot(2, 3, 5)
-    plt.plot(np.asarray(proj_data)[5], 'b', np.asarray(noise_proj_data)[5],
-             'r', np.asarray(rec_proj_data)[5], 'g'), plt.axis([0, 191, -3, 10]), plt.grid(True)
-#             #plt.title('$\Theta=90^\circ$')
-#             #plt.gca().axes.yaxis.set_ticklabels([])
-
     plt.subplot(3, 3, 8)
-    plt.plot(np.asarray(proj_data)[10], 'b', np.asarray(noise_proj_data)[10],
-             'r', np.asarray(rec_proj_data)[10], 'g'), plt.axis([0, 191, -3, 10]), plt.grid(True)
+    plt.plot(np.asarray(proj_data)[2], 'b', np.asarray(noise_proj_data)[2],
+             'r', np.asarray(rec_proj_data)[2], 'g'), plt.axis([0, 181, -3, 10]), plt.grid(True)
 #    plt.title('$\Theta=90^\circ$')
 #    plt.gca().axes.yaxis.set_ticklabels([])
 
     plt.subplot(3, 3, 9)
-    plt.plot(np.asarray(proj_data)[15], 'b', np.asarray(noise_proj_data)[15],
-             'r', np.asarray(rec_proj_data)[15], 'g'), plt.axis([0, 191, -3, 10]), plt.grid(True)
+    plt.plot(np.asarray(proj_data)[4], 'b', np.asarray(noise_proj_data)[4],
+             'r', np.asarray(rec_proj_data)[4], 'g'), plt.axis([0, 181, -3, 10]), plt.grid(True)
 #    plt.title('$\Theta=162^\circ$')
 #    plt.gca().axes.yaxis.set_ticklabels([])
 
 # For image matching
 if impl2 == 'matching':
     # Give step size for solver
-    eps = 0.5
+    eps = 0.05
 
     # Give regularization parameter
-    lamb = 0.000001
+    lamb = 0.0000001
 
     # Create the forward operator for image matching
     op = IdentityOperator(space)
@@ -485,15 +670,15 @@ if impl2 == 'matching':
     gradS = op.adjoint * ResidualOperator(op, noise_data)
 
     # Give the number of time intervals
-    time_itvs = 20
+    time_itvs = 10
 
     # Compute by LDDMM solver
     image_N0 = LDDMM_gradient_descent_scheme_solver(
-        gradS, template, time_itvs, niter, eps, lamb, callback)
+        gradS, template, time_itvs, niter, eps, lamb, impl1, callback)
     
-    rec_result_1 = space.element(image_N0[4])
-    rec_result_2 = space.element(image_N0[10])
-    rec_result_3 = space.element(image_N0[16])
+    rec_result_1 = space.element(image_N0[2])
+    rec_result_2 = space.element(image_N0[5])
+    rec_result_3 = space.element(image_N0[8])
     rec_result = space.element(image_N0[time_itvs])
 
     # Plot the results of interest
@@ -512,21 +697,21 @@ if impl2 == 'matching':
                vmin=np.asarray(rec_result_1).min(),
                vmax=np.asarray(rec_result_1).max()) 
     plt.colorbar()
-    plt.title('time_pts = {!r}'.format(4))
+    plt.title('time_pts = {!r}'.format(2))
 
     plt.subplot(2, 3, 3)
     plt.imshow(np.rot90(rec_result_2), cmap='bone',
                vmin=np.asarray(rec_result_2).min(),
                vmax=np.asarray(rec_result_2).max()) 
     plt.colorbar()
-    plt.title('time_pts = {!r}'.format(8))
+    plt.title('time_pts = {!r}'.format(5))
 
     plt.subplot(2, 3, 4)
     plt.imshow(np.rot90(rec_result_3), cmap='bone',
                vmin=np.asarray(rec_result_3).min(),
                vmax=np.asarray(rec_result_3).max()) 
     plt.colorbar()
-    plt.title('time_pts = {!r}'.format(12))
+    plt.title('time_pts = {!r}'.format(8))
 
     plt.subplot(2, 3, 5)
     plt.imshow(np.rot90(rec_result), cmap='bone',
