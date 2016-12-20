@@ -23,11 +23,11 @@ Test for Bregman-TV method.
 from __future__ import print_function, division, absolute_import
 from future import standard_library
 import numpy as np
-import matplotlib.pyplot as plt
-from odl.discr import (Gradient, uniform_discr, uniform_partition)
-from odl.tomo import Parallel2dGeometry, RayTransform
-from odl.phantom import (shepp_logan, white_noise)
-from odl.operator import (BroadcastOperator, power_method_opnorm)
+import pickle
+from odl.discr import (Gradient, uniform_discr)
+from odl.tomo import (RayTransform, fbp_op, tam_danielson_window)
+from odl.operator import (BroadcastOperator, power_method_opnorm,
+                          ReductionOperator)
 from odl.solvers import (CallbackShow, CallbackPrintIteration, ZeroFunctional,
                          L2NormSquared, L1Norm, SeparableSum, 
                          chambolle_pock_solver)
@@ -73,55 +73,67 @@ def snr(signal, noise, impl):
         return float('inf')
 
 
-#phantom = space.element(smooth_square)
-#phantom.show()
+path = '/home/chong/SwedenWork_Chong/Data_S/20161207_clean'
 
-# Discrete reconstruction space: discretized functions on the rectangle
-reco_space = uniform_discr(
-    min_pt=[-16, -16], max_pt=[16, 16], shape=[128, 128],
-    dtype='float32', interp='linear')
+phantomName = '70100644Phantom_labelled_no_bed.nii'
 
-## Create the ground truth as the Shepp-Logan phantom
-#ground_truth = shepp_logan(rec_space, modified=True)
+# Set geometry parameters
+pitch_mm = 6.6
+nturns = 23
+volumeSize = np.array([230.0, 230.0, 140.0])
+volumeOrigin = np.array([-115.0, -115.0, 0]) 
 
-# Create the ground truth as the given image
-#I0name = './pictures/edges_and_smooth.png'
-#I0 = np.rot90(plt.imread(I0name).astype('float'), -1)
-#ground_truth = rec_space.element(I0)
-ground_truth = reco_space.element(smooth_square)
-ground_truth.show('ground_truth')
+'''
+detectorOrigin = np.array([-300.0, -12.0])
+pixelSize = np.array([1.2, 1.2])
+sourceAxisDistance = 542.8
+detectorAxisDistance = 542.8
+'''
 
-# Give the number of directions
-num_angles = 22
-    
-# Create the uniformly distributed directions
-angle_partition = uniform_partition(0.0, np.pi, num_angles,
-                                    nodes_on_bdry=[(True, False)])
-    
-# Create 2-D projection domain
-# The length should be 1.5 times of that of the reconstruction space
-detector_partition = uniform_partition(-24, 24, 182)
-    
-# Create 2-D parallel projection geometry
-geometry = Parallel2dGeometry(angle_partition, detector_partition)
-    
-# Ray transform aka forward projection. We use ASTRA CUDA backend.
-forward_op = RayTransform(reco_space, geometry, impl='astra_cuda')
+# Discretization parameters
+nVoxels = np.array([230, 230, 140])
+nPixels = [500, 20]
 
-# Create projection data by calling the op on the phantom
-proj_data = forward_op(ground_truth)
+'''
+nProjection = 4000 * n_turns
+detectorSize = pixelSize * nPixels
+'''
 
-# Add white Gaussion noise onto the noiseless data
-noise = 0.1 * white_noise(forward_op.range)
+# Discrete reconstruction space
+reco_space = uniform_discr(volumeOrigin, volumeOrigin + volumeSize,
+                           nVoxels, dtype='float32', interp='linear')
 
-# Create the noisy projection data
-noise_proj_data = proj_data + noise
+# Create forward operator based on the geometry from files
+turns = range(nturns) 
+proj_ops = []
+for turn in turns:
+    phantomStart = '/helical_proj_70100644Phantom_labelled_no_bed_Sim_num_0_Turn_num_'
+    fileEnd = '_geometry.p'
+    geomFile = path + phantomStart + str(turn) + fileEnd
+    geom = pickle.load(open(geomFile, 'rb'), encoding='latin1') 
+    proj_ops += [RayTransform(reco_space, geom, impl='astra_cuda')]          
 
-# Compute the signal-to-noise ratio in dB
-snr = snr(proj_data, noise, impl='dB')
+forward_op = BroadcastOperator(*proj_ops)
 
-# Output the signal-to-noise ratio
-print('snr = {!r}'.format(snr))
+#Create FBP method
+FBP = ReductionOperator(*[(fbp_op(proj_op, padding=True, filter_type='Hamming',
+                                  frequency_scaling=0.8) * 
+                                  tam_danielson_window(proj_op))
+                                  for proj_op in forward_op])
+
+# Get data from files
+imagesTurn = []
+for turn in turns:   
+    print(turn)
+    # Forward projection
+    phantomNameStart = '/helical_proj_70100644Phantom_labelled_no_bed_90_Simulations_Turn_num_'
+    fileEnd = '.npy'
+    imageDataFile = path + phantomNameStart + str(turn) + fileEnd
+    projections = np.load(imageDataFile).astype('float32')
+    projections[projections == 0] = 1e-9
+    imagesTurn += [-np.log(projections / 6600)]
+
+data = forward_op.range.element(imagesTurn)
 
 # Initialize gradient operator
 grad_op = Gradient(reco_space, method='forward')
@@ -159,7 +171,7 @@ v = forward_op.range.zero()
 # Begin exterior iterations
 for _ in range(exterior_niter):
     # l2-squared data matching
-    l2_norm = L2NormSquared(forward_op.range).translated(noise_proj_data + v)
+    l2_norm = L2NormSquared(forward_op.range).translated(data + v)
 
     # Create functionals for the dual variable
     # Combine functionals, order must correspond to the operator K
@@ -174,7 +186,12 @@ for _ in range(exterior_niter):
         callback=callback)
     
     # Update subgradient
-    v = v - forward_op(x) + noise_proj_data
+    v = v - forward_op(x) + data
 
 # Show final result
 x.show(title='Reconstructed result by Bregman-TV with 300 iterations')
+
+# Get the result from FBP method
+fbp_result = FBP(data)
+fbp_result.show(title='Reconstructed result by FBP method')
+
