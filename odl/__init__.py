@@ -48,14 +48,10 @@ __all__ += space.__all__
 from . import solvers
 from . import trafos
 from . import tomo
-from . import deform
 from . import util
 from . import phantom
-<<<<<<< HEAD
 from . import deform
 from . import ufunc_ops
-=======
->>>>>>> ENH: add a donut phantom
 
 from .util import test
 __all__ += ('test',)

@@ -29,7 +29,6 @@ __all__ = ('cuboid', 'defrise', 'ellipse_phantom', 'indicate_proj_axis')
 
 def cuboid(space, min_pt=None, max_pt=None):
     """Rectangular cuboid.
-
     Parameters
     ----------
     space : `DiscretizedSpace`
@@ -40,26 +39,21 @@ def cuboid(space, min_pt=None, max_pt=None):
     max_pt : array-like of shape ``(space.ndim,)``, optional
         Upper right corner of the cuboid. If ``None`` is given, ``min_pt``
         plus half the extent is chosen.
-
     Returns
     -------
     phantom : `DiscretizedSpaceElement`
         The generated cuboid phantom in ``space``.
-
     Examples
     --------
     If both ``min_pt`` and ``max_pt`` are omitted, the cuboid lies in the
     middle of the space domain and extends halfway towards all sides:
-
     >>> space = odl.uniform_discr([0, 0], [1, 1], [4, 6])
     >>> print(odl.phantom.cuboid(space))
     [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
      [0.0, 1.0, 1.0, 1.0, 1.0, 0.0],
      [0.0, 1.0, 1.0, 1.0, 1.0, 0.0],
      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
-
     By specifying the corners, the cuboid can be arbitrarily shaped:
-
     >>> print(odl.phantom.cuboid(space, [0.25, 0], [0.75, 0.5]))
     [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
      [1.0, 1.0, 1.0, 0.0, 0.0, 0.0],
@@ -97,9 +91,7 @@ def cuboid(space, min_pt=None, max_pt=None):
 
 def defrise(space, nellipses=8, alternating=False):
     """Phantom with regularily spaced ellipses.
-
     This phantom is often used to verify cone-beam algorithms.
-
     Parameters
     ----------
     space : `DiscretizedSpace`
@@ -111,12 +103,10 @@ def defrise(space, nellipses=8, alternating=False):
     alternating : bool, optional
         True if the ellipses should have alternating densities (+1, -1),
         otherwise all ellipses have value +1.
-
     Returns
     -------
     phantom : ``space`` element
         The generated phantom in ``space``.
-
     See Also
     --------
     odl.phantom.transmission.shepp_logan
@@ -129,7 +119,6 @@ def defrise(space, nellipses=8, alternating=False):
 
 def defrise_ellipses(ndim, nellipses=8, alternating=False):
     """Ellipses for the standard Defrise phantom in 2 or 3 dimensions.
-
     Parameters
     ----------
     ndim : {2, 3}
@@ -140,7 +129,6 @@ def defrise_ellipses(ndim, nellipses=8, alternating=False):
     alternating : bool, optional
         True if the ellipses should have alternating densities (+1, -1),
         otherwise all ellipses have value +1.
-
     See Also
     --------
     odl.phantom.geometric.ellipse_phantom :
@@ -185,23 +173,19 @@ def defrise_ellipses(ndim, nellipses=8, alternating=False):
 
 def indicate_proj_axis(space, scale_structures=0.5):
     """Phantom indicating along which axis it is projected.
-
     The number (n) of rectangles in a parallel-beam projection along a main
     axis (0, 1, or 2) indicates the projection to be along the (n-1)the
     dimension.
-
     Parameters
     ----------
     space : `DiscretizedSpace`
         Discretized space in which the phantom is supposed to be created
     scale_structures : positive float in (0, 1]
         Scales objects (cube, cuboids)
-
     Returns
     -------
     phantom : ``space`` element
         Projection helper phantom in ``space``.
-
     Examples
     --------
     >>> space = odl.uniform_discr([0] * 3, [1] * 3, [8, 8, 8])
@@ -282,11 +266,9 @@ def _getshapes_2d(center, max_radius, shape):
               (slice(None), idx[1])]
     return idx, shapes
 
-<<<<<<< HEAD
 
 def _ellipse_phantom_2d(space, ellipses):
     """Create a phantom of ellipses in 2d space.
-
     Parameters
     ----------
     space : `DiscreteLp`
@@ -295,25 +277,10 @@ def _ellipse_phantom_2d(space, ellipses):
         Each row should contain:
         'value', 'axis_1', 'axis_2', 'center_x', 'center_y', 'rotation'
         The ellipses should be contained the he rectangle [-1, -1] x [1, 1].
-=======
-    Parameters
-    ----------
-    discr : `DiscreteLp`
-        Discretized space in which the phantom is supposed to be created
-    smooth : `bool`, optional
-        If `True`, the boundaries are smoothed out. Otherwise, the
-        function steps from 0 to 1 at the boundaries.
-        If `False`, the boundaries are sharp.
-    taper : `float`, optional
-        Tapering parameter for the boundary smoothing. Larger values
-        mean faster taper, i.e. sharper boundaries.
->>>>>>> EHN: simplified implementation.
-
     Returns
     -------
     phantom : ``space`` element
         2D ellipse phantom in ``space``.
-
     See Also
     --------
     shepp_logan : The typical use-case for this function.
@@ -393,20 +360,11 @@ def _ellipse_phantom_2d(space, ellipses):
 
     return space.element(p)
 
-<<<<<<< HEAD
 
 def _getshapes_3d(center, max_radius, shape):
     """Calculate indices and slices for the bounding box of a ball."""
     index_mean = shape * center
     index_radius = max_radius / 2.0 * np.array(shape)
-=======
-        out = np.sqrt(sq_ndist)
-        out -= 1
-        return logistic(out, -taper)
-
-    out = discr.element(blurred_ellipse)
-    return out.ufunc.minimum(1.0, out=out)
->>>>>>> EHN: simplified implementation.
 
     min_idx = np.floor(index_mean - index_radius).astype(int)
     max_idx = np.ceil(index_mean + index_radius).astype(int)
@@ -419,7 +377,6 @@ def _getshapes_3d(center, max_radius, shape):
 
 def _ellipse_phantom_3d(space, ellipses):
     """Create an ellipse phantom in 3d space.
-
     Parameters
     ----------
     space : `DiscreteLp`
@@ -431,12 +388,10 @@ def _ellipse_phantom_3d(space, ellipses):
         'rotation_phi', 'rotation_theta', 'rotation_psi'
         The ellipses should be contained the he rectangle
         [-1, -1, -1] x [1, 1, 1].
-
     Returns
     -------
     phantom : ``space`` element
         3D ellipse phantom in ``space``.
-
     See Also
     --------
     shepp_logan : The typical use-case for this function.
@@ -535,48 +490,37 @@ def _ellipse_phantom_3d(space, ellipses):
 
 def ellipse_phantom(space, ellipses):
     """Return a phantom given by ellipses.
-
     Parameters
     ----------
     space : `DiscreteLp`
         Space in which the phantom is created, must be 2- or 3-dimensional.
     ellipses : sequence of sequences
         If ``space`` is 2-dimensional each row should contain:
-
         'value', 'axis_1', 'axis_2', 'center_x', 'center_y', 'rotation'
-
         If ``space`` is 3-dimensional each row should contain:
-
         'value', 'axis_1', 'axis_2', 'axis_3',
         'center_x', 'center_y', 'center_z',
         'rotation_phi', 'rotation_theta', 'rotation_psi'
-
         The ellipses need to be given such that the ellipses fall in the
         rectangle [-1, -1] x [1, 1] or equivalent in 3d.
-
     Notes
     -----
     The phantom is created by adding the values of each ellipse. The ellipses
     are defined by a center point (center_x, center_y, [center_z]) and the
     length of its principial axes (axis_1, axis_2, [axis_2]) and euler angles.
-
     This function is heavily optimized, achieving runtimes about 20 times
     faster than "trivial" implementations. It is therefore recommended to use
     it in all phantoms where applicable.
-
     The main optimization is that it only considers a subset of all the
     points when updating for each ellipse. It does this by first finding
     a subset of points that could possibly be inside the ellipse. This
     optimization is very good for "spherical" ellipsoids, but not so
     much for elongated or rotated ones.
-
     It also does calculations wherever possible on the meshgrid instead of
     individual points.
-
     Examples
     --------
     Create a circle with a smaller circle inside:
-
     >>> space = odl.uniform_discr([-1, -1], [1, 1], [5, 5])
     >>> ellipses = [[1.0, 1.0, 1.0, 0.0, 0.0, 0.0],
     ...             [1.0, 0.6, 0.6, 0.0, 0.0, 0.0]]
@@ -586,7 +530,6 @@ def ellipse_phantom(space, ellipses):
      [1.0, 2.0, 2.0, 2.0, 1.0],
      [0.0, 1.0, 2.0, 1.0, 0.0],
      [0.0, 0.0, 1.0, 0.0, 0.0]]
-
     See Also
     --------
     odl.phantom.transmission.shepp_logan : Classical Shepp-Logan phantom,
