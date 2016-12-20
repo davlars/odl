@@ -28,9 +28,8 @@ from odl.discr import (Gradient, uniform_discr, uniform_partition)
 from odl.tomo import Parallel2dGeometry, RayTransform
 from odl.phantom import (shepp_logan, white_noise)
 from odl.operator import (BroadcastOperator, power_method_opnorm)
-from odl.solvers import (CallbackShow, CallbackPrintIteration, 
-                         proximal_const_func, proximal_cconj_l2_squared,
-                         combine_proximals, proximal_cconj_l1,
+from odl.solvers import (CallbackShow, CallbackPrintIteration, ZeroFunctional,
+                         L2NormSquared, L1Norm, SeparableSum, 
                          chambolle_pock_solver)
 standard_library.install_aliases()
 
@@ -78,7 +77,7 @@ def snr(signal, noise, impl):
 #phantom.show()
 
 # Discrete reconstruction space: discretized functions on the rectangle
-rec_space = uniform_discr(
+reco_space = uniform_discr(
     min_pt=[-16, -16], max_pt=[16, 16], shape=[128, 128],
     dtype='float32', interp='linear')
 
@@ -89,7 +88,7 @@ rec_space = uniform_discr(
 #I0name = './pictures/edges_and_smooth.png'
 #I0 = np.rot90(plt.imread(I0name).astype('float'), -1)
 #ground_truth = rec_space.element(I0)
-ground_truth = rec_space.element(smooth_square)
+ground_truth = reco_space.element(smooth_square)
 ground_truth.show('ground_truth')
 
 # Give the number of directions
@@ -107,7 +106,7 @@ detector_partition = uniform_partition(-24, 24, 182)
 geometry = Parallel2dGeometry(angle_partition, detector_partition)
     
 # Ray transform aka forward projection. We use ASTRA CUDA backend.
-forward_op = RayTransform(rec_space, geometry, impl='astra_cuda')
+forward_op = RayTransform(reco_space, geometry, impl='astra_cuda')
 
 # Create projection data by calling the op on the phantom
 proj_data = forward_op(ground_truth)
@@ -124,60 +123,58 @@ snr = snr(proj_data, noise, impl='dB')
 # Output the signal-to-noise ratio
 print('snr = {!r}'.format(snr))
 
-# TV reconstruction by Chambolle-Pock algorithm
 # Initialize gradient operator
-grad_op = Gradient(rec_space, method='forward')
+grad_op = Gradient(reco_space, method='forward')
 
 # Column vector of two operators
 op = BroadcastOperator(forward_op, grad_op)
 
+# Do not use the g functional, set it to zero.
+g = ZeroFunctional(op.domain)
+
+# Isotropic TV-regularization i.e. the l1-norm
+l1_norm = 0.03 * L1Norm(grad_op.range)
+
 # --- Select solver parameters and solve using Chambolle-Pock --- #
 # Estimated operator norm, add 10 percent to ensure ||K||_2^2 * sigma * tau < 1
-op_norm = 1.1 * power_method_opnorm(op)
+op_norm = 1.3 * power_method_opnorm(op, maxiter=6)
 
+niter = 100  # Number of iterations
 tau = 1.0 / op_norm  # Step size for the primal variable
 sigma = 1.0 / op_norm  # Step size for the dual variable
 gamma = 0.2
 
-# Create the proximal operator for unconstrained primal variable
-proximal_primal = proximal_const_func(op.domain)
-
-# Isotropic TV-regularization i.e. the l1-norm
-prox_convconj_l1 = proximal_cconj_l1(grad_op.range, lam=0.03, isotropic=True)
-
-# Maximum exterior iteration number
-exterior_niter = 1
-
-# Maximum interior iteration number
-interior_niter = 300
-
 # Choose a starting point
 x = forward_op.domain.zero()
+
+# Maximum exterior iteration number
+exterior_niter = 3
+
+# Maximum interior iteration number
+interior_niter = 100
 
 # Create subgradient at zero starting point
 v = forward_op.range.zero()
 
 # Begin exterior iterations
 for _ in range(exterior_niter):
-    # Create proximal operators for the dual variable
-    # l2-data matching
-    prox_convconj_l2 = proximal_cconj_l2_squared(forward_op.range,
-                                                 g=noise_proj_data + v)
-    
-    # Combine proximal operators, order must correspond to the operator K
-    proximal_dual = combine_proximals(prox_convconj_l2, prox_convconj_l1)
+    # l2-squared data matching
+    l2_norm = L2NormSquared(forward_op.range).translated(noise_proj_data + v)
+
+    # Create functionals for the dual variable
+    # Combine functionals, order must correspond to the operator K
+    f = SeparableSum(l2_norm, l1_norm)
     
     # Optionally pass callback to the solver to display intermediate results
     callback = (CallbackPrintIteration() & CallbackShow())
 
-    # Begin interior iterations
+    # Run the algorithm
     chambolle_pock_solver(
-        op, x, tau=tau, sigma=sigma, proximal_primal=proximal_primal,
-        proximal_dual=proximal_dual, niter=interior_niter, callback=callback,
-        gamma=gamma)
+        x, f, g, op, tau=tau, sigma=sigma, niter=interior_niter, gamma=gamma,
+        callback=callback)
     
     # Update subgradient
     v = v - forward_op(x) + noise_proj_data
 
 # Show final result
-x.show(title='Reconstructed result by TV with 300 iterations')
+x.show(title='Reconstructed result by Bregman-TV with 300 iterations')
