@@ -49,7 +49,7 @@ def optimal_information_transport_solver(gradS, I, niter, eps, lamb,
     Parameters
     ----------
     gradS : `Operator`
-        op.adjoint * odl.ResidualOperator(op, noise_proj_data),
+        op.adjoint * (op - noise_proj_data),
         where op is a forward operator, noise_proj_data is the given data.
     I: `DiscreteLpElement`
         Fixed template deformed by the deformation.
@@ -80,7 +80,7 @@ def optimal_information_transport_solver(gradS, I, niter, eps, lamb,
     non_mp_deform_I = I
 
     # Create the space for inverse deformation
-    pspace = image_space.vector_field_space
+    pspace = image_space.tangent_bundle
 
     # Create the temporary elements for update
     grad = Gradient(gradS.domain, method='forward', pad_mode='symmetric')
@@ -181,7 +181,7 @@ def optimal_information_transport_solver2(I0, I1, niter, eps, lamb,
     DPhiJacobian = domain.one()
 
     # Create the space for inverse deformation
-    pspace = domain.vector_field_space
+    pspace = domain.tangent_bundle
 
     # Create the temporary elements for update
     grad_op = Gradient(domain, method='forward', pad_mode='symmetric')
@@ -281,7 +281,7 @@ def poisson_kernel_ft():
     Calculate the n-D Fourier transform of the inverse Laplacian on the
     image grid points {y_i} to its reciprocal points {xi_i}.
     """
-    k2_values = sum((padded_ft_op.range.points() ** 2).T)
+    k2_values = np.sum((padded_ft_op.range.points() ** 2).T, axis=0)
     k2 = padded_ft_op.range.element(np.maximum(np.abs(k2_values), 0.0000001))
     inv_k2 = 1 / k2
     inv_k2 = padded_ft_op.range.element(np.minimum(np.abs(inv_k2), 200))
@@ -386,7 +386,7 @@ template = space.element(I1)
 # template = odl.util.disc_phantom(space, smooth=True, taper=50.0)
 
 ## Create the template for Shepp-Logan phantom
-#deform_field_space = space.vector_field_space
+#deform_field_space = space.tangent_bundle
 #disp_func = [
 #    lambda x: 16.0 * np.sin(np.pi * x[0] / 40.0),
 #    lambda x: 16.0 * np.sin(np.pi * x[1] / 36.0)]
@@ -479,7 +479,7 @@ if impl2 == 'reconstruction':
     print('snr = {!r}'.format(snr))
 
     # Create the gradient operator for the L2 functional
-    gradS = op.adjoint * odl.ResidualOperator(op, noise_proj_data)
+    gradS = op.adjoint * (op - noise_proj_data)
 
     padded_size = 2 * gradS.domain.shape[0]
     padded_ft_op = padded_ft_op(gradS.domain, padded_size)
@@ -558,7 +558,7 @@ if impl2 == 'matching':
     print('snr = {!r}'.format(snr))
 
     # Create the gradient operator for the L2 functional
-    gradS = op.adjoint * odl.ResidualOperator(op, noise_data)
+    gradS = op.adjoint * (op - noise_data)
 
     padded_size = 2 * gradS.domain.shape[0]
     padded_ft_op = padded_ft_op(gradS.domain, padded_size)

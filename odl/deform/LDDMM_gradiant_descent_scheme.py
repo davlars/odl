@@ -29,11 +29,10 @@ from odl.discr import (Gradient, Divergence, uniform_discr,
                        uniform_partition, ResizingOperator, DiscreteLp)
 from odl.trafos import FourierTransform
 from odl.space import ProductSpace
-from odl.tomo import Parallel2dGeometry, RayTransform
+from odl.tomo import Parallel2dGeometry, RayTransform, fbp_op
 from odl.phantom import (white_noise, disc_phantom, submarine,
                          shepp_logan, geometric)
-from odl.operator import (DiagonalOperator, IdentityOperator,
-                          ResidualOperator, Operator)
+from odl.operator import (DiagonalOperator, IdentityOperator)
 from odl.solvers import CallbackShow, CallbackPrintIteration
 from odl.deform.linearized import _linear_deform
 from odl.deform.mass_preserving import geometric_deform, mass_presv_deform
@@ -247,7 +246,7 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
     Parameters
     ----------
     gradS : `Operator`
-        op.adjoint * odl.ResidualOperator(op, noise_proj_data),
+        op.adjoint * (op - noise_proj_data),
         where op is a forward operator, noise_proj_data is the given data.
     I : `DiscreteLpElement`
         Fixed template deformed by the deformation.
@@ -258,13 +257,13 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
     eps : 'float'
         The given step size.
     lamb : 'float'
-        The given regularization parameter. It's a
-        wight on regularization-term side.
+        The given regularization parameter. It's a wight on 
+        regularization-term side.
     impl : 'string'
         The given implementation method for mass preserving or not.
-        The impl chooses 'mp' or 'nmp', where 'mp' means using
-        mass-preserving method, and 'nmp' means non-mass-preserving method.
-        Its defalt choice is 'mp'.
+        The impl chooses 'mp' or 'geom', where 'mp' means using
+        mass-preserving method, and 'geom' means using
+        non-mass-preserving method. Its defalt choice is 'geom'.
     callback : 'Class'
         Show the iterates.
     """
@@ -282,7 +281,7 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
     dim = image_domain.ndim
 
     # Create the space for series deformations and series Jacobian determinant
-    pspace = image_domain.vector_field_space
+    pspace = image_domain.tangent_bundle
     series_pspace = ProductSpace(pspace, N+1)
     series_image_space = ProductSpace(image_domain, N+1)
 
@@ -301,13 +300,13 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
         mp_deformed_image_N0 = series_image_space.element()
 
     for i in range(N+1):
-        image_N0[i] = image_domain.element(I)
+        image_N0[i] = image_domain.element(I).copy()
         if impl=='geom':
             detDphi_N1[i] = image_domain.one()
         if impl=='mp':
             detDphi_N0[i] = image_domain.one()
-            mp_deformed_image_N0[i] = image_N0[i]
-        grad_data_matching_N1[i] = grad_data_matching
+            mp_deformed_image_N0[i] = image_N0[i].copy()
+        grad_data_matching_N1[i] = grad_data_matching.copy()
 
     # Create the gradient op
     grad_op = Gradient(domain=image_domain, method='forward',
@@ -322,40 +321,27 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
         for _ in range(niter):
             # Update the velocity field
             for i in range(N+1):
-                tmp1 = grad_data_matching_N1[i] * detDphi_N1[i]
-                tmp = grad_op(image_N0[i])
+                tmp1 = (grad_data_matching_N1[i] * detDphi_N1[i]).copy()
+                tmp = grad_op(image_N0[i]).copy()
                 for j in range(dim):
                     tmp[j] *= tmp1
                 tmp3 = (2 * np.pi) * vectorial_ft_fit_op.inverse(
                     vectorial_ft_fit_op(tmp) * ft_kernel_fitting)
     
-                vector_fields[i] = vector_fields[i] - eps * (
-                    lamb * vector_fields[i] - tmp3)
-    
-#            # Update image_N0 and detDphi_N1
-#            for i in range(N):
-#                # Update image_N0[i+1] by image_N0[i] and vector_fields[i+1]
-#                image_N0[i+1] = image_domain.element(
-#                    _linear_deform(image_N0[i], -inv_N * vector_fields[i+1]))
-#                # Update detDphi_N1[N-i-1] by detDphi_N1[N-i]
-#                jacobian_det = image_domain.element(
-#                    np.exp(inv_N * div_op(vector_fields[N-i-1])))
-#                detDphi_N1[N-i-1] = jacobian_det * image_domain.element(_linear_deform(
-#                        detDphi_N1[N-i], inv_N * vector_fields[N-i-1]))
-            
-            # Update the deformed template
-            PhiStarI = image_N0[N]
-    
+                vector_fields[i] = (vector_fields[i] - eps * (
+                    lamb * vector_fields[i] - tmp3)).copy()
+
             # Show intermediate result
             if callback is not None:
                 callback(PhiStarI)
     
             # Update gradient of the data matching: grad S(W_I(v^k))
-            grad_data_matching_N1[N] = image_domain.element(gradS(PhiStarI))
+            grad_data_matching_N1[N] = image_domain.element(
+                gradS(PhiStarI)).copy()
             for i in range(N):
                 grad_data_matching_N1[N-i-1] = image_domain.element(
                     _linear_deform(grad_data_matching_N1[N-i],
-                                   inv_N * vector_fields[N-i-1]))
+                                   inv_N * vector_fields[N-i-1])).copy()
     
         return image_N0
 
@@ -365,28 +351,26 @@ def LDDMM_gradient_descent_scheme_solver(gradS, I, time_pts, niter, eps,
         for _ in range(niter):
             # Update the velocity field
             for i in range(N+1):
-                tmp = grad_op(grad_data_matching_N1[i])
+                tmp = grad_op(grad_data_matching_N1[i]).copy()
                 for j in range(dim):
                     tmp[j] *= mp_deformed_image_N0[i]
                 tmp3 = (2 * np.pi) * vectorial_ft_fit_op.inverse(
                     vectorial_ft_fit_op(tmp) * ft_kernel_fitting)
     
-                vector_fields[i] = vector_fields[i] - eps * (
-                    lamb * vector_fields[i] + tmp3)
+                vector_fields[i] = (vector_fields[i] - eps * (
+                    lamb * vector_fields[i] + tmp3)).copy()
             
-            # Update the deformed template
-            PhiStarI = mp_deformed_image_N0[N]
-    
             # Show intermediate result
             if callback is not None:
                 callback(PhiStarI)
     
             # Update gradient of the data matching: grad S(W_I(v^k))
-            grad_data_matching_N1[N] = image_domain.element(gradS(PhiStarI))
+            grad_data_matching_N1[N] = image_domain.element(
+                gradS(PhiStarI)).copy()
             for i in range(N):
                 grad_data_matching_N1[N-i-1] = image_domain.element(
                     _linear_deform(grad_data_matching_N1[N-i],
-                                   inv_N * vector_fields[N-i-1]))
+                                   inv_N * vector_fields[N-i-1])).copy()
     
         return mp_deformed_image_N0
 
@@ -451,18 +435,18 @@ padded_ft_fit_op = padded_ft_op(space, padded_size)
 vectorial_ft_fit_op = DiagonalOperator(*([padded_ft_fit_op] * space.ndim))
 
 # Fix the sigma parameter in the kernel
-sigma = 2.0
+sigma = 2.5
 
 # Compute the FT of kernel in fitting term
 ft_kernel_fitting = fitting_kernel_ft(kernel)
 
 # Maximum iteration number
-niter = 6000
+niter = 1600
 
 # Implementation method for mass preserving or not,
 # impl chooses 'mp' or 'geom', 'mp' means mass-preserving deformation method,
 # 'geom' means geometric deformation method
-impl1 = 'geom'
+impl1 = 'mp'
 
 # Implementation method for image matching or image reconstruction,
 # impl chooses 'matching' or 'reconstruction', 'matching' means image matching,
@@ -528,34 +512,24 @@ if impl2 == 'reconstruction':
     #noise_proj_data = op.range.element(
     #    np.load('noise_proj_data_20angles_snr_4_98.npy'))
 
-#    # --- Create FilteredBackProjection (FBP) operator --- #    
-#    # Fourier transform in detector direction
-#    fourier = FourierTransform(ray_trafo.range, axes=[1])
-#    
-#    # Create ramp in the detector direction
-#    ramp_function = fourier.range.element(lambda x: np.abs(x[1]) / (2 * np.pi))
-#    
-#    # Create ramp filter via the convolution formula with fourier transforms
-#    ramp_filter = fourier.inverse * ramp_function * fourier
-#    
-#    # Create filtered backprojection by composing the backprojection (adjoint) with
-#    # the ramp filter.
-#    fbp = ray_trafo.adjoint * ramp_filter
-#
-#    # Calculate filtered backprojection of data
-#    fbp_reconstruction = fbp(proj_data)
-#    
-#    # Shows result of FBP reconstruction
-#    fbp_reconstruction.show(title='Filtered backprojection')
+    # --- Create FilteredBackProjection (FBP) operator --- #    
+    # Create FBP operator
+    FBP = fbp_op(op, padding=True, filter_type='Hamming',
+                 frequency_scaling=0.8)
+    # Calculate filtered backprojection of data             
+    fbp_reconstruction = FBP(proj_data)
+    
+    # Shows result of FBP reconstruction
+    fbp_reconstruction.show(title='Filtered backprojection')
 
-#    # Compute the signal-to-noise ratio in dB
-#    snr = snr(proj_data, noise, impl='dB')
-#
-#    # Output the signal-to-noise ratio
-#    print('snr = {!r}'.format(snr))
+    # Compute the signal-to-noise ratio in dB
+    snr = snr(proj_data, noise, impl='dB')
+
+    # Output the signal-to-noise ratio
+    print('snr = {!r}'.format(snr))
 
     # Create the gradient operator for the L2 functional
-    gradS = op.adjoint * ResidualOperator(op, noise_proj_data)
+    gradS = op.adjoint * (op - noise_proj_data)
 
     # Give the number of time points
     time_itvs = 20
@@ -623,20 +597,23 @@ if impl2 == 'reconstruction':
     
     plt.subplot(3, 3, 7)
     plt.plot(np.asarray(proj_data)[0], 'b', np.asarray(noise_proj_data)[0],
-             'r', np.asarray(rec_proj_data)[0], 'g'), plt.axis([0, 181, -3, 10]), plt.grid(True)
+             'r', np.asarray(rec_proj_data)[0], 'g'), 
+    plt.axis([0, 181, -3, 10]), plt.grid(True)
 #    plt.title('$\Theta=0^\circ$, b: truth, r: noisy, '
 #        'g: rec_proj, SNR = {:.3}dB'.format(snr))
 #    plt.gca().axes.yaxis.set_ticklabels([])
 
     plt.subplot(3, 3, 8)
     plt.plot(np.asarray(proj_data)[2], 'b', np.asarray(noise_proj_data)[2],
-             'r', np.asarray(rec_proj_data)[2], 'g'), plt.axis([0, 181, -3, 10]), plt.grid(True)
+             'r', np.asarray(rec_proj_data)[2], 'g'),
+    plt.axis([0, 181, -3, 10]), plt.grid(True)
 #    plt.title('$\Theta=90^\circ$')
 #    plt.gca().axes.yaxis.set_ticklabels([])
 
     plt.subplot(3, 3, 9)
     plt.plot(np.asarray(proj_data)[4], 'b', np.asarray(noise_proj_data)[4],
-             'r', np.asarray(rec_proj_data)[4], 'g'), plt.axis([0, 181, -3, 10]), plt.grid(True)
+             'r', np.asarray(rec_proj_data)[4], 'g'),
+    plt.axis([0, 181, -3, 10]), plt.grid(True)
 #    plt.title('$\Theta=162^\circ$')
 #    plt.gca().axes.yaxis.set_ticklabels([])
 
@@ -667,7 +644,7 @@ if impl2 == 'matching':
     print('snr = {!r}'.format(snr))
 
     # Create the gradient operator for the L2 functional
-    gradS = op.adjoint * ResidualOperator(op, noise_data)
+    gradS = op.adjoint * (op - noise_data)
 
     # Give the number of time intervals
     time_itvs = 10

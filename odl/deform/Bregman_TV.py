@@ -104,7 +104,7 @@ reco_space = uniform_discr(volumeOrigin, volumeOrigin + volumeSize,
                            nVoxels, dtype='float32', interp='linear')
 
 # Create forward operator based on the geometry from files
-turns = range(nturns) 
+turns = range(6, 15) 
 proj_ops = []
 for turn in turns:
     phantomStart = '/helical_proj_70100644Phantom_labelled_no_bed_Sim_num_0_Turn_num_'
@@ -144,14 +144,19 @@ op = BroadcastOperator(forward_op, grad_op)
 # Do not use the g functional, set it to zero.
 g = ZeroFunctional(op.domain)
 
+# Estimate operator norm
+forward_op_norm = power_method_opnorm(forward_op[1], maxiter=10)
+grad_op_norm = power_method_opnorm(grad_op, maxiter=10)
+
+# Set regularization parameter
+lamb = 0.005
+
 # Isotropic TV-regularization i.e. the l1-norm
-l1_norm = 0.03 * L1Norm(grad_op.range)
+l1_norm = lamb * L1Norm(grad_op.range)
 
 # --- Select solver parameters and solve using Chambolle-Pock --- #
-# Estimated operator norm, add 10 percent to ensure ||K||_2^2 * sigma * tau < 1
-op_norm = 1.3 * power_method_opnorm(op, maxiter=6)
-
-niter = 100  # Number of iterations
+# Estimate operator norm, add 10 percent to ensure ||K||_2^2 * sigma * tau < 1
+op_norm = 1.5 * np.sqrt(len(forward_op.operators)*(forward_op_norm**2) + grad_op_norm**2)
 tau = 1.0 / op_norm  # Step size for the primal variable
 sigma = 1.0 / op_norm  # Step size for the dual variable
 gamma = 0.2
@@ -178,7 +183,10 @@ for _ in range(exterior_niter):
     f = SeparableSum(l2_norm, l1_norm)
     
     # Optionally pass callback to the solver to display intermediate results
-    callback = (CallbackPrintIteration() & CallbackShow())
+    callback = (CallbackPrintIteration() &
+                CallbackShow(coords=[None, 0, None]) &
+                CallbackShow(coords=[0, None, None]) &
+                CallbackShow(coords=[None, None, 60]))
 
     # Run the algorithm
     chambolle_pock_solver(
@@ -189,7 +197,7 @@ for _ in range(exterior_niter):
     v = v - forward_op(x) + data
 
 # Show final result
-x.show(title='Reconstructed result by Bregman-TV with 300 iterations')
+x.show(coords=[None, None, 75], title='Reconstructed result by Bregman-TV with 300 iterations')
 
 # Get the result from FBP method
 fbp_result = FBP(data)
