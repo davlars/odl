@@ -507,68 +507,67 @@ class FunctionSpace(FunctionSet, LinearSpace):
 
     """A vector space of functions."""
 
-    def __init__(self, domain, field=None, out_dtype=None):
+    def __init__(self, domain, range=None, out_dtype=None):
         """Initialize a new instance.
 
         Parameters
         ----------
         domain : `Set`
             The domain of the functions
-        field : `Field`, optional
+        range : `Set` or ``None``, optional
             The range of the functions, usually the `RealNumbers` or
-            `ComplexNumbers`. If not given, the field is either inferred
-            from ``out_dtype``, or, if the latter is also ``None``, set
-            to ``RealNumbers()``.
+            `ComplexNumbers`. If ``out_dtype`` is given, the range
+            is inferred.
         out_dtype : optional
-            Data type of the return value of a function in this space.
-            Can be given in any way `numpy.dtype` understands, e.g. as
-            string (``'float64'``) or data type (``float``).
-            By default, ``'float64'`` is used for real and ``'complex128'``
-            for complex spaces.
+            Scalar data type of the return value of a function in this
+            space. Can be provided in any way the `numpy.dtype`
+            constructor understands, e.g. as built-in type or as a string.
+            If ``range`` is an instance of `RealNumbers`, the default
+            ``out_dtype`` is ``'float64'``, for `ComplexNumbers` it is
+            ``'complex128'``. For other ``range`` types, there is no
+            default ``out_dtype``, in which case dtypes are inferred
+            lazily at runtime.
         """
+        # Checking types
         if not isinstance(domain, Set):
             raise TypeError('`domain` {!r} not a Set instance'.format(domain))
+        if range is not None and not isinstance(range, Set):
+            raise TypeError('`range` must be a `Set` instance, got {!r}'
+                            ''.format(range))
 
-        if field is not None and not isinstance(field, Field):
-            raise TypeError('`field` {!r} not a `Field` instance'
-                            ''.format(field))
-
-        # Data type: check if consistent with field, take default for None
-        dtype, dtype_in = np.dtype(out_dtype), out_dtype
-
-        # Default for both None
-        if field is None and out_dtype is None:
-            field = RealNumbers()
-            out_dtype = np.dtype('float64')
-
-        # field None, dtype given -> infer field
-        elif field is None:
-            if is_real_dtype(dtype):
-                field = RealNumbers()
-            elif is_complex_floating_dtype(dtype):
-                field = ComplexNumbers()
-            else:
-                raise ValueError('{} is not a scalar data type'
-                                 ''.format(dtype_in))
-
-        # field given -> infer dtype if not given, else check consistency
-        elif field == RealNumbers():
+        # Infer field/out_dtype or check consistency
+        if range == RealNumbers():
             if out_dtype is None:
                 out_dtype = np.dtype('float64')
-            elif not is_real_dtype(dtype):
-                raise ValueError('{} is not a real data type'
-                                 ''.format(dtype_in))
-        elif field == ComplexNumbers():
+            elif not is_real_dtype(out_dtype):
+                raise ValueError('`out_dtype` must be a real data type for '
+                                 '`range=RealNumbers()`, got {}'
+                                 ''.format(out_dtype))
+        elif range == ComplexNumbers():
             if out_dtype is None:
                 out_dtype = np.dtype('complex128')
-            elif not is_complex_floating_dtype(dtype):
-                raise ValueError('{} is not a complex data type'
-                                 ''.format(dtype_in))
-
-        # Else: keep out_dtype=None, which results in lazy dtype determination
+            elif not is_complex_floating_dtype(out_dtype):
+                raise ValueError('`out_dtype` must be a complex data type for '
+                                 '`range=ComplexNumbers()`, got {}'
+                                 ''.format(out_dtype))
+        elif range is None:
+            if is_real_dtype(out_dtype):
+                field = range = RealNumbers()
+            elif is_complex_floating_dtype(out_dtype):
+                field = range = ComplexNumbers()
+            else:
+                raise ValueError('`out_dtype` must be a real or complex '
+                                 'data type if `range` is `None`, got {}'
+                                 ''.format(out_dtype))
+        else:
+            # range is some `Set` instance, if `out_dtype` is `None` we
+            # do lazy dtype inference
+            field = None
 
         LinearSpace.__init__(self, field)
-        FunctionSet.__init__(self, domain, field, out_dtype)
+        self.__domain = domain
+        self.__range = range
+        self.__out_dtype = None if out_dtype is None else np.dtype(out_dtype)
 
         # Init cache attributes for real / complex variants
         if self.field == RealNumbers():
