@@ -241,7 +241,7 @@ class CallbackPrintIteration(SolverCallback):
 
         Parameters
         ----------
-        text : string
+        text : string, optional
             Text to display before the iteration count. Default: 'iter ='
         """
         self.text = text if text is not None else self._default_text
@@ -294,10 +294,10 @@ class CallbackPrint(SolverCallback):
 
         Parameters
         ----------
-        func : callable
+        func : callable, optional
             Functional that should be called on the current iterate before
             printing. Default: print current iterate.
-        fmt : string
+        fmt : string, optional
             Formating that should be applied. Default: print representation.
 
         Examples
@@ -551,7 +551,7 @@ class CallbackSleep(SolverCallback):
 
         Parameters
         ----------
-        seconds : float
+        seconds : float, optional
             Number of seconds to sleep, can be float for subsecond precision.
 
         Examples
