@@ -1,0 +1,6 @@
+scikit_theta
+===========================================
+
+.. currentmodule:: odl.tomo.backends.scikit_radon
+
+.. autofunction:: scikit_theta

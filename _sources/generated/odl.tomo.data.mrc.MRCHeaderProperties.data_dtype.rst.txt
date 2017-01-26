@@ -1,0 +1,6 @@
+MRCHeaderProperties.data_dtype
+================================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: MRCHeaderProperties.data_dtype

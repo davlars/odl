@@ -1,0 +1,8 @@
+:orphan:
+
+FileWriterMRC.print_mrc2014_spec
+==================================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. automethod:: FileWriterMRC.print_mrc2014_spec

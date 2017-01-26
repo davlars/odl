@@ -1,0 +1,6 @@
+NtuplesBase.examples
+===========================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: NtuplesBase.examples

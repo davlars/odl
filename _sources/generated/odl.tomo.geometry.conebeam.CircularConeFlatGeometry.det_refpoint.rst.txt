@@ -1,0 +1,8 @@
+:orphan:
+
+CircularConeFlatGeometry.det_refpoint
+================================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. automethod:: CircularConeFlatGeometry.det_refpoint

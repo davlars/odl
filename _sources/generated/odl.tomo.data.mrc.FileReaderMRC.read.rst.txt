@@ -1,0 +1,8 @@
+:orphan:
+
+FileReaderMRC.read
+====================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. automethod:: FileReaderMRC.read

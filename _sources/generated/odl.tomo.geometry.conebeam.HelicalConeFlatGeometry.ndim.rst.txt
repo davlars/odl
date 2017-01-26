@@ -1,0 +1,6 @@
+HelicalConeFlatGeometry.ndim
+=======================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: HelicalConeFlatGeometry.ndim

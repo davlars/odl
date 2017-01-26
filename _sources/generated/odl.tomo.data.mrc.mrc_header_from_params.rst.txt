@@ -1,0 +1,6 @@
+mrc_header_from_params
+========================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autofunction:: mrc_header_from_params

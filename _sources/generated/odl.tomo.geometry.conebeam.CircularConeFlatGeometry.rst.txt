@@ -1,0 +1,51 @@
+CircularConeFlatGeometry
+===================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoclass:: CircularConeFlatGeometry
+   :show-inheritance:
+   
+   
+   .. automethod:: __init__
+   
+      
+   
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         CircularConeFlatGeometry.det_point_position
+         CircularConeFlatGeometry.det_refpoint
+         CircularConeFlatGeometry.det_to_src
+         CircularConeFlatGeometry.rotation_matrix
+         CircularConeFlatGeometry.src_position
+   
+
+    
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         CircularConeFlatGeometry.angles
+         CircularConeFlatGeometry.axis
+         CircularConeFlatGeometry.det_grid
+         CircularConeFlatGeometry.det_init_axes
+         CircularConeFlatGeometry.det_params
+         CircularConeFlatGeometry.det_partition
+         CircularConeFlatGeometry.det_radius
+         CircularConeFlatGeometry.detector
+         CircularConeFlatGeometry.grid
+         CircularConeFlatGeometry.implementation_cache
+         CircularConeFlatGeometry.motion_grid
+         CircularConeFlatGeometry.motion_params
+         CircularConeFlatGeometry.motion_partition
+         CircularConeFlatGeometry.ndim
+         CircularConeFlatGeometry.params
+         CircularConeFlatGeometry.partition
+         CircularConeFlatGeometry.pitch
+         CircularConeFlatGeometry.pitch_offset
+         CircularConeFlatGeometry.src_radius
+         CircularConeFlatGeometry.src_to_det_init
+   
+   

@@ -1,0 +1,6 @@
+FileWriterMRC.file
+====================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileWriterMRC.file

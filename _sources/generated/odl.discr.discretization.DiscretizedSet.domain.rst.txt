@@ -1,0 +1,6 @@
+DiscretizedSet.domain
+==============================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSet.domain

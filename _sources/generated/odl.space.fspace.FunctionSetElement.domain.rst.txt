@@ -1,0 +1,6 @@
+FunctionSetElement.domain
+==========================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoattribute:: FunctionSetElement.domain

@@ -1,0 +1,6 @@
+FileReaderMRC.labels
+======================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileReaderMRC.labels

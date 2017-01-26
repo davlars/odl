@@ -1,0 +1,6 @@
+DiscretizedSpace.is_cn
+===============================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSpace.is_cn

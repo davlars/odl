@@ -1,0 +1,6 @@
+FunctionSetMapping.is_functional
+=========================================================
+
+.. currentmodule:: odl.discr.discr_mappings
+
+.. autoattribute:: FunctionSetMapping.is_functional

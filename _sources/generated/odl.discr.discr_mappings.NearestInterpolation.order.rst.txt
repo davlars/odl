@@ -1,0 +1,6 @@
+NearestInterpolation.order
+===================================================
+
+.. currentmodule:: odl.discr.discr_mappings
+
+.. autoattribute:: NearestInterpolation.order

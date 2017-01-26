@@ -1,0 +1,923 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>odl.tomo.data.uncompr_bin &mdash; odl 0.5.4.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../../search.html"/>
+    <link rel="top" title="odl 0.5.4.dev0 documentation" href="../../../../index.html"/>
+        <link rel="up" title="Module code" href="../../../index.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> odl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.4.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started/getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Working with ODL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/guide.html">User&#8217;s guide &#8211; selected topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../math/math.html">Mathematical Background</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer zone</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dev/dev.html">Contributing to ODL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Useful facts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/faq.html">Frequently asked questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../refs.html">References</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../odl.html">odl</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">odl</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      
+    <li>odl.tomo.data.uncompr_bin</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for odl.tomo.data.uncompr_bin</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2014-2016 The ODL development group</span>
+<span class="c1">#</span>
+<span class="c1"># This file is part of ODL.</span>
+<span class="c1">#</span>
+<span class="c1"># ODL is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># ODL is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with ODL.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;Utilities and class for reading uncompressed binary files with header.&quot;&quot;&quot;</span>
+
+<span class="c1"># Imports for common Python 2/3 codebase</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="nb">open</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;FileReaderRawBinaryWithHeader&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;FileWriterRawBinaryWithHeader&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;header_fields_from_table&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_fields_from_table</span><span class="p">(</span><span class="n">spec_table</span><span class="p">,</span> <span class="n">id_key</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read a specification and return a list of fields.</span>
+
+<span class="sd">    The given specification is assumed to be in</span>
+<span class="sd">    `reST grid table format</span>
+<span class="sd">    &lt;http://docutils.sourceforge.net/docs/user/rst/quickref.html#tables&gt;`_.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spec_table : str</span>
+<span class="sd">        Specification given as a string containing a definition table.</span>
+<span class="sd">    id_key : str</span>
+<span class="sd">        Dictionary key (= column header) for the ID labels in ``spec``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fields : tuple of dicts</span>
+<span class="sd">        Field list of the specification with combined multi-line entries.</span>
+<span class="sd">        Each field corresponds to one (multi-)line of the spec.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Reformat the table, throwing away lines not starting with &#39;|&#39;</span>
+    <span class="n">spec_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">spec_table</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+                  <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">)]</span>
+
+    <span class="c1"># Guess the CSV dialect and read the table, producing an iterable</span>
+    <span class="n">dialect</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">Sniffer</span><span class="p">()</span><span class="o">.</span><span class="n">sniff</span><span class="p">(</span><span class="n">spec_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">delimiters</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">spec_lines</span><span class="p">,</span> <span class="n">dialect</span><span class="o">=</span><span class="n">dialect</span><span class="p">)</span>
+
+    <span class="c1"># Read the fields as dictionaries and transform keys and values to</span>
+    <span class="c1"># lowercase.</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">new_row</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">id_key</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="c1"># Start of a new field, indicated by a nontrivial ID entry</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">new_row</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_row</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># We have the second row of a multi-line field. We</span>
+            <span class="c1"># append all stripped values to the corresponding existing entry</span>
+            <span class="c1"># value with an extra space.</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">fields</span><span class="p">:</span>
+                <span class="c1"># Just to make sure that this situation did not happen at</span>
+                <span class="c1"># the very beginning of the table</span>
+                <span class="k">continue</span>
+
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">fields</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">key</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="header_fields_from_table"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.uncompr_bin.header_fields_from_table.html#odl.tomo.data.mrc.header_fields_from_table">[docs]</a><span class="k">def</span> <span class="nf">header_fields_from_table</span><span class="p">(</span><span class="n">spec_table</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">dtype_map</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert the specification table to a standardized format.</span>
+
+<span class="sd">    The specification table is assumed to be in</span>
+<span class="sd">    `reST grid table format</span>
+<span class="sd">    &lt;http://docutils.sourceforge.net/docs/user/rst/quickref.html#tables&gt;`_.</span>
+<span class="sd">    It must have the following 5 columns:</span>
+
+<span class="sd">        1. ID : an arbitrary unique identifier, e.g., a number.</span>
+<span class="sd">        2. Byte range : Bytes in the file covered by this field, given</span>
+<span class="sd">           as number range (e.g. ``15-24``). The byte values start at</span>
+<span class="sd">           1 (not 0), and the upper value of the range is included.</span>
+<span class="sd">        3. Data type : Field values are stored in this format. For multiple</span>
+<span class="sd">           entries, a shape can be specified immediately after the type</span>
+<span class="sd">           specifier, e.g., ``Float32(4)`` or ``Int32(2,2)``. It is also</span>
+<span class="sd">           possible to give an incomplete shape, e.g., ``Int32(2)`` with</span>
+<span class="sd">           a 24-byte field. In this case, the shape is completed to</span>
+<span class="sd">           ``(3, 2)`` automatically. By default, the one-dimensional shape</span>
+<span class="sd">           is determined from the data type and the byte range.</span>
+<span class="sd">           The data type must map to a NumPy data type (``dtype_map``).</span>
+<span class="sd">        4. Name : The name of the field as used later (in lowercase) for</span>
+<span class="sd">           identification.</span>
+<span class="sd">        5. Description : An explanation of the field.</span>
+
+<span class="sd">    The converted specification is a tuple of dictionaries, each</span>
+<span class="sd">    corresponding to one (multi-)row (=field) of the original table. Each</span>
+<span class="sd">    field has key-value pairs for the following keys:</span>
+
+<span class="sd">    +--------------+---------+------------------------------------------+</span>
+<span class="sd">    |Name          |Data type|Description                               |</span>
+<span class="sd">    +==============+=========+==========================================+</span>
+<span class="sd">    |&#39;name&#39;        |string   |Name of the element                       |</span>
+<span class="sd">    +--------------+---------+------------------------------------------+</span>
+<span class="sd">    |&#39;offset&#39;      |int      |Offset of the current element in bytes    |</span>
+<span class="sd">    +--------------+---------+------------------------------------------+</span>
+<span class="sd">    |&#39;size&#39;        |int      |Size of the current element in bytes      |</span>
+<span class="sd">    +--------------+---------+------------------------------------------+</span>
+<span class="sd">    |&#39;dtype&#39;       |type     |Data type of the current element as       |</span>
+<span class="sd">    |              |         |defined by Numpy                          |</span>
+<span class="sd">    +--------------+---------+------------------------------------------+</span>
+<span class="sd">    |&#39;description&#39; |string   |Description of the element (optional)     |</span>
+<span class="sd">    +--------------+---------+------------------------------------------+</span>
+<span class="sd">    |&#39;dshape&#39;      |tuple    |For multi-elements: number of elements per|</span>
+<span class="sd">    |              |         |dimension. Optional for single elements.  |</span>
+<span class="sd">    +--------------+---------+------------------------------------------+</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spec_table : str</span>
+<span class="sd">        Specification given as a string containing a definition table.</span>
+<span class="sd">    keys : dict</span>
+<span class="sd">        Dictionary with the following entries for the column headers in</span>
+<span class="sd">        the specification table:</span>
+
+<span class="sd">            - ``&#39;id&#39;``</span>
+<span class="sd">            - ``&#39;byte_range&#39;``</span>
+<span class="sd">            - ``&#39;dtype&#39;``</span>
+<span class="sd">            - ``&#39;name&#39;``</span>
+<span class="sd">            - ``&#39;description&#39;``</span>
+
+<span class="sd">    dtype_map : dict</span>
+<span class="sd">        Mapping from the data type specifiers in the specification table</span>
+<span class="sd">        to NumPy data types.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    standardized_fields : tuple of dicts</span>
+<span class="sd">        The standardized fields according to the above table, one for</span>
+<span class="sd">        each (multi-)row.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">field_list</span> <span class="o">=</span> <span class="n">_fields_from_table</span><span class="p">(</span><span class="n">spec_table</span><span class="p">,</span> <span class="n">id_key</span><span class="o">=</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Parse the fields and represent them in a unfied way</span>
+    <span class="n">conv_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">field_list</span><span class="p">:</span>
+        <span class="n">new_field</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Name and description: lowercase name, copy description</span>
+        <span class="n">new_field</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">new_field</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]]</span>
+
+        <span class="c1"># Get byte range and set start</span>
+        <span class="n">byte_range</span> <span class="o">=</span> <span class="n">field</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;byte_range&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        <span class="n">offset_bytes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">byte_range</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">end_bytes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">byte_range</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">size_bytes</span> <span class="o">=</span> <span class="n">end_bytes</span> <span class="o">-</span> <span class="n">offset_bytes</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">new_field</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">offset_bytes</span>
+        <span class="n">new_field</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">size_bytes</span>
+
+        <span class="c1"># Data type: transform to Numpy format and get shape</span>
+        <span class="n">dtype_shape</span> <span class="o">=</span> <span class="n">field</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype_map</span><span class="p">[</span><span class="n">dtype_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">new_field</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dtype</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dtype_shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># Shape was given in data type specification</span>
+
+            <span class="c1"># Re-attach left parenthesis that was removed in the split</span>
+            <span class="n">dshape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">dtype_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">size_bytes_from_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">dshape</span><span class="p">)</span> <span class="o">*</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span>
+            <span class="k">if</span> <span class="n">size_bytes_from_shape</span> <span class="o">&gt;=</span> <span class="n">size_bytes</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;entry &#39;</span><span class="si">{}</span><span class="s2">&#39;: field size </span><span class="si">{}</span><span class="s2"> from shape </span><span class="si">{}</span><span class="s2"> and &quot;</span>
+                    <span class="s2">&quot;dtype.itemsize </span><span class="si">{}</span><span class="s2"> larger than field size </span><span class="si">{}</span><span class="s2"> from spec&quot;</span>
+                    <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]],</span> <span class="n">size_bytes_from_shape</span><span class="p">,</span>
+                              <span class="n">dshape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span> <span class="n">size_bytes</span><span class="p">))</span>
+
+            <span class="c1"># Try to complete the given shape</span>
+            <span class="k">if</span> <span class="n">size_bytes</span> <span class="o">%</span> <span class="n">size_bytes_from_shape</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;entry &#39;</span><span class="si">{}</span><span class="s2">&#39;: shape </span><span class="si">{}</span><span class="s2"> cannot be completed consistently &quot;</span>
+                    <span class="s2">&quot;using field size </span><span class="si">{}</span><span class="s2"> and `dtype.itemsize` </span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]],</span> <span class="n">dshape</span><span class="p">,</span> <span class="n">size_bytes</span><span class="p">,</span>
+                              <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">))</span>
+
+            <span class="n">dshape</span> <span class="o">=</span> <span class="p">(</span><span class="n">size_bytes</span> <span class="o">//</span> <span class="n">size_bytes_from_shape</span><span class="p">,)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">dshape</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">size_bytes</span> <span class="o">%</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;entry &#39;</span><span class="si">{}</span><span class="s2">&#39;: field size </span><span class="si">{}</span><span class="s2"> not a multiple of &quot;</span>
+                    <span class="s2">&quot;`dtype.itemsize` </span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]],</span> <span class="n">field</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;byte_range&#39;</span><span class="p">]],</span>
+                              <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span> <span class="n">field</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]]))</span>
+            <span class="n">dshape</span> <span class="o">=</span> <span class="p">(</span><span class="n">size_bytes</span> <span class="o">//</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,)</span>
+
+        <span class="n">new_field</span><span class="p">[</span><span class="s1">&#39;dshape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dshape</span>
+
+        <span class="n">conv_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_field</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">conv_list</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FileReaderRawBinaryWithHeader"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.html#odl.tomo.data.mrc.FileReaderRawBinaryWithHeader">[docs]</a><span class="k">class</span> <span class="nc">FileReaderRawBinaryWithHeader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Reader for uncompressed binary files using an optional header.</span>
+
+<span class="sd">    This class can be used to read header and data from files that contain</span>
+<span class="sd">    a single binary header followed by a single block of uncompressed binary</span>
+<span class="sd">    data.</span>
+<span class="sd">    Alternatively, the header can be bypassed and data blocks can be</span>
+<span class="sd">    read directly using `read_data` with start and end byte values, which</span>
+<span class="sd">    allows to read arbitrary portions.</span>
+
+<span class="sd">    An instance of this class can also be used as context manager, i.e.::</span>
+
+<span class="sd">        with FileReaderRawBinaryWithHeader(file, header_fields) as reader:</span>
+<span class="sd">            header, data = reader.read()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">header_fields</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a new instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file-like or str</span>
+<span class="sd">            Stream or filename from which to read the data. A stream</span>
+<span class="sd">            must to be open in ``&#39;rb&#39;`` mode.</span>
+<span class="sd">        header_fields : sequence of dicts, optional</span>
+<span class="sd">            Definition of the fields in the header (per row), each</span>
+<span class="sd">            containing key-value pairs for the following keys:</span>
+
+<span class="sd">            - ``&#39;name&#39;`` : Label for the field.</span>
+<span class="sd">            - ``&#39;offset&#39;`` : Start of the field in bytes.</span>
+<span class="sd">            - ``&#39;size&#39;`` : Size of the field in bytes.</span>
+<span class="sd">            - ``&#39;dtype&#39;`` : Data type in Numpy- or Numpy-readable format.</span>
+<span class="sd">            - ``&#39;dshape&#39;`` (optional) : The array of values is reshaped to</span>
+<span class="sd">              this shape.</span>
+<span class="sd">            - ``&#39;description&#39;`` (optional) : A human-readable description</span>
+<span class="sd">              of the field.</span>
+
+<span class="sd">            If empty, the header size is set 0, and the data type is</span>
+<span class="sd">            assumed to be ``dtype``. Use this in conjunction with</span>
+<span class="sd">            parametrized `read_data` to bypass the header and read</span>
+<span class="sd">            arbitrary data portions.</span>
+
+<span class="sd">        dtype : optional</span>
+<span class="sd">            Data type of the file&#39;s data block. It must be understood by</span>
+<span class="sd">            the `numpy.dtype` constructor. By default, the data type</span>
+<span class="sd">            is determined from the file header, or, if no information</span>
+<span class="sd">            is available there, it is set to ``np.dtype(float)``.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        header_fields_from_table :</span>
+<span class="sd">            Function to parse a specification table, returning a field</span>
+<span class="sd">            sequence usable as ``header_fields`` parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Pick out the file object from temp files</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+        <span class="c1"># Need those attrs in subsequent code</span>
+        <span class="n">file_attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="s1">&#39;seek&#39;</span><span class="p">,</span> <span class="s1">&#39;read&#39;</span><span class="p">,</span> <span class="s1">&#39;readinto&#39;</span><span class="p">,</span> <span class="s1">&#39;close&#39;</span><span class="p">)</span>
+        <span class="n">is_file</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">file_attrs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__file</span> <span class="o">=</span> <span class="n">file</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__owns_file</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">,</span> <span class="n">buffering</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__owns_file</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="s1">&#39;b&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`file` must be opened in binary mode, &quot;</span>
+                             <span class="s2">&quot;but mode &#39;is </span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">mode</span><span class="p">))</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">iter</span><span class="p">(</span><span class="n">header_fields</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;`header_fields` must be iterable, got &#39;</span>
+                            <span class="s1">&#39;</span><span class="si">{!r}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">header_fields</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__header_fields</span> <span class="o">=</span> <span class="n">header_fields</span>
+
+        <span class="c1"># Set default values for some attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_data_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__header</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;File object from which ``self`` reads.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span>
+
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initializer for the context manager.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">exc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Cleanup before on exiting the context manager.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__owns_file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">header_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Size of `file`&#39;s header in bytes.</span>
+
+<span class="sd">        The size of the header is determined from `header`. If this is not</span>
+<span class="sd">        possible (i.e., before the header has been read), 0 is returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="c1"># Determine header size by finding the largest offset and the</span>
+        <span class="c1"># value of the corresponding entry. The header size is the</span>
+        <span class="c1"># offset plus the size of the entry.</span>
+        <span class="n">max_entry</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+                        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="n">val</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">max_entry</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">max_entry</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nbytes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_storage_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shape of the whole data block as stored in `file`.</span>
+
+<span class="sd">        This is a default implementation always returning -1, which makes</span>
+<span class="sd">        reshaping a no-op.</span>
+<span class="sd">        Subclasses should override this property with an implementation</span>
+<span class="sd">        that returns the data shape from the header.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Data type of the data block in `file`.</span>
+
+<span class="sd">        This is a default implementation returning the data type gained</span>
+<span class="sd">        from the ``dtype`` argument in the initializer.</span>
+<span class="sd">        Subclasses should override this property with an implementation</span>
+<span class="sd">        that returns the data type from the header.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_data_dtype</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Header as read from `file`, or an empty dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__header</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">header_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Tuple of dictionaries defining the fields in `header`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__header_fields</span>
+
+<div class="viewcode-block" id="FileReaderRawBinaryWithHeader.read"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.read.html#odl.tomo.data.mrc.FileReaderRawBinaryWithHeader.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return header and data from `file`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        header : `OrderedDict`</span>
+<span class="sd">            The header as read from `file`.</span>
+<span class="sd">        data : `numpy.ndarray`</span>
+<span class="sd">            The data block from `file`, reshaped according to</span>
+<span class="sd">            `data_storage_shape`.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        read_header</span>
+<span class="sd">        read_data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_header</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="FileReaderRawBinaryWithHeader.read_header"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.read_header.html#odl.tomo.data.mrc.FileReaderRawBinaryWithHeader.read_header">[docs]</a>    <span class="k">def</span> <span class="nf">read_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read the header from `file`.</span>
+
+<span class="sd">        The header is also stored in the `header` attribute.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        header : `OrderedDict`</span>
+<span class="sd">            Header from `file`, stored in an ordered dictionary, where each</span>
+<span class="sd">            entry has the following form::</span>
+
+<span class="sd">                &#39;name&#39;: {&#39;value&#39;: value_as_array,</span>
+<span class="sd">                         &#39;offset&#39;: offset_in_bytes</span>
+<span class="sd">                         &#39;description&#39;: description_string}</span>
+
+<span class="sd">            All ``&#39;value&#39;``&#39;s are `numpy.ndarray`&#39;s with at least one</span>
+<span class="sd">            dimension. If a ``&#39;shape&#39;`` is given in `header_fields`,</span>
+<span class="sd">            the resulting array is reshaped accordingly.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        read_data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Read all fields except data. We use an OrderedDict such that</span>
+        <span class="c1"># the order is the same as in `header_fields`. This makes it simple</span>
+        <span class="c1"># to write later on in the correct order, based only on `header`.</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">header_fields</span><span class="p">:</span>
+            <span class="c1"># Get all the values from the dictionary</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">field</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;data&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">field</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)}</span>
+            <span class="n">offset_bytes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">])</span>
+            <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">offset_bytes</span>
+            <span class="n">size_bytes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">])</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">])</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dshape&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># no-op by default</span>
+
+            <span class="k">if</span> <span class="n">size_bytes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Default if &#39;size&#39; is omitted</span>
+                <span class="n">num_elems</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">num_elems</span> <span class="o">=</span> <span class="n">size_bytes</span> <span class="o">/</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span>
+
+            <span class="k">if</span> <span class="n">size_bytes</span> <span class="o">%</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;field &#39;</span><span class="si">{}</span><span class="s2">&#39;: `size` </span><span class="si">{}</span><span class="s2"> and `dtype.itemsize` </span><span class="si">{}</span><span class="s2"> &quot;</span>
+                    <span class="s2">&quot; result in non-integer number of elements&quot;</span>
+                    <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">size_bytes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">))</span>
+
+            <span class="c1"># Create format string for struct module to unpack the binary</span>
+            <span class="c1"># data</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">)):</span>
+                <span class="c1"># Have conversion only for &#39;S1&#39;, so we need to translate</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">num_elems</span><span class="p">)</span> <span class="o">*</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Format character can be obtained as dtype.char</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">num_elems</span><span class="p">))</span> <span class="o">+</span> <span class="n">dtype</span><span class="o">.</span><span class="n">char</span>
+
+            <span class="k">if</span> <span class="n">struct</span><span class="o">.</span><span class="n">calcsize</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span> <span class="o">!=</span> <span class="n">size_bytes</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;field &#39;</span><span class="si">{}</span><span class="s2">&#39;: format &#39;</span><span class="si">{}</span><span class="s2">&#39; results in </span><span class="si">{}</span><span class="s2"> bytes, but &quot;</span>
+                    <span class="s2">&quot;`size` is </span><span class="si">{}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">struct</span><span class="o">.</span><span class="n">calcsize</span><span class="p">(</span><span class="n">fmt</span><span class="p">),</span> <span class="n">size_bytes</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">offset_bytes</span><span class="p">)</span>
+            <span class="n">packed_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">size_bytes</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">)):</span>
+                <span class="c1"># Bytestring type, decode instead of unpacking. Replace</span>
+                <span class="c1"># \x00 characters with whitespace so the final length is</span>
+                <span class="c1"># correct</span>
+                <span class="n">packed_value</span> <span class="o">=</span> <span class="n">packed_value</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">b</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">packed_value</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">size_bytes</span><span class="p">),</span>
+                                    <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+                <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">packed_value</span><span class="p">),</span>
+                                 <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+                <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+
+            <span class="n">header</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span>
+
+        <span class="c1"># Store information gained from the header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__header</span> <span class="o">=</span> <span class="n">header</span>
+
+        <span class="k">return</span> <span class="n">header</span></div>
+
+<div class="viewcode-block" id="FileReaderRawBinaryWithHeader.read_data"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.read_data.html#odl.tomo.data.mrc.FileReaderRawBinaryWithHeader.read_data">[docs]</a>    <span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dstart</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dend</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read data from `file` and return it as Numpy array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dstart : int, optional</span>
+<span class="sd">            Offset in bytes of the data field. By default, it is taken to</span>
+<span class="sd">            be the header size as determined from reading the header.</span>
+<span class="sd">            Backwards indexing with negative values is also supported.</span>
+<span class="sd">            Use a value larger than the header size to extract a data subset.</span>
+<span class="sd">        dend : int, optional</span>
+<span class="sd">            End position in bytes until which data is read (exclusive).</span>
+<span class="sd">            Backwards indexing with negative values  is also supported.</span>
+<span class="sd">            Use a value different from the file size to extract a data subset.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        data : `numpy.ndarray`</span>
+<span class="sd">            The data read from `file`.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        read_header</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 means &quot;from the end&quot;</span>
+        <span class="n">filesize_bytes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">dstart</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dstart_abs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header_size</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dstart</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dstart_abs</span> <span class="o">=</span> <span class="n">filesize_bytes</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">dstart</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dstart_abs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dstart</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dend</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dend_abs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">filesize_bytes</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dend</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dend_abs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dend</span><span class="p">)</span> <span class="o">+</span> <span class="n">filesize_bytes</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dend_abs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dend</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dstart_abs</span> <span class="o">&gt;=</span> <span class="n">dend_abs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;invalid `dstart` and `dend`, resulting in &#39;</span>
+                             <span class="s1">&#39;absolute `dstart` &gt;= `dend` (</span><span class="si">{}</span><span class="s1"> &gt;= </span><span class="si">{}</span><span class="s1">)&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dstart_abs</span><span class="p">,</span> <span class="n">dend_abs</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">dstart_abs</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">header_size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;invalid `dstart`, resulting in absolute &#39;</span>
+                             <span class="s1">&#39;`dstart` &lt; `header_size` (</span><span class="si">{}</span><span class="s1"> &lt; </span><span class="si">{}</span><span class="s1">)&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dstart_abs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">header_size</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">dend_abs</span> <span class="o">&gt;</span> <span class="n">filesize_bytes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;invalid `dend`, resulting in absolute &#39;</span>
+                             <span class="s1">&#39;`dend` &gt; `filesize_bytes` (</span><span class="si">{}</span><span class="s1"> &lt; </span><span class="si">{}</span><span class="s1">)&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dend_abs</span><span class="p">,</span> <span class="n">filesize_bytes</span><span class="p">))</span>
+
+        <span class="n">num_elems</span> <span class="o">=</span> <span class="p">(</span><span class="n">dend_abs</span> <span class="o">-</span> <span class="n">dstart_abs</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_dtype</span><span class="o">.</span><span class="n">itemsize</span>
+        <span class="k">if</span> <span class="n">num_elems</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_elems</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;trying to read </span><span class="si">{}</span><span class="s1"> bytes, which is not a multiple of &#39;</span>
+                <span class="s1">&#39;the itemsize </span><span class="si">{}</span><span class="s1"> of the data type </span><span class="si">{}</span><span class="s1">&#39;</span>
+                <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dend_abs</span> <span class="o">-</span> <span class="n">dstart_abs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">data_dtype</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">dstart_abs</span><span class="p">)</span>
+        <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">num_elems</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">readinto</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">array</span></div></div>
+
+
+<div class="viewcode-block" id="FileWriterRawBinaryWithHeader"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.uncompr_bin.FileWriterRawBinaryWithHeader.html#odl.tomo.data.mrc.FileWriterRawBinaryWithHeader">[docs]</a><span class="k">class</span> <span class="nc">FileWriterRawBinaryWithHeader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Writer for uncompressed binary files using an optional header.</span>
+
+<span class="sd">    This class can be used to write a single binary header followed by a</span>
+<span class="sd">    single block of uncompressed binary data to a file.</span>
+<span class="sd">    Alternatively, the header can be bypassed and data blocks can be</span>
+<span class="sd">    written directly using `write_data`, which allows to write arbitrary</span>
+<span class="sd">    portions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a new instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file-like or str</span>
+<span class="sd">            Stream or filename to which to write the data. A stream</span>
+<span class="sd">            must be open in a writable mode.</span>
+<span class="sd">        header : `OrderedDict`, optional</span>
+<span class="sd">            Header in form of an ordered dictionary, where each entry has</span>
+<span class="sd">            the following form::</span>
+
+<span class="sd">                &#39;name&#39;: {&#39;value&#39;: value_as_array,</span>
+<span class="sd">                         &#39;offset&#39;: offset_in_bytes</span>
+<span class="sd">                         &#39;description&#39;: description_string}</span>
+
+<span class="sd">            All ``&#39;value&#39;``&#39;s must be `numpy.ndarray`&#39;s. Their size and the</span>
+<span class="sd">            ``&#39;offset&#39;`` entry determine the space that the value occupies</span>
+<span class="sd">            in `file`&#39;s header.</span>
+
+<span class="sd">            For ``None``, no header is written.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        **Important:** There is no check if the writes from the provided</span>
+<span class="sd">        header are consistent, i.e., that they don&#39;t overwrite each other.</span>
+<span class="sd">        Ensuring this is the user&#39;s responsibility.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        header_fields_from_table :</span>
+<span class="sd">            Function to parse a specification table, returning a field</span>
+<span class="sd">            sequence usable as ``header_fields`` parameter.</span>
+<span class="sd">        FileReaderRawBinaryWithHeader.read_header</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">header</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+        <span class="c1"># Pick out the file object from temp files</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+        <span class="c1"># Need those attrs in subsequent code</span>
+        <span class="n">file_attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="s1">&#39;seek&#39;</span><span class="p">,</span> <span class="s1">&#39;write&#39;</span><span class="p">,</span> <span class="s1">&#39;close&#39;</span><span class="p">)</span>
+        <span class="n">is_file</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">file_attrs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__file</span> <span class="o">=</span> <span class="n">file</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__owns_file</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">,</span> <span class="n">buffering</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__owns_file</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="s1">&#39;b&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`file` must be opened in binary mode, &quot;</span>
+                             <span class="s2">&quot;but mode &#39;is </span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">mode</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;`header` must be a dictionary, got </span><span class="si">{!r}</span><span class="s1">&#39;</span>
+                            <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">header</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__header</span> <span class="o">=</span> <span class="n">header</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;File object from which ``self`` reads.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span>
+
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initializer for the context manager.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">exc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Cleanup before on exiting the context manager.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__owns_file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">header_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Size of `header` in bytes.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="c1"># Determine header size by finding the largest offset and the</span>
+        <span class="c1"># value of the corresponding entry. The header size is the</span>
+        <span class="c1"># offset plus the size of the entry.</span>
+        <span class="n">max_entry</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+                        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="n">val</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">max_entry</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">max_entry</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nbytes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Header dictionary to be written to `file`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__header</span>
+
+<div class="viewcode-block" id="FileWriterRawBinaryWithHeader.write"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.uncompr_bin.FileWriterRawBinaryWithHeader.write.html#odl.tomo.data.mrc.FileWriterRawBinaryWithHeader.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write `header` and provided ``data`` to `file`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : `array-like`</span>
+<span class="sd">            Data that should be written to `file`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_header</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FileWriterRawBinaryWithHeader.write_header"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.uncompr_bin.FileWriterRawBinaryWithHeader.write_header.html#odl.tomo.data.mrc.FileWriterRawBinaryWithHeader.write_header">[docs]</a>    <span class="k">def</span> <span class="nf">write_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write `header` to `file`.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        write_data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">properties</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="n">offset_bytes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">offset_bytes</span><span class="p">)</span>
+            <span class="n">value</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FileWriterRawBinaryWithHeader.write_data"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.uncompr_bin.FileWriterRawBinaryWithHeader.write_data.html#odl.tomo.data.mrc.FileWriterRawBinaryWithHeader.write_data">[docs]</a>    <span class="k">def</span> <span class="nf">write_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">dstart</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reshape_order</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write ``data`` to `file`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : `array-like`</span>
+<span class="sd">            Data that should be written to `file`.</span>
+<span class="sd">        dstart : non-negative int, optional</span>
+<span class="sd">            Offset in bytes of the start position of the written data.</span>
+<span class="sd">            By default, it is taken to be `header_size`.</span>
+<span class="sd">        reshape_order : {&#39;C&#39;, &#39;F&#39;, &#39;A&#39;}, optional</span>
+<span class="sd">            Value passed as ``order`` parameter to `numpy.reshape`.</span>
+<span class="sd">            Reshaping is only done in case the whole data block is read.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        write_header</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">reshape_order</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dstart</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dstart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header_size</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dstart</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`dstart` must be non-negative, got </span><span class="si">{}</span><span class="s1">&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dstart</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dstart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dstart</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dstart</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">header_size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;invalid `dstart`, resulting in absolute &#39;</span>
+                             <span class="s1">&#39;`dstart` &lt; `header_size` (</span><span class="si">{}</span><span class="s1"> &lt; </span><span class="si">{}</span><span class="s1">)&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dstart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">header_size</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">dstart</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># pylint: disable=wrong-import-position</span>
+    <span class="kn">from</span> <span class="nn">odl.util.testutils</span> <span class="k">import</span> <span class="n">run_doctests</span>
+    <span class="n">run_doctests</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2016, ODL development group, KTH.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.5.4.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

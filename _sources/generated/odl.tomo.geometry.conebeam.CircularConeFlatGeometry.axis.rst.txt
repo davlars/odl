@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.axis
+========================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.axis

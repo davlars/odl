@@ -1,0 +1,6 @@
+DiscretizedSetElement.space
+====================================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSetElement.space

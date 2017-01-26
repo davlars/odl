@@ -1,0 +1,8 @@
+:orphan:
+
+FileWriterMRC.write
+=====================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. automethod:: FileWriterMRC.write

@@ -1,0 +1,6 @@
+ParallelGeometry.partition
+=====================================================
+
+.. currentmodule:: odl.tomo.geometry.parallel
+
+.. autoattribute:: ParallelGeometry.partition

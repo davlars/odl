@@ -1,0 +1,6 @@
+DiscretizedSetElement.itemsize
+=======================================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSetElement.itemsize

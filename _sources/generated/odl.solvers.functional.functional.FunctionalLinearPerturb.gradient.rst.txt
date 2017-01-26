@@ -1,0 +1,6 @@
+FunctionalLinearPerturb.gradient
+==================================================================
+
+.. currentmodule:: odl.solvers.functional.functional
+
+.. autoattribute:: FunctionalLinearPerturb.gradient

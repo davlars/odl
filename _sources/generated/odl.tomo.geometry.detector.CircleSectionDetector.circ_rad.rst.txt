@@ -1,0 +1,6 @@
+CircleSectionDetector.circ_rad
+=========================================================
+
+.. currentmodule:: odl.tomo.geometry.detector
+
+.. autoattribute:: CircleSectionDetector.circ_rad

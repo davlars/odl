@@ -1,0 +1,6 @@
+is_int_dtype
+=============================
+
+.. currentmodule:: odl.util.utility
+
+.. autofunction:: is_int_dtype

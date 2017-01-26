@@ -1,0 +1,6 @@
+ParallelGeometry.implementation_cache
+================================================================
+
+.. currentmodule:: odl.tomo.geometry.parallel
+
+.. autoattribute:: ParallelGeometry.implementation_cache

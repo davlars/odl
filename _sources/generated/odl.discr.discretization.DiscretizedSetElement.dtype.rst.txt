@@ -1,0 +1,6 @@
+DiscretizedSetElement.dtype
+====================================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSetElement.dtype

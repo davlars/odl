@@ -1,0 +1,28 @@
+mrc
+===
+
+Specification and reader for the MRC2014 file format.
+
+.. currentmodule:: odl.tomo.data.mrc
+
+
+
+.. rubric:: Classes
+
+.. autosummary::
+   :toctree: generated/
+
+   ~odl.tomo.data.mrc.FileReaderMRC
+   ~odl.tomo.data.mrc.FileWriterMRC
+   ~odl.tomo.data.mrc.MRCHeaderProperties
+
+
+.. rubric:: Functions
+
+.. autosummary::
+   :toctree: generated/
+
+   ~odl.tomo.data.mrc.mrc_header_from_params
+   ~odl.tomo.data.mrc.print_fei_ext_header_spec
+   ~odl.tomo.data.mrc.print_mrc2014_spec
+

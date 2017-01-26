@@ -1,0 +1,6 @@
+NumpyFn.weighting
+=======================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFn.weighting

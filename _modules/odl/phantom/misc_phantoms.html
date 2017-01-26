@@ -1,0 +1,386 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>odl.phantom.misc_phantoms &mdash; odl 0.5.4.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="odl 0.5.4.dev0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> odl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.4.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started/getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Working with ODL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/guide.html">User&#8217;s guide &#8211; selected topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../math/math.html">Mathematical Background</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer zone</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/dev.html">Contributing to ODL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Useful facts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/faq.html">Frequently asked questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../refs.html">References</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../odl.html">odl</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">odl</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>odl.phantom.misc_phantoms</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for odl.phantom.misc_phantoms</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2014-2016 The ODL development group</span>
+<span class="c1">#</span>
+<span class="c1"># This file is part of ODL.</span>
+<span class="c1">#</span>
+<span class="c1"># ODL is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># ODL is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with ODL.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;Miscellaneous phantoms that do not fit in other categories.&quot;&quot;&quot;</span>
+
+<span class="c1"># Imports for common Python 2/3 codebase</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;submarine&#39;</span><span class="p">,)</span>
+
+
+<div class="viewcode-block" id="submarine"><a class="viewcode-back" href="../../../generated/odl.phantom.misc_phantoms.submarine.html#odl.phantom.misc_phantoms.submarine">[docs]</a><span class="k">def</span> <span class="nf">submarine</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">taper</span><span class="o">=</span><span class="mf">20.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a &#39;submarine&#39; phantom consisting in an ellipsoid and a box.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    space : `DiscreteLp`</span>
+<span class="sd">        Discretized space in which the phantom is supposed to be created.</span>
+<span class="sd">    smooth : bool, optional</span>
+<span class="sd">        If ``True``, the boundaries are smoothed out. Otherwise, the</span>
+<span class="sd">        function steps from 0 to 1 at the boundaries.</span>
+<span class="sd">    taper : float, optional</span>
+<span class="sd">        Tapering parameter for the boundary smoothing. Larger values</span>
+<span class="sd">        mean faster taper, i.e. sharper boundaries.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    phantom : ``space`` element</span>
+<span class="sd">        The submarine phantom in ``space``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">space</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">smooth</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_submarine_2d_smooth</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">taper</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_submarine_2d_nonsmooth</span><span class="p">(</span><span class="n">space</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;phantom only defined in 2 dimensions, got </span><span class="si">{}</span><span class="s1">&#39;</span>
+                         <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">space</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span></div>
+
+
+<span class="k">def</span> <span class="nf">_submarine_2d_smooth</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">taper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a 2d smooth &#39;submarine&#39; phantom.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">logistic</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Smoothed step function from 0 to 1, centered at 0.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">c</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">blurred_ellipse</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Blurred characteristic function of an ellipse.</span>
+
+<span class="sd">        If ``space.domain`` is a rectangle ``[0, 1] x [0, 1]``,</span>
+<span class="sd">        the ellipse is centered at ``(0.6, 0.3)`` and has half-axes</span>
+<span class="sd">        ``(0.4, 0.14)``. For other domains, the values are scaled</span>
+<span class="sd">        accordingly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">halfaxes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.14</span><span class="p">])</span> <span class="o">*</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">extent</span><span class="p">()</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span> <span class="o">*</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">extent</span><span class="p">()</span>
+        <span class="n">center</span> <span class="o">+=</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+        <span class="c1"># Efficiently calculate |z|^2, z = (x - center) / radii</span>
+        <span class="n">sq_ndist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">xi</span><span class="p">,</span> <span class="n">rad</span><span class="p">,</span> <span class="n">cen</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">halfaxes</span><span class="p">,</span> <span class="n">center</span><span class="p">):</span>
+            <span class="n">sq_ndist</span> <span class="o">=</span> <span class="n">sq_ndist</span> <span class="o">+</span> <span class="p">((</span><span class="n">xi</span> <span class="o">-</span> <span class="n">cen</span><span class="p">)</span> <span class="o">/</span> <span class="n">rad</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sq_ndist</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="c1"># Return logistic(taper * (1 - |z|))</span>
+        <span class="k">return</span> <span class="n">logistic</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="o">-</span><span class="n">taper</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">blurred_rect</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Blurred characteristic function of a rectangle.</span>
+
+<span class="sd">        If ``space.domain`` is a rectangle ``[0, 1] x [0, 1]``,</span>
+<span class="sd">        the rect has lower left ``(0.56, 0.4)`` and upper right</span>
+<span class="sd">        ``(0.76, 0.6)``. For other domains, the values are scaled</span>
+<span class="sd">        accordingly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xlower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.56</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span> <span class="o">*</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">extent</span><span class="p">()</span>
+        <span class="n">xlower</span> <span class="o">+=</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="n">xupper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.76</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span> <span class="o">*</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">extent</span><span class="p">()</span>
+        <span class="n">xupper</span> <span class="o">+=</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">xi</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">upp</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xlower</span><span class="p">,</span> <span class="n">xupper</span><span class="p">):</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="n">upp</span> <span class="o">-</span> <span class="n">low</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">*</span> <span class="p">(</span><span class="n">logistic</span><span class="p">((</span><span class="n">xi</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="n">length</span><span class="p">,</span> <span class="n">taper</span><span class="p">)</span> <span class="o">*</span>
+                         <span class="n">logistic</span><span class="p">((</span><span class="n">upp</span> <span class="o">-</span> <span class="n">xi</span><span class="p">)</span> <span class="o">/</span> <span class="n">length</span><span class="p">,</span> <span class="n">taper</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">blurred_ellipse</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">+=</span> <span class="n">space</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">blurred_rect</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">ufuncs</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_submarine_2d_nonsmooth</span><span class="p">(</span><span class="n">space</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a 2d nonsmooth &#39;submarine&#39; phantom.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">ellipse</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Characteristic function of an ellipse.</span>
+
+<span class="sd">        If ``space.domain`` is a rectangle ``[0, 1] x [0, 1]``,</span>
+<span class="sd">        the ellipse is centered at ``(0.6, 0.3)`` and has half-axes</span>
+<span class="sd">        ``(0.4, 0.14)``. For other domains, the values are scaled</span>
+<span class="sd">        accordingly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">halfaxes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.14</span><span class="p">])</span> <span class="o">*</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">extent</span><span class="p">()</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span> <span class="o">*</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">extent</span><span class="p">()</span>
+        <span class="n">center</span> <span class="o">+=</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+        <span class="n">sq_ndist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">xi</span><span class="p">,</span> <span class="n">rad</span><span class="p">,</span> <span class="n">cen</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">halfaxes</span><span class="p">,</span> <span class="n">center</span><span class="p">):</span>
+            <span class="n">sq_ndist</span> <span class="o">=</span> <span class="n">sq_ndist</span> <span class="o">+</span> <span class="p">((</span><span class="n">xi</span> <span class="o">-</span> <span class="n">cen</span><span class="p">)</span> <span class="o">/</span> <span class="n">rad</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">sq_ndist</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">rect</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Characteristic function of a rectangle.</span>
+
+<span class="sd">        If ``space.domain`` is a rectangle ``[0, 1] x [0, 1]``,</span>
+<span class="sd">        the rect has lower left ``(0.56, 0.4)`` and upper right</span>
+<span class="sd">        ``(0.76, 0.6)``. For other domains, the values are scaled</span>
+<span class="sd">        accordingly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xlower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.56</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span> <span class="o">*</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">extent</span><span class="p">()</span>
+        <span class="n">xlower</span> <span class="o">+=</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="n">xupper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.76</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span> <span class="o">*</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">extent</span><span class="p">()</span>
+        <span class="n">xupper</span> <span class="o">+=</span> <span class="n">space</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">xi</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">upp</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xlower</span><span class="p">,</span> <span class="n">xupper</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">*</span> <span class="p">((</span><span class="n">xi</span> <span class="o">&gt;=</span> <span class="n">low</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">xi</span> <span class="o">&lt;=</span> <span class="n">upp</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">ellipse</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">+=</span> <span class="n">space</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">ufuncs</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Show the phantoms</span>
+    <span class="kn">import</span> <span class="nn">odl</span>
+
+    <span class="n">space</span> <span class="o">=</span> <span class="n">odl</span><span class="o">.</span><span class="n">uniform_discr</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">])</span>
+    <span class="n">submarine</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;submarine smooth=False&#39;</span><span class="p">)</span>
+    <span class="n">submarine</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;submarine smooth=True&#39;</span><span class="p">)</span>
+    <span class="n">submarine</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">taper</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;submarine taper=50&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Run also the doctests</span>
+    <span class="c1"># pylint: disable=wrong-import-position</span>
+    <span class="kn">from</span> <span class="nn">odl.util.testutils</span> <span class="k">import</span> <span class="n">run_doctests</span>
+    <span class="n">run_doctests</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2016, ODL development group, KTH.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.5.4.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

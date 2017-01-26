@@ -1,0 +1,6 @@
+MatVecOperator.adjoint
+============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: MatVecOperator.adjoint

@@ -1,0 +1,6 @@
+NoWeighting.const
+=====================================
+
+.. currentmodule:: odl.space.weighting
+
+.. autoattribute:: NoWeighting.const

@@ -1,0 +1,6 @@
+PointCollocation.order
+===============================================
+
+.. currentmodule:: odl.discr.discr_mappings
+
+.. autoattribute:: PointCollocation.order

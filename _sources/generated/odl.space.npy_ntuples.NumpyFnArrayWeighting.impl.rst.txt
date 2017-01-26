@@ -1,0 +1,6 @@
+NumpyFnArrayWeighting.impl
+================================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnArrayWeighting.impl

@@ -1,0 +1,6 @@
+print_fei_ext_header_spec
+===========================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autofunction:: print_fei_ext_header_spec

@@ -1,0 +1,6 @@
+NumpyFn.element_type
+==========================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFn.element_type

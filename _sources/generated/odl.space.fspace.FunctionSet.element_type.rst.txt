@@ -1,0 +1,6 @@
+FunctionSet.element_type
+=========================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoattribute:: FunctionSet.element_type

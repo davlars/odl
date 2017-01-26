@@ -1,0 +1,6 @@
+NtuplesBase.element_type
+===============================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: NtuplesBase.element_type

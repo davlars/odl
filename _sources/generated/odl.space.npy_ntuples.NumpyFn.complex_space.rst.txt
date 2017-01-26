@@ -1,0 +1,6 @@
+NumpyFn.complex_space
+===========================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFn.complex_space

@@ -1,0 +1,8 @@
+:orphan:
+
+FanFlatGeometry.det_refpoint
+======================================================
+
+.. currentmodule:: odl.tomo.geometry.fanbeam
+
+.. automethod:: FanFlatGeometry.det_refpoint

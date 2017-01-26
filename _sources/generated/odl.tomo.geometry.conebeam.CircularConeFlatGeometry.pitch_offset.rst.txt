@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.pitch_offset
+================================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.pitch_offset

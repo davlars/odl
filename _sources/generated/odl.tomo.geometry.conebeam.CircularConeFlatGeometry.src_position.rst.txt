@@ -1,0 +1,8 @@
+:orphan:
+
+CircularConeFlatGeometry.src_position
+================================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. automethod:: CircularConeFlatGeometry.src_position

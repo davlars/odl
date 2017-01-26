@@ -1,0 +1,6 @@
+CallbackStore.results
+===============================================
+
+.. currentmodule:: odl.solvers.util.callback
+
+.. autoattribute:: CallbackStore.results

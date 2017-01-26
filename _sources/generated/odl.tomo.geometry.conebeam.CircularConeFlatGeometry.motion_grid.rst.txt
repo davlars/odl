@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.motion_grid
+===============================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.motion_grid

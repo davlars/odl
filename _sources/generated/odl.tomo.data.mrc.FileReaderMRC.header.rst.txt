@@ -1,0 +1,6 @@
+FileReaderMRC.header
+======================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileReaderMRC.header

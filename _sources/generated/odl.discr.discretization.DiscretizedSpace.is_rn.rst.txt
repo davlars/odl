@@ -1,0 +1,6 @@
+DiscretizedSpace.is_rn
+===============================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSpace.is_rn

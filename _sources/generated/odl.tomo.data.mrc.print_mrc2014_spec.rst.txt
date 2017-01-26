@@ -1,0 +1,6 @@
+print_mrc2014_spec
+====================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autofunction:: print_mrc2014_spec

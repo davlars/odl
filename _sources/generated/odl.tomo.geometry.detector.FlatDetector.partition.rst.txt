@@ -1,0 +1,6 @@
+FlatDetector.partition
+=================================================
+
+.. currentmodule:: odl.tomo.geometry.detector
+
+.. autoattribute:: FlatDetector.partition

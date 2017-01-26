@@ -1,0 +1,6 @@
+HelicalConeFlatGeometry.src_radius
+=============================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: HelicalConeFlatGeometry.src_radius

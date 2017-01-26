@@ -1,0 +1,37 @@
+MRCHeaderProperties
+=====================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoclass:: MRCHeaderProperties
+   :show-inheritance:
+   
+   
+   
+      
+   
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+   
+
+    
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         MRCHeaderProperties.cell_sides
+         MRCHeaderProperties.cell_sides_angstrom
+         MRCHeaderProperties.data_axis_order
+         MRCHeaderProperties.data_dtype
+         MRCHeaderProperties.data_kind
+         MRCHeaderProperties.data_shape
+         MRCHeaderProperties.data_storage_shape
+         MRCHeaderProperties.extended_header_size
+         MRCHeaderProperties.extended_header_type
+         MRCHeaderProperties.header_size
+         MRCHeaderProperties.labels
+         MRCHeaderProperties.mrc_version
+   
+   

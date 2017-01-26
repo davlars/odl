@@ -1,0 +1,40 @@
+FunctionSetElement
+===================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoclass:: FunctionSetElement
+   :show-inheritance:
+   
+   
+   .. automethod:: __init__
+   
+      
+   
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         FunctionSetElement.__call__
+         FunctionSetElement.__eq__
+         FunctionSetElement._call
+         FunctionSetElement.assign
+         FunctionSetElement.copy
+         FunctionSetElement.derivative
+   
+
+    
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         FunctionSetElement.adjoint
+         FunctionSetElement.domain
+         FunctionSetElement.inverse
+         FunctionSetElement.is_functional
+         FunctionSetElement.is_linear
+         FunctionSetElement.out_dtype
+         FunctionSetElement.range
+         FunctionSetElement.space
+   
+   

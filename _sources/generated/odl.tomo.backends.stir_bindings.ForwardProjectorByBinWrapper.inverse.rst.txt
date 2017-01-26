@@ -1,0 +1,6 @@
+ForwardProjectorByBinWrapper.inverse
+====================================================================
+
+.. currentmodule:: odl.tomo.backends.stir_bindings
+
+.. autoattribute:: ForwardProjectorByBinWrapper.inverse

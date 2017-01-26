@@ -1,0 +1,6 @@
+NumpyNtuplesVector.shape
+==============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyNtuplesVector.shape

@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mrc_header_from_params &mdash; odl 0.5.4.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="odl 0.5.4.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="mrc" href="../odl.tomo.data.mrc.html"/>
+        <link rel="next" title="print_fei_ext_header_spec" href="odl.tomo.data.mrc.print_fei_ext_header_spec.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> odl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.4.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Working with ODL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/guide.html">User&#8217;s guide &#8211; selected topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/math.html">Mathematical Background</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer zone</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/dev.html">Contributing to ODL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Useful facts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/faq.html">Frequently asked questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../refs.html">References</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../odl.html">odl</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../odl.deform.html">deform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.diagnostics.html">diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.discr.html">discr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.operator.html">operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.phantom.html">phantom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.set.html">set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.solvers.html">solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.space.html">space</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../odl.tomo.html">tomo</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.analytic.html">analytic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.backends.html">backends</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../odl.tomo.data.html">data</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../odl.tomo.data.mrc.html">mrc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../odl.tomo.data.uncompr_bin.html">uncompr_bin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.geometry.html">geometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.operators.html">operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.util.html">util</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.trafos.html">trafos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.ufunc_ops.html">ufunc_ops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.util.html">util</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">odl</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../odl.html">odl</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.html">tomo</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.data.html">data</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.data.mrc.html">mrc</a> &raquo;</li>
+      
+    <li>mrc_header_from_params</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/generated/odl.tomo.data.mrc.mrc_header_from_params.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mrc-header-from-params">
+<h1>mrc_header_from_params<a class="headerlink" href="#mrc-header-from-params" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="odl.tomo.data.mrc.mrc_header_from_params">
+<code class="descclassname">odl.tomo.data.mrc.</code><code class="descname">mrc_header_from_params</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>kind</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/odl/tomo/data/mrc.html#mrc_header_from_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odl.tomo.data.mrc.mrc_header_from_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a minimal MRC2014 header from the given parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>shape</strong> : 3-sequence of ints</p>
+<blockquote>
+<div><p>3D shape of the stored data. The values are used as
+<code class="docutils literal"><span class="pre">'nx',</span> <span class="pre">'ny',</span> <span class="pre">'nz'</span></code> header entries, in this order. Note that
+this is different from the actual data storage shape for
+non-trivial <code class="docutils literal"><span class="pre">axis_order</span></code>.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : {&#8216;int8&#8217;, &#8216;int16&#8217;, &#8216;float32&#8217;, &#8216;uint16&#8217;}</p>
+<blockquote>
+<div><p>Data type specifier as understood by <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v1.12)"><code class="xref any docutils literal"><span class="pre">numpy.dtype</span></code></a>. It is
+translated to a <code class="docutils literal"><span class="pre">'mode'</span></code> header entry. See <a class="reference external" href="http://www.ccpem.ac.uk/mrc_format/mrc2014.php">this page</a> for valid
+modes.</p>
+</div></blockquote>
+<p><strong>kind</strong> : {&#8216;volume&#8217;, &#8216;projections&#8217;}</p>
+<blockquote>
+<div><p>Interpretation of the 3D data, either as single 3D volume or as
+a stack of 2D projections. The value is used for the <code class="docutils literal"><span class="pre">'ispg'</span></code>
+header entry.</p>
+</div></blockquote>
+<p><strong>extent</strong> : 3-sequence of floats, optional</p>
+<blockquote>
+<div><p>Size of the 3D volume in meters. The values are used for
+the <code class="docutils literal"><span class="pre">'cella'</span></code> header entry.
+Default: <code class="docutils literal"><span class="pre">shape</span></code>, resulting in <code class="docutils literal"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">1)</span></code> unit cells</p>
+</div></blockquote>
+<p><strong>axis_order</strong> : permutation of <code class="docutils literal"><span class="pre">(0,</span> <span class="pre">1,</span> <span class="pre">2)</span></code> optional</p>
+<blockquote>
+<div><p>Order of the data axes as they should appear in the stored file.
+The values are used for the <code class="docutils literal"><span class="pre">'mapc',</span> <span class="pre">'mapr',</span> <span class="pre">'maps'</span></code> header
+entries.
+Default: <code class="docutils literal"><span class="pre">(0,</span> <span class="pre">1,</span> <span class="pre">2)</span></code></p>
+</div></blockquote>
+<p><strong>dmin, dmax</strong> : float, optional</p>
+<blockquote>
+<div><p>Minimum and maximum values of the data, used for header entries
+<code class="docutils literal"><span class="pre">'dmin'</span></code> and <code class="docutils literal"><span class="pre">'dmax'</span></code>, resp.
+Default: 1.0, 0.0. These values indicate according to <a class="reference internal" href="../refs.html#che-2015" id="id1">[Che+2015]</a>
+that the values are considered as undetermined.</p>
+</div></blockquote>
+<p><strong>dmean, rms</strong> : float, optional</p>
+<blockquote>
+<div><p>Mean and variance of the data, used for header entries <code class="docutils literal"><span class="pre">'dmean'</span></code>
+and <code class="docutils literal"><span class="pre">'rms'</span></code>, resp.
+Default: <code class="docutils literal"><span class="pre">min(dmin,</span> <span class="pre">dmax)</span> <span class="pre">-</span> <span class="pre">1,</span> <span class="pre">-1.0</span></code>. These values indicate
+according to <a class="reference internal" href="../refs.html#che-2015" id="id2">[Che+2015]</a> that the values are considered as
+undetermined.</p>
+</div></blockquote>
+<p><strong>mrc_version</strong> : 2-tuple of int, optional</p>
+<blockquote>
+<div><p>Version identifier for the MRC file, used for the <code class="docutils literal"><span class="pre">'nversion'</span></code>
+header entry.
+Default: <code class="docutils literal"><span class="pre">(2014,</span> <span class="pre">0)</span></code></p>
+</div></blockquote>
+<p><strong>text_labels</strong> : sequence of strings</p>
+<blockquote>
+<div><p>Maximal 10 strings with 80 characters each, used for the
+<code class="docutils literal"><span class="pre">'nlabl'</span></code> and <code class="docutils literal"><span class="pre">'label'</span></code> header entries.
+Default: <code class="docutils literal"><span class="pre">[]</span></code></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>header</strong> : <code class="xref any docutils literal"><span class="pre">OrderedDict</span></code></p>
+<blockquote class="last">
+<div><p>Header stored in an ordered dictionary, where each entry has the
+following form:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value_as_array</span><span class="p">,</span>
+         <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset_in_bytes</span>
+         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description_string</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>All <code class="docutils literal"><span class="pre">'value'</span></code>&#8216;s are <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref any docutils literal"><span class="pre">numpy.ndarray</span></code></a>&#8216;s with at least one
+dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>[Che+2015] Cheng, A et al. <em>MRC2014: Extensions to the MRC format header
+for electron cryo-microscopy and tomography</em>. Journal of Structural
+Biology, 129 (2015), pp 146&#8211;150.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="odl.tomo.data.mrc.print_fei_ext_header_spec.html" class="btn btn-neutral float-right" title="print_fei_ext_header_spec" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2016, ODL development group, KTH.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.5.4.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

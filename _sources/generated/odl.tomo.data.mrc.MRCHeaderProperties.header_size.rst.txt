@@ -1,0 +1,6 @@
+MRCHeaderProperties.header_size
+=================================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: MRCHeaderProperties.header_size

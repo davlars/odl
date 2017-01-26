@@ -1,0 +1,6 @@
+ProductSpaceNoWeighting.const
+==============================================
+
+.. currentmodule:: odl.space.pspace
+
+.. autoattribute:: ProductSpaceNoWeighting.const

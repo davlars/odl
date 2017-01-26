@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.partition
+=============================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.partition

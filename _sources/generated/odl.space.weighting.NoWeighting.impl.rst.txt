@@ -1,0 +1,6 @@
+NoWeighting.impl
+====================================
+
+.. currentmodule:: odl.space.weighting
+
+.. autoattribute:: NoWeighting.impl

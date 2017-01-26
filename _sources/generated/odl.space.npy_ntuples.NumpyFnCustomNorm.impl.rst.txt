@@ -1,0 +1,6 @@
+NumpyFnCustomNorm.impl
+============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnCustomNorm.impl

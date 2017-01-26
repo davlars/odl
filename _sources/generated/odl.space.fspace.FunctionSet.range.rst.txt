@@ -1,0 +1,6 @@
+FunctionSet.range
+==================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoattribute:: FunctionSet.range

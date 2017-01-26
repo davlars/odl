@@ -1,0 +1,6 @@
+FileReaderMRC.data_axis_order
+===============================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileReaderMRC.data_axis_order

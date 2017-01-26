@@ -1,0 +1,6 @@
+NumpyFn.size
+==================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFn.size

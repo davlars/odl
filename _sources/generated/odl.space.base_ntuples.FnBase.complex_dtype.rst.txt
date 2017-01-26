@@ -1,0 +1,6 @@
+FnBase.complex_dtype
+===========================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: FnBase.complex_dtype

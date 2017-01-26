@@ -1,0 +1,8 @@
+:orphan:
+
+RectGrid.extent
+==============================
+
+.. currentmodule:: odl.discr.grid
+
+.. automethod:: RectGrid.extent

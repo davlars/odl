@@ -1,0 +1,8 @@
+:orphan:
+
+FileWriterRawBinaryWithHeader.write
+=============================================================
+
+.. currentmodule:: odl.tomo.data.uncompr_bin
+
+.. automethod:: FileWriterRawBinaryWithHeader.write

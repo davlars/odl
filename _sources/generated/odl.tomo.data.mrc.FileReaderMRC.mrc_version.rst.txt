@@ -1,0 +1,6 @@
+FileReaderMRC.mrc_version
+===========================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileReaderMRC.mrc_version

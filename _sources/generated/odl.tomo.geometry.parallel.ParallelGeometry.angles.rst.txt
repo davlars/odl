@@ -1,0 +1,6 @@
+ParallelGeometry.angles
+==================================================
+
+.. currentmodule:: odl.tomo.geometry.parallel
+
+.. autoattribute:: ParallelGeometry.angles

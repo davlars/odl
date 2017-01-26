@@ -1,0 +1,8 @@
+:orphan:
+
+FunctionalLinearPerturb._call
+===============================================================
+
+.. currentmodule:: odl.solvers.functional.functional
+
+.. automethod:: FunctionalLinearPerturb._call

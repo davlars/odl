@@ -1,0 +1,32 @@
+FileWriterRawBinaryWithHeader
+=======================================================
+
+.. currentmodule:: odl.tomo.data.uncompr_bin
+
+.. autoclass:: FileWriterRawBinaryWithHeader
+   :show-inheritance:
+   
+   
+   .. automethod:: __init__
+   
+      
+   
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         FileWriterRawBinaryWithHeader.write
+         FileWriterRawBinaryWithHeader.write_data
+         FileWriterRawBinaryWithHeader.write_header
+   
+
+    
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         FileWriterRawBinaryWithHeader.file
+         FileWriterRawBinaryWithHeader.header
+         FileWriterRawBinaryWithHeader.header_size
+   
+   

@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.ndim
+========================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.ndim

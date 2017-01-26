@@ -1,0 +1,6 @@
+FileReaderMRC.data_shape
+==========================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileReaderMRC.data_shape

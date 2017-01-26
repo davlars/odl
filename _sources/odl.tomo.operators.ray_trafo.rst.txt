@@ -1,0 +1,18 @@
+ray_trafo
+=========
+
+Ray transforms.
+
+.. currentmodule:: odl.tomo.operators.ray_trafo
+
+
+
+.. rubric:: Classes
+
+.. autosummary::
+   :toctree: generated/
+
+   ~odl.tomo.operators.ray_trafo.RayBackProjection
+   ~odl.tomo.operators.ray_trafo.RayTransform
+
+

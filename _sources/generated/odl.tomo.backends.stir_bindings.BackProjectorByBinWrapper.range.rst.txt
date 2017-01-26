@@ -1,0 +1,6 @@
+BackProjectorByBinWrapper.range
+===============================================================
+
+.. currentmodule:: odl.tomo.backends.stir_bindings
+
+.. autoattribute:: BackProjectorByBinWrapper.range

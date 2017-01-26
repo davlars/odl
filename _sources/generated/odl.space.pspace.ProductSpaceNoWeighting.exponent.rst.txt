@@ -1,0 +1,6 @@
+ProductSpaceNoWeighting.exponent
+=================================================
+
+.. currentmodule:: odl.space.pspace
+
+.. autoattribute:: ProductSpaceNoWeighting.exponent

@@ -1,0 +1,6 @@
+NumpyFnVector.T
+=====================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnVector.T

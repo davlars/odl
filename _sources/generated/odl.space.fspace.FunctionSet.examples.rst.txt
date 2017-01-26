@@ -1,0 +1,6 @@
+FunctionSet.examples
+=====================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoattribute:: FunctionSet.examples

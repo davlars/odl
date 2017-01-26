@@ -1,0 +1,6 @@
+NumpyFnVector.data_ptr
+============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnVector.data_ptr

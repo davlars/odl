@@ -1,0 +1,6 @@
+NtuplesBaseVector.nbytes
+===============================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: NtuplesBaseVector.nbytes

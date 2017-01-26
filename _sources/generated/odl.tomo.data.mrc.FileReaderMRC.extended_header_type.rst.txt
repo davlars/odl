@@ -1,0 +1,6 @@
+FileReaderMRC.extended_header_type
+====================================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileReaderMRC.extended_header_type

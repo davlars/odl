@@ -1,0 +1,6 @@
+FunctionSpaceElement.is_functional
+===================================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoattribute:: FunctionSpaceElement.is_functional

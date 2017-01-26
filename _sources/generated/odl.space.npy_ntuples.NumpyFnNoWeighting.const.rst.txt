@@ -1,0 +1,6 @@
+NumpyFnNoWeighting.const
+==============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnNoWeighting.const

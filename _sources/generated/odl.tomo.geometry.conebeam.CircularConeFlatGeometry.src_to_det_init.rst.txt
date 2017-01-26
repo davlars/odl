@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.src_to_det_init
+===================================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.src_to_det_init

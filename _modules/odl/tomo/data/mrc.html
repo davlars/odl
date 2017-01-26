@@ -1,0 +1,1056 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>odl.tomo.data.mrc &mdash; odl 0.5.4.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../../search.html"/>
+    <link rel="top" title="odl 0.5.4.dev0 documentation" href="../../../../index.html"/>
+        <link rel="up" title="Module code" href="../../../index.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> odl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.4.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started/getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Working with ODL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/guide.html">User&#8217;s guide &#8211; selected topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../math/math.html">Mathematical Background</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer zone</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dev/dev.html">Contributing to ODL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Useful facts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/faq.html">Frequently asked questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../refs.html">References</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../odl.html">odl</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">odl</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      
+    <li>odl.tomo.data.mrc</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for odl.tomo.data.mrc</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2014-2016 The ODL development group</span>
+<span class="c1">#</span>
+<span class="c1"># This file is part of ODL.</span>
+<span class="c1">#</span>
+<span class="c1"># ODL is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># ODL is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with ODL.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;Specification and reader for the MRC2014 file format.&quot;&quot;&quot;</span>
+
+<span class="c1"># Imports for common Python 2/3 codebase</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">super</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">permutations</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+
+<span class="kn">from</span> <span class="nn">odl.tomo.data.uncompr_bin</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">FileReaderRawBinaryWithHeader</span><span class="p">,</span> <span class="n">FileWriterRawBinaryWithHeader</span><span class="p">,</span>
+    <span class="n">header_fields_from_table</span><span class="p">)</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;FileReaderMRC&#39;</span><span class="p">,</span> <span class="s1">&#39;FileWriterMRC&#39;</span><span class="p">,</span> <span class="s1">&#39;mrc_header_from_params&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># The standard header</span>
+<span class="n">MRC_2014_SPEC_TABLE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|Long word|Byte    |Data type |Name    |Description                    |</span>
+<span class="s2">+=========+========+==========+========+===============================+</span>
+<span class="s2">|1        |1-4     |Int32     |NX      |Number of columns              |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|2        |5-8     |Int32     |NY      |Number of rows                 |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|3        |9-12    |Int32     |NZ      |Number of sections             |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|4        |13-16   |Int32     |MODE    |Data type                      |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|8        |29-32   |Int32     |MX      |Number of intervals along X of |</span>
+<span class="s2">|         |        |          |        |the &quot;unit cell&quot;                |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|9        |33-36   |Int32     |MY      |Number of intervals along Y of |</span>
+<span class="s2">|         |        |          |        |the &quot;unit cell&quot;                |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|10       |37-40   |Int32     |MZ      |Number of intervals along Z of |</span>
+<span class="s2">|         |        |          |        |the &quot;unit cell&quot;                |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|11-13    |41-52   |Float32   |CELLA   |Cell dimension in angstroms    |</span>
+<span class="s2">|         |        |          |        |(whole volume)                 |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|17       |65-68   |Int32     |MAPC    |axis corresponding to columns  |</span>
+<span class="s2">|         |        |          |        |(1,2,3 for X,Y,Z)              |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|18       |69-72   |Int32     |MAPR    |axis corresponding to rows     |</span>
+<span class="s2">|         |        |          |        |(1,2,3 for X,Y,Z)              |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|19       |73-76   |Int32     |MAPS    |axis corresponding to sections |</span>
+<span class="s2">|         |        |          |        |(1,2,3 for X,Y,Z)              |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|20       |77-80   |Float32   |DMIN    |Minimum density value          |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|21       |81-84   |Float32   |DMAX    |Maximum density value          |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|22       |85-88   |Float32   |DMEAN   |Mean density value             |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|23       |89-92   |Int32     |ISPG    |Space group number 0, 1, or 401|</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|24       |93-96   |Int32     |NSYMBT  |Number of bytes in extended    |</span>
+<span class="s2">|         |        |          |        |header                         |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|27       |105-108 |String    |EXTTYPE |Extended header type           |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|28       |109-112 |Int32     |NVERSION|Format version identification  |</span>
+<span class="s2">|         |        |          |        |number                         |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|50-52    |197-208 |Int32     |ORIGIN  |Origin in X, Y, Z used in      |</span>
+<span class="s2">|         |        |          |        |transform                      |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|53       |209-212 |String    |MAP     |Character string &#39;MAP&#39; to      |</span>
+<span class="s2">|         |        |          |        |identify file type             |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|54       |213-216 |String    |MACHST  |Machine stamp                  |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|55       |217-220 |Float32   |RMS     |RMS deviation of map from mean |</span>
+<span class="s2">|         |        |          |        |density                        |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|56       |221-224 |Int32     |NLABL   |Number of labels being used    |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">|57-256   |225-1024|String(80)|LABEL   |10 80-character text labels    |</span>
+<span class="s2">+---------+--------+----------+--------+-------------------------------+</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">MRC_HEADER_SIZE</span> <span class="o">=</span> <span class="mi">1024</span>
+
+<span class="n">MRC_SPEC_KEYS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;Long word&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;byte_range&#39;</span><span class="p">:</span> <span class="s1">&#39;Byte&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="s1">&#39;Data type&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Description&#39;</span><span class="p">}</span>
+
+<span class="n">MRC_DTYPE_TO_NPY_DTYPE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Float32&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;Int32&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;int32&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;String&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;S1&#39;</span><span class="p">)}</span>
+
+<span class="n">MRC_MODE_TO_NPY_DTYPE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;int8&#39;</span><span class="p">),</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;int16&#39;</span><span class="p">),</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">),</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;uint16&#39;</span><span class="p">)}</span>
+<span class="n">NPY_DTYPE_TO_MRC_MODE</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">MRC_MODE_TO_NPY_DTYPE</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="n">ANGSTROM_IN_METERS</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">10</span>
+<span class="n">MICRON_IN_METERS</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">6</span>
+
+
+<div class="viewcode-block" id="print_mrc2014_spec"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.mrc.print_mrc2014_spec.html#odl.tomo.data.mrc.print_mrc2014_spec">[docs]</a><span class="k">def</span> <span class="nf">print_mrc2014_spec</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Print the MRC2014 specification table.</span>
+
+<span class="sd">    The specification table is as follows:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">MRC_2014_SPEC_TABLE</span><span class="p">)</span></div>
+
+<span class="n">print_mrc2014_spec</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">+=</span> <span class="n">MRC_2014_SPEC_TABLE</span>
+
+
+<span class="c1"># Extended header (first section) for the `FEI1` type</span>
+<span class="n">MRC_FEI_EXT_HEADER_SECTION</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|Long word|Byte     |Data type|Name           |Description                   |</span>
+<span class="s2">+=========+=========+=========+===============+==============================+</span>
+<span class="s2">|1        |1025-1028|Float32  |A_TILT         |Alpha tilt, in degrees        |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|2        |1029-1032|Float32  |B_TILT         |Beta tilt, in degrees         |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|3        |1033-1036|Float32  |X_STAGE        |Stage x position. Normally in |</span>
+<span class="s2">|         |         |         |               |SI units (meters), but some   |</span>
+<span class="s2">|         |         |         |               |older files may be in         |</span>
+<span class="s2">|         |         |         |               |micrometers.(values larger    |</span>
+<span class="s2">|         |         |         |               |than 1)                       |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|4        |1037-1040|Float32  |Y_STAGE        |Stage y position              |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|5        |1041-1044|Float32  |Z_STAGE        |Stage z position              |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|6        |1045-1048|Float32  |X_SHIFT        |Stage x shift. For units see  |</span>
+<span class="s2">|         |         |         |               |remarks on X_STAGE            |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|7        |1049-1052|Float32  |Y_SHIFT        |Stage y shift                 |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|8        |1053-1056|Float32  |DEFOCUS        |Defocus as read from the      |</span>
+<span class="s2">|         |         |         |               |microscope. For units see     |</span>
+<span class="s2">|         |         |         |               |remarks on X_STAGE.           |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|9        |1057-1060|Float32  |EXP_TIME       |Exposure time in seconds      |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|10       |1061-1064|Float32  |MEAN_INT       |Mean value of the image       |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|11       |1065-1068|Float32  |TILT_AXIS      |Orientation of the tilt axis  |</span>
+<span class="s2">|         |         |         |               |in the image in degrees.      |</span>
+<span class="s2">|         |         |         |               |Vertical to the top is 0      |</span>
+<span class="s2">|         |         |         |               |degrees, the direction of     |</span>
+<span class="s2">|         |         |         |               |positive rotation is          |</span>
+<span class="s2">|         |         |         |               |anti-clockwise.               |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|12       |1069-1072|Float32  |PIXEL_SIZE     |Pixel size of the images in SI|</span>
+<span class="s2">|         |         |         |               |units (meters)                |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|13       |1073-1076|Float32  |MAGNIFICATION  |Magnification used for        |</span>
+<span class="s2">|         |         |         |               |recording the images          |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|14       |1077-1080|Float32  |HT             |Value of the high tension in  |</span>
+<span class="s2">|         |         |         |               |SI units (volts)              |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|15       |1081-1084|Float32  |BINNING        |The binning of the CCD or STEM|</span>
+<span class="s2">|         |         |         |               |acquisition                   |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">|16       |1085-1088|Float32  |APPLIED_DEFOCUS|The intended application      |</span>
+<span class="s2">|         |         |         |               |defocus in SI units (meters), |</span>
+<span class="s2">|         |         |         |               |as defined for example in the |</span>
+<span class="s2">|         |         |         |               |tomography parameters view    |</span>
+<span class="s2">+---------+---------+---------+---------------+------------------------------+</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">MRC_FEI_SECTION_SIZE</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">MRC_FEI_MAX_SECTIONS</span> <span class="o">=</span> <span class="mi">1024</span>
+
+
+<div class="viewcode-block" id="print_fei_ext_header_spec"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.mrc.print_fei_ext_header_spec.html#odl.tomo.data.mrc.print_fei_ext_header_spec">[docs]</a><span class="k">def</span> <span class="nf">print_fei_ext_header_spec</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Print the specification table of an FEI extended header section.</span>
+
+<span class="sd">    The specification table is as follows:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">MRC_FEI_EXT_HEADER_SECTION</span><span class="p">)</span></div>
+
+<span class="n">print_fei_ext_header_spec</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">+=</span> <span class="n">MRC_FEI_EXT_HEADER_SECTION</span>
+
+
+<div class="viewcode-block" id="MRCHeaderProperties"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.mrc.MRCHeaderProperties.html#odl.tomo.data.mrc.MRCHeaderProperties">[docs]</a><span class="k">class</span> <span class="nc">MRCHeaderProperties</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Mixin class adding MRC header-based properties to I/O classes.&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">header_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Total size of `file`&#39;s header (including extended) in bytes.</span>
+
+<span class="sd">        The size of the header is determined from `header`. If this is not</span>
+<span class="sd">        possible (i.e., before the header has been read), 0 is returned.</span>
+
+<span class="sd">        If the header contains an ``&#39;nsymbt&#39;`` entry (size of the extra</span>
+<span class="sd">        header in bytes), its value is added to the regular header size.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">standard_header_size</span> <span class="o">=</span> <span class="n">MRC_HEADER_SIZE</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">extra_header_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;nsymbt&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">extra_header_size</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">standard_header_size</span> <span class="o">+</span> <span class="n">extra_header_size</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shape tuple of the whole data block as determined from `header`.</span>
+
+<span class="sd">        If no header is available (i.e., before it has been initialized),</span>
+<span class="sd">        or any of the header entries ``&#39;nx&#39;, &#39;ny&#39;, &#39;nz&#39;`` is missing,</span>
+<span class="sd">        -1 is returned, which makes reshaping a no-op.</span>
+<span class="sd">        Otherwise, the returned shape is ``(nx, ny, nz)``.</span>
+
+<span class="sd">        Note: this is the shape of the data as defined by the header.</span>
+<span class="sd">        For a non-trivial axis ordering, the shape of actual data will</span>
+<span class="sd">        be different.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        data_storage_shape</span>
+<span class="sd">        data_axis_order</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">nx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;nx&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="n">ny</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;ny&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="n">nz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;nz&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_storage_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shape tuple of the data as stored in the file.</span>
+
+<span class="sd">        If no header is available (i.e., before it has been initialized),</span>
+<span class="sd">        or any of the header entries ``&#39;nx&#39;, &#39;ny&#39;, &#39;nz&#39;`` is missing,</span>
+<span class="sd">        -1 is returned, which makes reshaping a no-op.</span>
+<span class="sd">        Otherwise, the returned shape is a permutation of `data_shape`,</span>
+<span class="sd">        i.e., ``(nx, ny, nz)``, according to `data_axis_order` in the</span>
+<span class="sd">        following way::</span>
+
+<span class="sd">            data_shape[i] == data_storage_shape[data_axis_order[i]]</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        data_shape</span>
+<span class="sd">        data_axis_order</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_shape</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_shape</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span>
+                         <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_axis_order</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Data type of the data block as determined from `header`.</span>
+
+<span class="sd">        If no header is available (i.e., before it has been initialized),</span>
+<span class="sd">        or the header entry ``&#39;mode&#39;`` is missing, the data type gained</span>
+<span class="sd">        from the ``dtype`` argument in the initializer is returned.</span>
+<span class="sd">        Otherwise, it is determined from ``mode``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_data_dtype</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_data_dtype</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">MRC_MODE_TO_NPY_DTYPE</span><span class="p">[</span><span class="n">mode</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;data mode </span><span class="si">{}</span><span class="s1"> not supported&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_kind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;String ``&#39;volume&#39;``, ``&#39;projections&#39;`` or ``&#39;unknown&#39;``.</span>
+
+<span class="sd">        The value is determined from the ``&#39;ispg&#39;`` header entry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ispg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;ispg&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ispg</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;projections&#39;</span>
+        <span class="k">elif</span> <span class="n">ispg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;volume&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;unknown&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_axis_order</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Permutation of ``(0, 1, 2)``.</span>
+
+<span class="sd">        The value is determined from the ``&#39;mapc&#39;, &#39;mapr&#39;, &#39;maps&#39;``</span>
+<span class="sd">        header entries and determines the order of the axes of a</span>
+<span class="sd">        dataset (`data_shape`) when stored in a file</span>
+<span class="sd">        (`data_storage_shape`)::</span>
+
+<span class="sd">            data_shape[i] == data_storage_shape[data_axis_order[i]]</span>
+
+<span class="sd">        For example, if ``data_axis_order == (2, 0, 1)`` then the</span>
+<span class="sd">        data axis 2 comes first in storage, axis 0 comes second and</span>
+<span class="sd">        axis 1 comes last.</span>
+
+<span class="sd">        If no header is available, (i.e., before it has been initialized),</span>
+<span class="sd">        or one of the header entries ``&#39;mapc&#39;, &#39;mapr&#39;, &#39;maps&#39;`` is missing,</span>
+<span class="sd">        the identity permutation ``(0, 1, 2)`` is returned.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        data_shape</span>
+<span class="sd">        data_storage_shape</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">mapc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;mapc&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="n">mapr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;mapr&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="n">maps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;maps&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[</span><span class="n">mapc</span><span class="p">,</span> <span class="n">mapr</span><span class="p">,</span> <span class="n">maps</span><span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cell_sides_angstrom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Array of sizes of a unit cell in Angstroms.</span>
+
+<span class="sd">        The value is determined from the ``&#39;cella&#39;`` entry in `header`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;cella&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_shape</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cell_sides</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Array of sizes of a unit cell in meters.</span>
+
+<span class="sd">        The value is determined from the ``&#39;cella&#39;`` entry in `header`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cell_sides_angstrom</span> <span class="o">*</span> <span class="n">ANGSTROM_IN_METERS</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mrc_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Version tuple of the MRC file.</span>
+
+<span class="sd">        The value is determined from the ``&#39;nversion&#39;`` header entry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nversion</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;nversion&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">nversion</span> <span class="o">//</span> <span class="mi">10</span><span class="p">,</span> <span class="n">nversion</span> <span class="o">%</span> <span class="mi">10</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">extended_header_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Size of the extended header in bytes.</span>
+
+<span class="sd">        The value is determined from the header entry ``&#39;nsymbt&#39;``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;nsymbt&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">extended_header_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Type of the extended header.</span>
+
+<span class="sd">        The value is determined from the header entry ``&#39;exttype&#39;``.</span>
+<span class="sd">        See `the specification homepage</span>
+<span class="sd">        &lt;http://www.ccpem.ac.uk/mrc_format/mrc2014.php&gt;`_ for possible</span>
+<span class="sd">        values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;exttype&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the 10-tuple of text labels from `header`.</span>
+
+<span class="sd">        The value is determined from the header entries ``&#39;nlabl&#39;`` and</span>
+<span class="sd">        ``&#39;label&#39;``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">label_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">label_array</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">nlabels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;nlabl&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">nlabels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+        <span class="c1"># Check if there are nontrivial labels after the number given in</span>
+        <span class="c1"># the header. If yes, ignore the &#39;nlabl&#39; information and return</span>
+        <span class="c1"># all labels.</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">[</span><span class="n">nlabels</span><span class="p">:]):</span>
+            <span class="k">return</span> <span class="n">labels</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">labels</span><span class="p">[:</span><span class="n">nlabels</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="FileReaderMRC"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.mrc.FileReaderMRC.html#odl.tomo.data.mrc.FileReaderMRC">[docs]</a><span class="k">class</span> <span class="nc">FileReaderMRC</span><span class="p">(</span><span class="n">FileReaderRawBinaryWithHeader</span><span class="p">,</span> <span class="n">MRCHeaderProperties</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Reader for the MRC file format.</span>
+
+<span class="sd">    By default, the MRC2014 format is used, see `print_mrc_2014_spec` for</span>
+<span class="sd">    details. See also [Che+2015]_ or the `explanations on the CCP4 homepage</span>
+<span class="sd">    &lt;http://www.ccpem.ac.uk/mrc_format/mrc2014.php&gt;`_ for the</span>
+<span class="sd">    text of the specification.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [Che+2015] Cheng, A et al. *MRC2014: Extensions to the MRC format header</span>
+<span class="sd">    for electron cryo-microscopy and tomography*. Journal of Structural</span>
+<span class="sd">    Biology, 129 (2015), pp 146--150.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">header_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a new instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file : file-like or str</span>
+<span class="sd">            Stream or filename from which to read the data. The stream</span>
+<span class="sd">            is allowed to be already opened in ``&#39;rb&#39;`` mode.</span>
+<span class="sd">        header_fields : sequence of dicts, optional</span>
+<span class="sd">            Definition of the fields in the header (per row), each</span>
+<span class="sd">            containing key-value pairs for the following keys:</span>
+
+<span class="sd">            - ``&#39;name&#39;`` : Label for the field.</span>
+<span class="sd">            - ``&#39;offset&#39;`` : Start of the field in bytes.</span>
+<span class="sd">            - ``&#39;size&#39;`` : Size of the field in bytes.</span>
+<span class="sd">            - ``&#39;dtype&#39;`` : Data type in Numpy- or Numpy-readable format.</span>
+<span class="sd">            - ``&#39;dshape&#39;`` (optional) : The array of values is reshaped to</span>
+<span class="sd">              this shape.</span>
+<span class="sd">            - ``&#39;description&#39;`` (optional) : A human-readable description</span>
+<span class="sd">              of the field.</span>
+
+<span class="sd">            For the default ``None``, the MRC2014 format is used, see</span>
+<span class="sd">            `print_mrc2014_spec`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">header_fields</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">header_fields</span> <span class="o">=</span> <span class="n">header_fields_from_table</span><span class="p">(</span>
+                <span class="n">spec_table</span><span class="o">=</span><span class="n">MRC_2014_SPEC_TABLE</span><span class="p">,</span>
+                <span class="n">keys</span><span class="o">=</span><span class="n">MRC_SPEC_KEYS</span><span class="p">,</span>
+                <span class="n">dtype_map</span><span class="o">=</span><span class="n">MRC_DTYPE_TO_NPY_DTYPE</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">header_fields</span><span class="p">)</span>
+
+    <span class="n">print_mrc2014_spec</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">print_mrc2014_spec</span><span class="p">)</span>
+    <span class="n">print_fei_ext_header_spec</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">print_fei_ext_header_spec</span><span class="p">)</span>
+    <span class="n">data_storage_shape</span> <span class="o">=</span> <span class="n">MRCHeaderProperties</span><span class="o">.</span><span class="n">data_storage_shape</span>
+    <span class="n">data_dtype</span> <span class="o">=</span> <span class="n">MRCHeaderProperties</span><span class="o">.</span><span class="n">data_dtype</span>
+
+<div class="viewcode-block" id="FileReaderMRC.read_extended_header"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.mrc.FileReaderMRC.read_extended_header.html#odl.tomo.data.mrc.FileReaderMRC.read_extended_header">[docs]</a>    <span class="k">def</span> <span class="nf">read_extended_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groupby</span><span class="o">=</span><span class="s1">&#39;field&#39;</span><span class="p">,</span> <span class="n">force_type</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read the extended header according to `extended_header_type`.</span>
+
+<span class="sd">        Currently, only the FEI extended header format is supported.</span>
+<span class="sd">        See `print_fei_ext_header_spec` or `this homepage`_ for the format</span>
+<span class="sd">        specification.</span>
+
+<span class="sd">        The extended header usually has one header section per</span>
+<span class="sd">        image (slice), in case of the FEI header 128 bytes each, with</span>
+<span class="sd">        a maximum of 1024 sections.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        groupby : {&#39;field&#39;, &#39;section&#39;}</span>
+<span class="sd">            How to group the values in the extended header sections.</span>
+
+<span class="sd">            ``&#39;field&#39;`` : make an array per section field, e.g.::</span>
+
+<span class="sd">                &#39;defocus&#39;: [dval1, dval2, ..., dvalN],</span>
+<span class="sd">                &#39;exp_time&#39;: [tval1, tval2, ..., tvalN],</span>
+<span class="sd">                ...</span>
+
+<span class="sd">            ``&#39;section&#39;`` : make a dictionary for each section, e.g.::</span>
+
+<span class="sd">                {&#39;defocus&#39;: dval1, &#39;exp_time&#39;: tval1},</span>
+<span class="sd">                {&#39;defocus&#39;: dval2, &#39;exp_time&#39;: tval2},</span>
+<span class="sd">                ...</span>
+
+<span class="sd">        force_type : string, optional</span>
+<span class="sd">            If given, this value overrides the `extended_header_type`</span>
+<span class="sd">            from `header`.</span>
+
+<span class="sd">            Currently supported: ``&#39;FEI1&#39;``</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ext_header: `OrderedDict` or tuple</span>
+<span class="sd">            For ``groupby == &#39;field&#39;``, a dictionary with the field names</span>
+<span class="sd">            as keys, like in the example.</span>
+<span class="sd">            For ``groupby == &#39;section&#39;``, a tuple of dictionaries as</span>
+<span class="sd">            shown above.</span>
+<span class="sd">            The returned data structures store no offsets, in contrast</span>
+<span class="sd">            to the regular header.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        .. _this homepage:</span>
+<span class="sd">           http://www.2dx.unibas.ch/documentation/mrc-software/fei-\</span>
+<span class="sd">extended-mrc-format-not-used-by-2dx</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ext_header_type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">force_type</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">extended_header_type</span>
+        <span class="k">if</span> <span class="n">ext_header_type</span> <span class="o">!=</span> <span class="s1">&#39;FEI1&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;extended header type &#39;</span><span class="si">{}</span><span class="s2">&#39; not supported&quot;</span>
+                             <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extended_header_type</span><span class="p">))</span>
+
+        <span class="n">groupby</span><span class="p">,</span> <span class="n">groupby_in</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">groupby</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">groupby</span>
+
+        <span class="n">ext_header_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;nsymbt&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">ext_header_len</span> <span class="o">%</span> <span class="n">MRC_FEI_SECTION_SIZE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;extended header length </span><span class="si">{}</span><span class="s1"> from header is &#39;</span>
+                             <span class="s1">&#39;not divisible by extended header section size &#39;</span>
+                             <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ext_header_len</span><span class="p">,</span> <span class="n">MRC_FEI_SECTION_SIZE</span><span class="p">))</span>
+
+        <span class="n">num_sections</span> <span class="o">=</span> <span class="n">ext_header_len</span> <span class="o">//</span> <span class="n">MRC_FEI_SECTION_SIZE</span>
+        <span class="k">if</span> <span class="n">num_sections</span> <span class="o">&gt;</span> <span class="n">MRC_FEI_MAX_SECTIONS</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;calculated number of sections (</span><span class="si">{}</span><span class="s1">) exceeds &#39;</span>
+                             <span class="s1">&#39;maximum number of sections (</span><span class="si">{}</span><span class="s1">)&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_sections</span><span class="p">,</span> <span class="n">MRC_FEI_MAX_SECTIONS</span><span class="p">))</span>
+
+        <span class="n">section_fields</span> <span class="o">=</span> <span class="n">header_fields_from_table</span><span class="p">(</span>
+            <span class="n">MRC_FEI_EXT_HEADER_SECTION</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">MRC_SPEC_KEYS</span><span class="p">,</span>
+            <span class="n">dtype_map</span><span class="o">=</span><span class="n">MRC_DTYPE_TO_NPY_DTYPE</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">groupby</span> <span class="o">==</span> <span class="s1">&#39;field&#39;</span><span class="p">:</span>
+            <span class="c1"># Make a list for each field and append the values for that</span>
+            <span class="c1"># field. Then create an array from that list and store it</span>
+            <span class="c1"># under the field name.</span>
+            <span class="n">ext_header</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">section_fields</span><span class="p">:</span>
+                <span class="n">value_list</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">field_offset</span> <span class="o">=</span> <span class="n">field</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span>
+                <span class="n">field_dtype</span> <span class="o">=</span> <span class="n">field</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span>
+                <span class="n">field_dshape</span> <span class="o">=</span> <span class="n">field</span><span class="p">[</span><span class="s1">&#39;dshape&#39;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_sections</span><span class="p">):</span>
+                    <span class="c1"># Get the bytestring from the right position in the file,</span>
+                    <span class="c1"># unpack it and append the value to the list.</span>
+                    <span class="n">section_start</span> <span class="o">=</span> <span class="n">section</span> <span class="o">*</span> <span class="n">MRC_FEI_SECTION_SIZE</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">section_start</span> <span class="o">+</span> <span class="n">field_offset</span><span class="p">)</span>
+                    <span class="n">num_items</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">field_dshape</span><span class="p">))</span>
+                    <span class="n">size_bytes</span> <span class="o">=</span> <span class="n">num_items</span> <span class="o">*</span> <span class="n">field_dtype</span><span class="o">.</span><span class="n">itemsize</span>
+                    <span class="n">packed_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">size_bytes</span><span class="p">)</span>
+                    <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_items</span><span class="p">,</span> <span class="n">field_dtype</span><span class="o">.</span><span class="n">char</span><span class="p">)</span>
+                    <span class="n">value_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">packed_value</span><span class="p">))</span>
+
+                <span class="n">ext_header</span><span class="p">[</span><span class="n">field</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value_list</span><span class="p">,</span>
+                                                     <span class="n">dtype</span><span class="o">=</span><span class="n">field_dtype</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ext_header</span>
+
+        <span class="k">elif</span> <span class="n">groupby</span> <span class="o">==</span> <span class="s1">&#39;section&#39;</span><span class="p">:</span>
+            <span class="c1"># Loop though the sections and append all values from that</span>
+            <span class="c1"># section to a list. Return it as a tuple.</span>
+            <span class="n">ext_header</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_sections</span><span class="p">):</span>
+                <span class="n">entry</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">section_start</span> <span class="o">=</span> <span class="n">section</span> <span class="o">*</span> <span class="n">MRC_FEI_SECTION_SIZE</span>
+                <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">section_fields</span><span class="p">:</span>
+                    <span class="c1"># Get the bytestring from the right position in the file,</span>
+                    <span class="c1"># unpack it and store the value as array in the dict.</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">section_start</span> <span class="o">+</span> <span class="n">field</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">])</span>
+                    <span class="n">num_items</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s1">&#39;dshape&#39;</span><span class="p">]))</span>
+                    <span class="n">size_bytes</span> <span class="o">=</span> <span class="n">num_items</span> <span class="o">*</span> <span class="n">field</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">itemsize</span>
+                    <span class="n">packed_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">size_bytes</span><span class="p">)</span>
+                    <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_items</span><span class="p">,</span> <span class="n">field</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">char</span><span class="p">)</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">packed_value</span><span class="p">)</span>
+                    <span class="c1"># Make each entry a 1-element 1D array as usual</span>
+                    <span class="n">entry</span><span class="p">[</span><span class="n">field</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                        <span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">field</span><span class="p">[</span><span class="s1">&#39;dtype&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s1">&#39;dshape&#39;</span><span class="p">])</span>
+
+                <span class="n">ext_header</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ext_header</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`groupby` &#39;</span><span class="si">{}</span><span class="s2">&#39; not understood&quot;</span>
+                             <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">groupby_in</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="FileReaderMRC.read_data"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.mrc.FileReaderMRC.read_data.html#odl.tomo.data.mrc.FileReaderMRC.read_data">[docs]</a>    <span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dstart</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">swap_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read the data from `file` and return it as Numpy array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dstart : int, optional</span>
+<span class="sd">            Offset in bytes of the data field. By default, it is equal</span>
+<span class="sd">            to ``header_size``. Backwards indexing with negative values</span>
+<span class="sd">            is also supported.</span>
+<span class="sd">            Use a value larger than the header size to extract a data subset.</span>
+<span class="sd">        dend : int, optional</span>
+<span class="sd">            End position in bytes until which data is read (exclusive).</span>
+<span class="sd">            Backwards indexing with negative values is also supported.</span>
+<span class="sd">            Use a value different from the file size to extract a data subset.</span>
+<span class="sd">        swap_axes : bool, optional</span>
+<span class="sd">            If ``True``, use `data_axis_order` to swap the axes in the</span>
+<span class="sd">            returned array. In that case, the shape of the array may no</span>
+<span class="sd">            longer agree with `data_storage_shape`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        data : `numpy.ndarray`</span>
+<span class="sd">            The data read from `file`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">dstart</span><span class="p">,</span> <span class="n">dend</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_shape</span><span class="p">,</span>
+                                                       <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">swap_axes</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_axis_order</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_shape</span>
+        <span class="k">return</span> <span class="n">data</span></div></div>
+
+
+<div class="viewcode-block" id="FileWriterMRC"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.mrc.FileWriterMRC.html#odl.tomo.data.mrc.FileWriterMRC">[docs]</a><span class="k">class</span> <span class="nc">FileWriterMRC</span><span class="p">(</span><span class="n">FileWriterRawBinaryWithHeader</span><span class="p">,</span> <span class="n">MRCHeaderProperties</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Writer for the MRC file format.</span>
+
+<span class="sd">    See [Che+2015]_ or the `explanations on the CCP4 homepage</span>
+<span class="sd">    &lt;http://www.ccpem.ac.uk/mrc_format/mrc2014.php&gt;`_ for the</span>
+<span class="sd">    text of the specification.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [Che+2015] Cheng, A et al. *MRC2014: Extensions to the MRC format header</span>
+<span class="sd">    for electron cryo-microscopy and tomography*. Journal of Structural</span>
+<span class="sd">    Biology, 129 (2015), pp 146--150.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">print_mrc2014_spec</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">print_mrc2014_spec</span><span class="p">)</span>
+    <span class="n">data_storage_shape</span> <span class="o">=</span> <span class="n">MRCHeaderProperties</span><span class="o">.</span><span class="n">data_storage_shape</span>
+    <span class="n">data_dtype</span> <span class="o">=</span> <span class="n">MRCHeaderProperties</span><span class="o">.</span><span class="n">data_dtype</span>
+
+<div class="viewcode-block" id="FileWriterMRC.write_data"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.mrc.FileWriterMRC.write_data.html#odl.tomo.data.mrc.FileWriterMRC.write_data">[docs]</a>    <span class="k">def</span> <span class="nf">write_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">dstart</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">swap_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write ``data`` to `file`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : `array-like`</span>
+<span class="sd">            Data that should be written to `file`.</span>
+<span class="sd">        dstart : non-negative int, optional</span>
+<span class="sd">            Offset in bytes of the start position of the written data.</span>
+<span class="sd">            If provided, reshaping and axis swapping of ``data`` is</span>
+<span class="sd">            skipped.</span>
+<span class="sd">            For ``None``, `header_size` is used.</span>
+<span class="sd">        swap_axes : bool, optional</span>
+<span class="sd">            If ``True``, use the ``&#39;mapc&#39;, &#39;mapr&#39;, &#39;maps&#39;`` header entries</span>
+<span class="sd">            to swap the axes in the ``data`` before writing. Use ``False``</span>
+<span class="sd">            only if the data is already consistent with the final axis</span>
+<span class="sd">            order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">dstart</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_shape</span>
+            <span class="n">dstart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header_size</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dstart</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`dstart` must be non-negative, got </span><span class="si">{}</span><span class="s1">&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dstart</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">dstart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dstart</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dstart</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">header_size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;invalid `dstart`, resulting in absolute &#39;</span>
+                             <span class="s1">&#39;`dstart` &lt; `header_size` (</span><span class="si">{}</span><span class="s1"> &lt; </span><span class="si">{}</span><span class="s1">)&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dstart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">header_size</span><span class="p">))</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dtype</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">swap_axes</span><span class="p">:</span>
+            <span class="c1"># Need to argsort here since `data_axis_order` tells</span>
+            <span class="c1"># &quot;which axis comes from where&quot;, which is the inverse of what the</span>
+            <span class="c1"># `transpose` function needs.</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_axis_order</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_storage_shape</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">dstart</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="mrc_header_from_params"><a class="viewcode-back" href="../../../../generated/odl.tomo.data.mrc.mrc_header_from_params.html#odl.tomo.data.mrc.mrc_header_from_params">[docs]</a><span class="k">def</span> <span class="nf">mrc_header_from_params</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a minimal MRC2014 header from the given parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    shape : 3-sequence of ints</span>
+<span class="sd">        3D shape of the stored data. The values are used as</span>
+<span class="sd">        ``&#39;nx&#39;, &#39;ny&#39;, &#39;nz&#39;`` header entries, in this order. Note that</span>
+<span class="sd">        this is different from the actual data storage shape for</span>
+<span class="sd">        non-trivial ``axis_order``.</span>
+<span class="sd">    dtype : {&#39;int8&#39;, &#39;int16&#39;, &#39;float32&#39;, &#39;uint16&#39;}</span>
+<span class="sd">        Data type specifier as understood by `numpy.dtype`. It is</span>
+<span class="sd">        translated to a ``&#39;mode&#39;`` header entry. See `this page</span>
+<span class="sd">        &lt;http://www.ccpem.ac.uk/mrc_format/mrc2014.php&gt;`_ for valid</span>
+<span class="sd">        modes.</span>
+<span class="sd">    kind : {&#39;volume&#39;, &#39;projections&#39;}</span>
+<span class="sd">        Interpretation of the 3D data, either as single 3D volume or as</span>
+<span class="sd">        a stack of 2D projections. The value is used for the ``&#39;ispg&#39;``</span>
+<span class="sd">        header entry.</span>
+<span class="sd">    extent : 3-sequence of floats, optional</span>
+<span class="sd">        Size of the 3D volume in meters. The values are used for</span>
+<span class="sd">        the ``&#39;cella&#39;`` header entry.</span>
+<span class="sd">        Default: ``shape``, resulting in ``(1, 1, 1)`` unit cells</span>
+<span class="sd">    axis_order : permutation of ``(0, 1, 2)`` optional</span>
+<span class="sd">        Order of the data axes as they should appear in the stored file.</span>
+<span class="sd">        The values are used for the ``&#39;mapc&#39;, &#39;mapr&#39;, &#39;maps&#39;`` header</span>
+<span class="sd">        entries.</span>
+<span class="sd">        Default: ``(0, 1, 2)``</span>
+<span class="sd">    dmin, dmax : float, optional</span>
+<span class="sd">        Minimum and maximum values of the data, used for header entries</span>
+<span class="sd">        ``&#39;dmin&#39;`` and ``&#39;dmax&#39;``, resp.</span>
+<span class="sd">        Default: 1.0, 0.0. These values indicate according to [Che+2015]_</span>
+<span class="sd">        that the values are considered as undetermined.</span>
+<span class="sd">    dmean, rms : float, optional</span>
+<span class="sd">        Mean and variance of the data, used for header entries ``&#39;dmean&#39;``</span>
+<span class="sd">        and ``&#39;rms&#39;``, resp.</span>
+<span class="sd">        Default: ``min(dmin, dmax) - 1, -1.0``. These values indicate</span>
+<span class="sd">        according to [Che+2015]_ that the values are considered as</span>
+<span class="sd">        undetermined.</span>
+<span class="sd">    mrc_version : 2-tuple of int, optional</span>
+<span class="sd">        Version identifier for the MRC file, used for the ``&#39;nversion&#39;``</span>
+<span class="sd">        header entry.</span>
+<span class="sd">        Default: ``(2014, 0)``</span>
+<span class="sd">    text_labels : sequence of strings</span>
+<span class="sd">        Maximal 10 strings with 80 characters each, used for the</span>
+<span class="sd">        ``&#39;nlabl&#39;`` and ``&#39;label&#39;`` header entries.</span>
+<span class="sd">        Default: ``[]``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    header : `OrderedDict`</span>
+<span class="sd">        Header stored in an ordered dictionary, where each entry has the</span>
+<span class="sd">        following form::</span>
+
+<span class="sd">            &#39;name&#39;: {&#39;value&#39;: value_as_array,</span>
+<span class="sd">                     &#39;offset&#39;: offset_in_bytes</span>
+<span class="sd">                     &#39;description&#39;: description_string}</span>
+
+<span class="sd">        All ``&#39;value&#39;``&#39;s are `numpy.ndarray`&#39;s with at least one</span>
+<span class="sd">        dimension.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [Che+2015] Cheng, A et al. *MRC2014: Extensions to the MRC format header</span>
+<span class="sd">    for electron cryo-microscopy and tomography*. Journal of Structural</span>
+<span class="sd">    Biology, 129 (2015), pp 146--150.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Positional args</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">shape</span><span class="p">]</span>
+    <span class="n">kind</span><span class="p">,</span> <span class="n">kind_in</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">kind</span>
+    <span class="k">if</span> <span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="s1">&#39;projections&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`kind &#39;</span><span class="si">{}</span><span class="s2">&#39; not understood&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kind_in</span><span class="p">))</span>
+
+    <span class="c1"># Keyword args</span>
+    <span class="n">extent</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;extent&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+    <span class="n">axis_order</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;axis_order&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">axis_order</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">permutations</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`axis_order` must be a permutation of (0, 1, 2), &#39;</span>
+                         <span class="s1">&#39;got </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axis_order</span><span class="p">))</span>
+    <span class="n">dmin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;dmin&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">dmax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;dmax&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">dmean</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;dmean&#39;</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">dmin</span><span class="p">,</span> <span class="n">dmax</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">rms</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;rms&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">mrc_version</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;mrc_version&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2014</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mrc_version</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`mrc_version` must be a sequence of length 2, got &#39;</span>
+                         <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mrc_version</span><span class="p">))</span>
+
+    <span class="c1"># Text labels: fill each label up with whitespace to 80 characters.</span>
+    <span class="c1"># Create the remaining labels as 80 * &#39;\x00&#39;</span>
+    <span class="n">text_labels_in</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;text_labels&#39;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">nlabl</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_labels_in</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nlabl</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;expexted maximum of 10 labels, got </span><span class="si">{}</span><span class="s1"> labels&#39;</span>
+                         <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nlabl</span><span class="p">))</span>
+    <span class="n">text_labels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">text_labels_in</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">80</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">text_labels</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;labels cannot have more than 80 characters each&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Convert to header-friendly form. Names are required to match</span>
+    <span class="c1"># exactly the header field names, and all of them must exist,</span>
+    <span class="c1"># so that `eval` below succeeds for all fields.</span>
+    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">shape</span><span class="p">]</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">NPY_DTYPE_TO_MRC_MODE</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)],</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">mx</span><span class="p">,</span> <span class="n">my</span><span class="p">,</span> <span class="n">mz</span> <span class="o">=</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span>
+    <span class="n">cella</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">extent</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+    <span class="n">mapc</span><span class="p">,</span> <span class="n">mapr</span><span class="p">,</span> <span class="n">maps</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">axis_order</span><span class="p">]</span>
+    <span class="n">dmin</span><span class="p">,</span> <span class="n">dmax</span><span class="p">,</span> <span class="n">dmean</span><span class="p">,</span> <span class="n">rms</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
+                              <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">dmin</span><span class="p">,</span> <span class="n">dmax</span><span class="p">,</span> <span class="n">dmean</span><span class="p">,</span> <span class="n">rms</span><span class="p">)]</span>
+    <span class="n">ispg</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;volume&#39;</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">ispg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ispg</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">,</span> <span class="n">ndmin</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">nsymbt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span>
+    <span class="n">exttype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="s1">&#39;    &#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S1&#39;</span><span class="p">)</span>
+    <span class="n">nversion</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">mrc_version</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">mrc_version</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span>
+    <span class="nb">map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="s1">&#39;MAP &#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S1&#39;</span><span class="p">)</span>
+    <span class="c1"># TODO: no idea how to properly choose the machine stamp</span>
+    <span class="n">machst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">b</span><span class="s1">&#39;DD  &#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S1&#39;</span><span class="p">)</span>
+    <span class="n">nlabl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nlabl</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S1&#39;</span><span class="p">)</span>  <span class="c1"># ensure correct size</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">label_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">text_labels</span><span class="p">):</span>
+        <span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">label_i</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S1&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Make the header</span>
+    <span class="c1"># We use again the specification to set the values</span>
+    <span class="n">header_fields</span> <span class="o">=</span> <span class="n">header_fields_from_table</span><span class="p">(</span>
+        <span class="n">MRC_2014_SPEC_TABLE</span><span class="p">,</span> <span class="n">MRC_SPEC_KEYS</span><span class="p">,</span> <span class="n">MRC_DTYPE_TO_NPY_DTYPE</span><span class="p">)</span>
+
+    <span class="n">header</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">header_fields</span><span class="p">:</span>
+        <span class="n">header</span><span class="p">[</span><span class="n">field</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">field</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">],</span>
+                                 <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="nb">eval</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])}</span>
+
+    <span class="k">return</span> <span class="n">header</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2016, ODL development group, KTH.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.5.4.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+:orphan:
+
+ParallelGeometry.det_to_src
+======================================================
+
+.. currentmodule:: odl.tomo.geometry.parallel
+
+.. automethod:: ParallelGeometry.det_to_src

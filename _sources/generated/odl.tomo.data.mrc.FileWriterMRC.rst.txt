@@ -1,0 +1,44 @@
+FileWriterMRC
+===============================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoclass:: FileWriterMRC
+   :show-inheritance:
+   
+   
+   .. automethod:: __init__
+   
+      
+   
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         FileWriterMRC.print_mrc2014_spec
+         FileWriterMRC.write
+         FileWriterMRC.write_data
+         FileWriterMRC.write_header
+   
+
+    
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         FileWriterMRC.cell_sides
+         FileWriterMRC.cell_sides_angstrom
+         FileWriterMRC.data_axis_order
+         FileWriterMRC.data_dtype
+         FileWriterMRC.data_kind
+         FileWriterMRC.data_shape
+         FileWriterMRC.data_storage_shape
+         FileWriterMRC.extended_header_size
+         FileWriterMRC.extended_header_type
+         FileWriterMRC.file
+         FileWriterMRC.header
+         FileWriterMRC.header_size
+         FileWriterMRC.labels
+         FileWriterMRC.mrc_version
+   
+   

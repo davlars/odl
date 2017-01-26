@@ -1,0 +1,6 @@
+ProductSpaceCustomInner.dist_using_inner
+=========================================================
+
+.. currentmodule:: odl.space.pspace
+
+.. autoattribute:: ProductSpaceCustomInner.dist_using_inner

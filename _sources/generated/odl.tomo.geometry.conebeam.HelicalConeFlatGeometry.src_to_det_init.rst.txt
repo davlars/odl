@@ -1,0 +1,6 @@
+HelicalConeFlatGeometry.src_to_det_init
+==================================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: HelicalConeFlatGeometry.src_to_det_init

@@ -1,0 +1,6 @@
+NumpyNtuples.examples
+===========================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyNtuples.examples

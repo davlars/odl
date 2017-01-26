@@ -1,0 +1,6 @@
+LinearInterpolation.order
+==================================================
+
+.. currentmodule:: odl.discr.discr_mappings
+
+.. autoattribute:: LinearInterpolation.order

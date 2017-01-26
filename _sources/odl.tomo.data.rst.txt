@@ -1,0 +1,18 @@
+data
+====
+
+Routines for Data I/O.
+
+.. currentmodule:: odl.tomo.data
+
+
+.. rubric:: Modules
+
+.. toctree::
+   :maxdepth: 2
+
+   odl.tomo.data.mrc
+   odl.tomo.data.uncompr_bin
+
+
+

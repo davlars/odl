@@ -1,0 +1,6 @@
+NumpyFn.dtype
+===================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFn.dtype

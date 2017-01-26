@@ -1,0 +1,6 @@
+ParallelGeometry.grid
+================================================
+
+.. currentmodule:: odl.tomo.geometry.parallel
+
+.. autoattribute:: ParallelGeometry.grid

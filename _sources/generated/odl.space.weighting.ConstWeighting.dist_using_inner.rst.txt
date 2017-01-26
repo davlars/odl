@@ -1,0 +1,6 @@
+ConstWeighting.dist_using_inner
+===================================================
+
+.. currentmodule:: odl.space.weighting
+
+.. autoattribute:: ConstWeighting.dist_using_inner

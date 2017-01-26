@@ -1,0 +1,6 @@
+MatVecOperator.matrix
+===========================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: MatVecOperator.matrix

@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.motion_partition
+====================================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.motion_partition

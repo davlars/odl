@@ -1,0 +1,6 @@
+NumpyFnVector.imag
+========================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnVector.imag

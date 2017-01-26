@@ -1,0 +1,6 @@
+BackProjectorByBinWrapper.is_functional
+=======================================================================
+
+.. currentmodule:: odl.tomo.backends.stir_bindings
+
+.. autoattribute:: BackProjectorByBinWrapper.is_functional

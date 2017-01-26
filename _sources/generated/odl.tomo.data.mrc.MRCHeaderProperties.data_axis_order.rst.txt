@@ -1,0 +1,6 @@
+MRCHeaderProperties.data_axis_order
+=====================================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: MRCHeaderProperties.data_axis_order

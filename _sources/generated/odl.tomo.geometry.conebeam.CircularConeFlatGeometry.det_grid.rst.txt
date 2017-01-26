@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.det_grid
+============================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.det_grid

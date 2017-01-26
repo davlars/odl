@@ -1,0 +1,6 @@
+FnBase.real_space
+========================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: FnBase.real_space

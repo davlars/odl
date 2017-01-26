@@ -1,0 +1,6 @@
+NumpyFn.real_space
+========================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFn.real_space

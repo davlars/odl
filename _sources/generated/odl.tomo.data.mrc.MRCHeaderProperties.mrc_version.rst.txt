@@ -1,0 +1,6 @@
+MRCHeaderProperties.mrc_version
+=================================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: MRCHeaderProperties.mrc_version

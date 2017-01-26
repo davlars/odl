@@ -1,0 +1,6 @@
+FnBase.size
+==================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: FnBase.size

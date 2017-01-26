@@ -1,0 +1,6 @@
+FileWriterRawBinaryWithHeader.header
+==============================================================
+
+.. currentmodule:: odl.tomo.data.uncompr_bin
+
+.. autoattribute:: FileWriterRawBinaryWithHeader.header

@@ -1,0 +1,6 @@
+ParallelGeometry.det_partition
+=========================================================
+
+.. currentmodule:: odl.tomo.geometry.parallel
+
+.. autoattribute:: ParallelGeometry.det_partition

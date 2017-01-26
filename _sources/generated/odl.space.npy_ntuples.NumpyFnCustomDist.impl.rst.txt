@@ -1,0 +1,6 @@
+NumpyFnCustomDist.impl
+============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnCustomDist.impl

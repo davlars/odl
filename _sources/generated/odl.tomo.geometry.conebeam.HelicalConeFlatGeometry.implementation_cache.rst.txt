@@ -1,0 +1,6 @@
+HelicalConeFlatGeometry.implementation_cache
+=======================================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: HelicalConeFlatGeometry.implementation_cache

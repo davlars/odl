@@ -1,0 +1,6 @@
+FileWriterMRC.header_size
+===========================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileWriterMRC.header_size

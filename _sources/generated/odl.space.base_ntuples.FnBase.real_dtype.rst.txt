@@ -1,0 +1,6 @@
+FnBase.real_dtype
+========================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: FnBase.real_dtype

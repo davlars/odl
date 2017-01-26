@@ -1,0 +1,6 @@
+MatVecOperator.is_functional
+==================================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: MatVecOperator.is_functional

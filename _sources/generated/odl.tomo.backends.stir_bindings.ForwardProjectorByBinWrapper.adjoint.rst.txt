@@ -1,0 +1,6 @@
+ForwardProjectorByBinWrapper.adjoint
+====================================================================
+
+.. currentmodule:: odl.tomo.backends.stir_bindings
+
+.. autoattribute:: ForwardProjectorByBinWrapper.adjoint

@@ -1,0 +1,6 @@
+DiscretizedSet.shape
+=============================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSet.shape

@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FileReaderMRC &mdash; odl 0.5.4.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="odl 0.5.4.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="mrc" href="../odl.tomo.data.mrc.html"/>
+        <link rel="next" title="FileReaderMRC.cell_sides" href="odl.tomo.data.mrc.FileReaderMRC.cell_sides.html"/>
+        <link rel="prev" title="mrc" href="../odl.tomo.data.mrc.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> odl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.4.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Working with ODL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/guide.html">User&#8217;s guide &#8211; selected topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/math.html">Mathematical Background</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer zone</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/dev.html">Contributing to ODL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Useful facts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/faq.html">Frequently asked questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../refs.html">References</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../odl.html">odl</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../odl.deform.html">deform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.diagnostics.html">diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.discr.html">discr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.operator.html">operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.phantom.html">phantom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.set.html">set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.solvers.html">solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.space.html">space</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../odl.tomo.html">tomo</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.analytic.html">analytic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.backends.html">backends</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../odl.tomo.data.html">data</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../odl.tomo.data.mrc.html">mrc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../odl.tomo.data.uncompr_bin.html">uncompr_bin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.geometry.html">geometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.operators.html">operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.util.html">util</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.trafos.html">trafos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.ufunc_ops.html">ufunc_ops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.util.html">util</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">odl</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../odl.html">odl</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.html">tomo</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.data.html">data</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.data.mrc.html">mrc</a> &raquo;</li>
+      
+    <li>FileReaderMRC</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/generated/odl.tomo.data.mrc.FileReaderMRC.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="filereadermrc">
+<h1>FileReaderMRC<a class="headerlink" href="#filereadermrc" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="odl.tomo.data.mrc.FileReaderMRC">
+<em class="property">class </em><code class="descclassname">odl.tomo.data.mrc.</code><code class="descname">FileReaderMRC</code><span class="sig-paren">(</span><em>file</em>, <em>header_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/odl/tomo/data/mrc.html#FileReaderMRC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odl.tomo.data.mrc.FileReaderMRC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.html#odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader" title="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader"><code class="xref py py-class docutils literal"><span class="pre">odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader</span></code></a>, <a class="reference internal" href="odl.tomo.data.mrc.MRCHeaderProperties.html#odl.tomo.data.mrc.MRCHeaderProperties" title="odl.tomo.data.mrc.MRCHeaderProperties"><code class="xref py py-class docutils literal"><span class="pre">odl.tomo.data.mrc.MRCHeaderProperties</span></code></a></p>
+<p>Reader for the MRC file format.</p>
+<p>By default, the MRC2014 format is used, see <code class="xref any docutils literal"><span class="pre">print_mrc_2014_spec</span></code> for
+details. See also <a class="reference internal" href="../refs.html#che-2015" id="id1">[Che+2015]</a> or the <a class="reference external" href="http://www.ccpem.ac.uk/mrc_format/mrc2014.php">explanations on the CCP4 homepage</a> for the
+text of the specification.</p>
+<p class="rubric">References</p>
+<p>[Che+2015] Cheng, A et al. <em>MRC2014: Extensions to the MRC format header
+for electron cryo-microscopy and tomography</em>. Journal of Structural
+Biology, 129 (2015), pp 146&#8211;150.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.cell_sides.html#odl.tomo.data.mrc.FileReaderMRC.cell_sides" title="odl.tomo.data.mrc.FileReaderMRC.cell_sides"><code class="xref py py-obj docutils literal"><span class="pre">cell_sides</span></code></a></td>
+<td>Array of sizes of a unit cell in meters.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.cell_sides_angstrom.html#odl.tomo.data.mrc.FileReaderMRC.cell_sides_angstrom" title="odl.tomo.data.mrc.FileReaderMRC.cell_sides_angstrom"><code class="xref py py-obj docutils literal"><span class="pre">cell_sides_angstrom</span></code></a></td>
+<td>Array of sizes of a unit cell in Angstroms.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.data_axis_order.html#odl.tomo.data.mrc.FileReaderMRC.data_axis_order" title="odl.tomo.data.mrc.FileReaderMRC.data_axis_order"><code class="xref py py-obj docutils literal"><span class="pre">data_axis_order</span></code></a></td>
+<td>Permutation of <code class="docutils literal"><span class="pre">(0,</span> <span class="pre">1,</span> <span class="pre">2)</span></code>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.data_dtype.html#odl.tomo.data.mrc.FileReaderMRC.data_dtype" title="odl.tomo.data.mrc.FileReaderMRC.data_dtype"><code class="xref py py-obj docutils literal"><span class="pre">data_dtype</span></code></a></td>
+<td>Data type of the data block as determined from <a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.header.html#odl.tomo.data.mrc.FileReaderMRC.header" title="odl.tomo.data.mrc.FileReaderMRC.header"><code class="xref any py py-attr docutils literal"><span class="pre">header</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.data_kind.html#odl.tomo.data.mrc.FileReaderMRC.data_kind" title="odl.tomo.data.mrc.FileReaderMRC.data_kind"><code class="xref py py-obj docutils literal"><span class="pre">data_kind</span></code></a></td>
+<td>String <code class="docutils literal"><span class="pre">'volume'</span></code>, <code class="docutils literal"><span class="pre">'projections'</span></code> or <code class="docutils literal"><span class="pre">'unknown'</span></code>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.data_shape.html#odl.tomo.data.mrc.FileReaderMRC.data_shape" title="odl.tomo.data.mrc.FileReaderMRC.data_shape"><code class="xref py py-obj docutils literal"><span class="pre">data_shape</span></code></a></td>
+<td>Shape tuple of the whole data block as determined from <a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.header.html#odl.tomo.data.mrc.FileReaderMRC.header" title="odl.tomo.data.mrc.FileReaderMRC.header"><code class="xref any py py-attr docutils literal"><span class="pre">header</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.data_storage_shape.html#odl.tomo.data.mrc.FileReaderMRC.data_storage_shape" title="odl.tomo.data.mrc.FileReaderMRC.data_storage_shape"><code class="xref py py-obj docutils literal"><span class="pre">data_storage_shape</span></code></a></td>
+<td>Shape tuple of the data as stored in the file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.extended_header_size.html#odl.tomo.data.mrc.FileReaderMRC.extended_header_size" title="odl.tomo.data.mrc.FileReaderMRC.extended_header_size"><code class="xref py py-obj docutils literal"><span class="pre">extended_header_size</span></code></a></td>
+<td>Size of the extended header in bytes.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.extended_header_type.html#odl.tomo.data.mrc.FileReaderMRC.extended_header_type" title="odl.tomo.data.mrc.FileReaderMRC.extended_header_type"><code class="xref py py-obj docutils literal"><span class="pre">extended_header_type</span></code></a></td>
+<td>Type of the extended header.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.file.html#odl.tomo.data.mrc.FileReaderMRC.file" title="odl.tomo.data.mrc.FileReaderMRC.file"><code class="xref py py-obj docutils literal"><span class="pre">file</span></code></a></td>
+<td>File object from which <code class="docutils literal"><span class="pre">self</span></code> reads.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.header.html#odl.tomo.data.mrc.FileReaderMRC.header" title="odl.tomo.data.mrc.FileReaderMRC.header"><code class="xref py py-obj docutils literal"><span class="pre">header</span></code></a></td>
+<td>Header as read from <a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.file.html#odl.tomo.data.mrc.FileReaderMRC.file" title="odl.tomo.data.mrc.FileReaderMRC.file"><code class="xref any py py-attr docutils literal"><span class="pre">file</span></code></a>, or an empty dictionary.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.header_fields.html#odl.tomo.data.mrc.FileReaderMRC.header_fields" title="odl.tomo.data.mrc.FileReaderMRC.header_fields"><code class="xref py py-obj docutils literal"><span class="pre">header_fields</span></code></a></td>
+<td>Tuple of dictionaries defining the fields in <a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.header.html#odl.tomo.data.mrc.FileReaderMRC.header" title="odl.tomo.data.mrc.FileReaderMRC.header"><code class="xref any py py-attr docutils literal"><span class="pre">header</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.header_size.html#odl.tomo.data.mrc.FileReaderMRC.header_size" title="odl.tomo.data.mrc.FileReaderMRC.header_size"><code class="xref py py-obj docutils literal"><span class="pre">header_size</span></code></a></td>
+<td>Size of <a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.file.html#odl.tomo.data.mrc.FileReaderMRC.file" title="odl.tomo.data.mrc.FileReaderMRC.file"><code class="xref any py py-attr docutils literal"><span class="pre">file</span></code></a>&#8216;s header in bytes.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.labels.html#odl.tomo.data.mrc.FileReaderMRC.labels" title="odl.tomo.data.mrc.FileReaderMRC.labels"><code class="xref py py-obj docutils literal"><span class="pre">labels</span></code></a></td>
+<td>Return the 10-tuple of text labels from <a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.header.html#odl.tomo.data.mrc.FileReaderMRC.header" title="odl.tomo.data.mrc.FileReaderMRC.header"><code class="xref any py py-attr docutils literal"><span class="pre">header</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.mrc_version.html#odl.tomo.data.mrc.FileReaderMRC.mrc_version" title="odl.tomo.data.mrc.FileReaderMRC.mrc_version"><code class="xref py py-obj docutils literal"><span class="pre">mrc_version</span></code></a></td>
+<td>Version tuple of the MRC file.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__eq__</span></code>($self,&nbsp;value,&nbsp;/)</td>
+<td>Return self==value.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.print_fei_ext_header_spec.html#odl.tomo.data.mrc.FileReaderMRC.print_fei_ext_header_spec" title="odl.tomo.data.mrc.FileReaderMRC.print_fei_ext_header_spec"><code class="xref py py-obj docutils literal"><span class="pre">print_fei_ext_header_spec</span></code></a>()</td>
+<td>Print the specification table of an FEI extended header section.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.print_mrc2014_spec.html#odl.tomo.data.mrc.FileReaderMRC.print_mrc2014_spec" title="odl.tomo.data.mrc.FileReaderMRC.print_mrc2014_spec"><code class="xref py py-obj docutils literal"><span class="pre">print_mrc2014_spec</span></code></a>()</td>
+<td>Print the MRC2014 specification table.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.read.html#odl.tomo.data.mrc.FileReaderMRC.read" title="odl.tomo.data.mrc.FileReaderMRC.read"><code class="xref py py-obj docutils literal"><span class="pre">read</span></code></a>()</td>
+<td>Return header and data from <a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.file.html#odl.tomo.data.mrc.FileReaderMRC.file" title="odl.tomo.data.mrc.FileReaderMRC.file"><code class="xref any py py-attr docutils literal"><span class="pre">file</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.read_data.html#odl.tomo.data.mrc.FileReaderMRC.read_data" title="odl.tomo.data.mrc.FileReaderMRC.read_data"><code class="xref py py-obj docutils literal"><span class="pre">read_data</span></code></a>([dstart,&nbsp;dend,&nbsp;swap_axes])</td>
+<td>Read the data from <a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.file.html#odl.tomo.data.mrc.FileReaderMRC.file" title="odl.tomo.data.mrc.FileReaderMRC.file"><code class="xref any py py-attr docutils literal"><span class="pre">file</span></code></a> and return it as Numpy array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.read_extended_header.html#odl.tomo.data.mrc.FileReaderMRC.read_extended_header" title="odl.tomo.data.mrc.FileReaderMRC.read_extended_header"><code class="xref py py-obj docutils literal"><span class="pre">read_extended_header</span></code></a>([groupby,&nbsp;force_type])</td>
+<td>Read the extended header according to <a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.extended_header_type.html#odl.tomo.data.mrc.FileReaderMRC.extended_header_type" title="odl.tomo.data.mrc.FileReaderMRC.extended_header_type"><code class="xref any py py-attr docutils literal"><span class="pre">extended_header_type</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.read_header.html#odl.tomo.data.mrc.FileReaderMRC.read_header" title="odl.tomo.data.mrc.FileReaderMRC.read_header"><code class="xref py py-obj docutils literal"><span class="pre">read_header</span></code></a>()</td>
+<td>Read the header from <a class="reference internal" href="odl.tomo.data.mrc.FileReaderMRC.file.html#odl.tomo.data.mrc.FileReaderMRC.file" title="odl.tomo.data.mrc.FileReaderMRC.file"><code class="xref any py py-attr docutils literal"><span class="pre">file</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="odl.tomo.data.mrc.FileReaderMRC.cell_sides.html" class="btn btn-neutral float-right" title="FileReaderMRC.cell_sides" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../odl.tomo.data.mrc.html" class="btn btn-neutral" title="mrc" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2016, ODL development group, KTH.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.5.4.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

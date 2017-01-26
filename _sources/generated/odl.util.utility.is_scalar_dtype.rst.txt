@@ -1,0 +1,6 @@
+is_scalar_dtype
+================================
+
+.. currentmodule:: odl.util.utility
+
+.. autofunction:: is_scalar_dtype

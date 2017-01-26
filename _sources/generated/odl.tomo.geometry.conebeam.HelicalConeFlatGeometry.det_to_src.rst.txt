@@ -1,0 +1,8 @@
+:orphan:
+
+HelicalConeFlatGeometry.det_to_src
+=============================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. automethod:: HelicalConeFlatGeometry.det_to_src

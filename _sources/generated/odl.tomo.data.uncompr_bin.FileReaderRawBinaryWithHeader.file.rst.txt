@@ -1,0 +1,6 @@
+FileReaderRawBinaryWithHeader.file
+============================================================
+
+.. currentmodule:: odl.tomo.data.uncompr_bin
+
+.. autoattribute:: FileReaderRawBinaryWithHeader.file

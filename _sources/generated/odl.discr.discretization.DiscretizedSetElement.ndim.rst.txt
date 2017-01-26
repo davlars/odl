@@ -1,0 +1,6 @@
+DiscretizedSetElement.ndim
+===================================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSetElement.ndim

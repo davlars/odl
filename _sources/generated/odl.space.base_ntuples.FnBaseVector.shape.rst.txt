@@ -1,0 +1,6 @@
+FnBaseVector.shape
+=========================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: FnBaseVector.shape

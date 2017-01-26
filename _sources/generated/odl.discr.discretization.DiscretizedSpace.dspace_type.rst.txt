@@ -1,0 +1,6 @@
+DiscretizedSpace.dspace_type
+=====================================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSpace.dspace_type

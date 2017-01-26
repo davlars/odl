@@ -1,0 +1,6 @@
+FileWriterRawBinaryWithHeader.header_size
+===================================================================
+
+.. currentmodule:: odl.tomo.data.uncompr_bin
+
+.. autoattribute:: FileWriterRawBinaryWithHeader.header_size

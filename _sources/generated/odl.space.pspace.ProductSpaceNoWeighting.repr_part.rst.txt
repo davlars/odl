@@ -1,0 +1,6 @@
+ProductSpaceNoWeighting.repr_part
+==================================================
+
+.. currentmodule:: odl.space.pspace
+
+.. autoattribute:: ProductSpaceNoWeighting.repr_part

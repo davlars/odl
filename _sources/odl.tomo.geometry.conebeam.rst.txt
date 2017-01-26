@@ -1,0 +1,18 @@
+conebeam
+========
+
+Cone beam geometries in 3 dimensions.
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+
+
+.. rubric:: Classes
+
+.. autosummary::
+   :toctree: generated/
+
+   ~odl.tomo.geometry.conebeam.CircularConeFlatGeometry
+   ~odl.tomo.geometry.conebeam.HelicalConeFlatGeometry
+
+

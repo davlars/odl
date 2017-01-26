@@ -1,0 +1,6 @@
+HelicalConeFlatGeometry.pitch_offset
+===============================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: HelicalConeFlatGeometry.pitch_offset

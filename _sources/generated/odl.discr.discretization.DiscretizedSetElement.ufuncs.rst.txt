@@ -1,0 +1,6 @@
+DiscretizedSetElement.ufuncs
+=====================================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSetElement.ufuncs

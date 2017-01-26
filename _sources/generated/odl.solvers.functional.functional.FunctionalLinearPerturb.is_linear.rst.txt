@@ -1,0 +1,6 @@
+FunctionalLinearPerturb.is_linear
+===================================================================
+
+.. currentmodule:: odl.solvers.functional.functional
+
+.. autoattribute:: FunctionalLinearPerturb.is_linear

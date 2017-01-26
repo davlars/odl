@@ -1,0 +1,6 @@
+FileReaderMRC.cell_sides_angstrom
+===================================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileReaderMRC.cell_sides_angstrom

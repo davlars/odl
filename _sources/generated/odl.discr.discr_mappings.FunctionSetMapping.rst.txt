@@ -1,0 +1,39 @@
+FunctionSetMapping
+===========================================
+
+.. currentmodule:: odl.discr.discr_mappings
+
+.. autoclass:: FunctionSetMapping
+   :show-inheritance:
+   
+   
+   .. automethod:: __init__
+   
+      
+   
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         FunctionSetMapping.__call__
+         FunctionSetMapping.__eq__
+         FunctionSetMapping._call
+         FunctionSetMapping.derivative
+   
+
+    
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         FunctionSetMapping.adjoint
+         FunctionSetMapping.domain
+         FunctionSetMapping.grid
+         FunctionSetMapping.inverse
+         FunctionSetMapping.is_functional
+         FunctionSetMapping.is_linear
+         FunctionSetMapping.order
+         FunctionSetMapping.partition
+         FunctionSetMapping.range
+   
+   

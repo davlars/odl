@@ -1,0 +1,6 @@
+DiscretizedSet.examples
+================================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSet.examples

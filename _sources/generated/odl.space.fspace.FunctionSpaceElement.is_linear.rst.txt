@@ -1,0 +1,6 @@
+FunctionSpaceElement.is_linear
+===============================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoattribute:: FunctionSpaceElement.is_linear

@@ -1,0 +1,6 @@
+NumpyFnVector.ufuncs
+==========================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnVector.ufuncs

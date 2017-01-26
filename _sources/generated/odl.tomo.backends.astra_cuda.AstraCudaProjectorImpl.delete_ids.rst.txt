@@ -1,0 +1,8 @@
+:orphan:
+
+AstraCudaProjectorImpl.delete_ids
+==============================================================
+
+.. currentmodule:: odl.tomo.backends.astra_cuda
+
+.. automethod:: AstraCudaProjectorImpl.delete_ids

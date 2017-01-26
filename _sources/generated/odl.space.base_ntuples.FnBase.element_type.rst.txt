@@ -1,0 +1,6 @@
+FnBase.element_type
+==========================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: FnBase.element_type

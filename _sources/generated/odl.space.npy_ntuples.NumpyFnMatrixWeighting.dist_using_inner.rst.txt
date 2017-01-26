@@ -1,0 +1,6 @@
+NumpyFnMatrixWeighting.dist_using_inner
+=============================================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnMatrixWeighting.dist_using_inner

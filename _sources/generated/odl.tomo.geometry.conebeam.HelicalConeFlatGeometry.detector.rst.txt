@@ -1,0 +1,6 @@
+HelicalConeFlatGeometry.detector
+===========================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: HelicalConeFlatGeometry.detector

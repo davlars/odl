@@ -1,0 +1,6 @@
+FunctionSetMapping.grid
+================================================
+
+.. currentmodule:: odl.discr.discr_mappings
+
+.. autoattribute:: FunctionSetMapping.grid

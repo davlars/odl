@@ -1,0 +1,6 @@
+NumpyNtuplesVector.itemsize
+=================================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyNtuplesVector.itemsize

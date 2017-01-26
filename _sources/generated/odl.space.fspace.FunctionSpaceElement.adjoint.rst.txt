@@ -1,0 +1,6 @@
+FunctionSpaceElement.adjoint
+=============================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoattribute:: FunctionSpaceElement.adjoint

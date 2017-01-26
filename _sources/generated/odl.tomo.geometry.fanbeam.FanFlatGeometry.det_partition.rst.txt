@@ -1,0 +1,6 @@
+FanFlatGeometry.det_partition
+=======================================================
+
+.. currentmodule:: odl.tomo.geometry.fanbeam
+
+.. autoattribute:: FanFlatGeometry.det_partition

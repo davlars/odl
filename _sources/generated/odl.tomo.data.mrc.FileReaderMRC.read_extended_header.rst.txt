@@ -1,0 +1,8 @@
+:orphan:
+
+FileReaderMRC.read_extended_header
+====================================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. automethod:: FileReaderMRC.read_extended_header

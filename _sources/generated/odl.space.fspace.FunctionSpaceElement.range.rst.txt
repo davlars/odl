@@ -1,0 +1,6 @@
+FunctionSpaceElement.range
+===========================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoattribute:: FunctionSpaceElement.range

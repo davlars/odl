@@ -1,0 +1,43 @@
+ParallelGeometry
+===========================================
+
+.. currentmodule:: odl.tomo.geometry.parallel
+
+.. autoclass:: ParallelGeometry
+   :show-inheritance:
+   
+   
+   .. automethod:: __init__
+   
+      
+   
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         ParallelGeometry.det_point_position
+         ParallelGeometry.det_refpoint
+         ParallelGeometry.det_to_src
+         ParallelGeometry.rotation_matrix
+   
+
+    
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         ParallelGeometry.angles
+         ParallelGeometry.det_grid
+         ParallelGeometry.det_params
+         ParallelGeometry.det_partition
+         ParallelGeometry.detector
+         ParallelGeometry.grid
+         ParallelGeometry.implementation_cache
+         ParallelGeometry.motion_grid
+         ParallelGeometry.motion_params
+         ParallelGeometry.motion_partition
+         ParallelGeometry.ndim
+         ParallelGeometry.params
+         ParallelGeometry.partition
+   
+   

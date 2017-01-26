@@ -1,0 +1,6 @@
+FunctionalLinearPerturb.convex_conj
+=====================================================================
+
+.. currentmodule:: odl.solvers.functional.functional
+
+.. autoattribute:: FunctionalLinearPerturb.convex_conj

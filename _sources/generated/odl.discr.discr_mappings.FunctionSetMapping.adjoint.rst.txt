@@ -1,0 +1,6 @@
+FunctionSetMapping.adjoint
+===================================================
+
+.. currentmodule:: odl.discr.discr_mappings
+
+.. autoattribute:: FunctionSetMapping.adjoint

@@ -1,0 +1,8 @@
+:orphan:
+
+FanFlatGeometry.src_position
+======================================================
+
+.. currentmodule:: odl.tomo.geometry.fanbeam
+
+.. automethod:: FanFlatGeometry.src_position

@@ -1,0 +1,6 @@
+FunctionSetElement.inverse
+===========================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoattribute:: FunctionSetElement.inverse

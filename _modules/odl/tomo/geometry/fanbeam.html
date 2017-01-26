@@ -1,0 +1,455 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>odl.tomo.geometry.fanbeam &mdash; odl 0.5.4.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../../search.html"/>
+    <link rel="top" title="odl 0.5.4.dev0 documentation" href="../../../../index.html"/>
+        <link rel="up" title="Module code" href="../../../index.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> odl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.4.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started/getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Working with ODL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/guide.html">User&#8217;s guide &#8211; selected topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../math/math.html">Mathematical Background</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer zone</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dev/dev.html">Contributing to ODL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Useful facts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/faq.html">Frequently asked questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../refs.html">References</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../odl.html">odl</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">odl</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      
+    <li>odl.tomo.geometry.fanbeam</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for odl.tomo.geometry.fanbeam</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2014-2016 The ODL development group</span>
+<span class="c1">#</span>
+<span class="c1"># This file is part of ODL.</span>
+<span class="c1">#</span>
+<span class="c1"># ODL is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># ODL is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with ODL.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;Fan beam geometries in 2 dimensions.&quot;&quot;&quot;</span>
+
+<span class="c1"># Imports for common Python 2/3 codebase</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">super</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">odl.tomo.geometry.detector</span> <span class="k">import</span> <span class="n">Flat1dDetector</span>
+<span class="kn">from</span> <span class="nn">odl.tomo.geometry.geometry</span> <span class="k">import</span> <span class="n">DivergentBeamGeometry</span>
+<span class="kn">from</span> <span class="nn">odl.tomo.util.utility</span> <span class="k">import</span> <span class="n">euler_matrix</span><span class="p">,</span> <span class="n">perpendicular_vector</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;FanFlatGeometry&#39;</span><span class="p">,)</span>
+
+
+<div class="viewcode-block" id="FanFlatGeometry"><a class="viewcode-back" href="../../../../generated/odl.tomo.geometry.fanbeam.FanFlatGeometry.html#odl.tomo.geometry.fanbeam.FanFlatGeometry">[docs]</a><span class="k">class</span> <span class="nc">FanFlatGeometry</span><span class="p">(</span><span class="n">DivergentBeamGeometry</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Abstract 2d fan beam geometry with flat 1d detector.</span>
+
+<span class="sd">    The source moves on a circle with radius ``src_radius``, and the</span>
+<span class="sd">    detector reference point is opposite to the source, i.e. at maximum</span>
+<span class="sd">    distance, on a circle with radius ``det_radius``. One of the two</span>
+<span class="sd">    radii can be chosen as 0, which corresponds to a stationary source</span>
+<span class="sd">    or detector, respectively.</span>
+
+<span class="sd">    The motion parameter is the 1d rotation angle parameterizing source</span>
+<span class="sd">    and detector positions simultaneously.</span>
+
+<span class="sd">    In the standard configuration, the source and detector start on the</span>
+<span class="sd">    first coodinate axis with vector ``(1, 0)`` from source to detector,</span>
+<span class="sd">    and the initial detector axis is ``(0, 1)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">apart</span><span class="p">,</span> <span class="n">dpart</span><span class="p">,</span> <span class="n">src_radius</span><span class="p">,</span> <span class="n">det_radius</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a new instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        apart : 1-dim. `RectPartition`</span>
+<span class="sd">            Partition of the angle interval</span>
+<span class="sd">        dpart : 1-dim. `RectPartition`</span>
+<span class="sd">            Partition of the detector parameter interval</span>
+<span class="sd">        src_radius : nonnegative float</span>
+<span class="sd">            Radius of the source circle</span>
+<span class="sd">        det_radius : nonnegative float</span>
+<span class="sd">            Radius of the detector circle</span>
+<span class="sd">        src_to_det_init : `array-like` (shape ``(2,)``), optional</span>
+<span class="sd">            Initial state of the vector pointing from source to detector</span>
+<span class="sd">            reference point. The zero vector is not allowed.</span>
+<span class="sd">            Default: ``(1, 0)``.</span>
+<span class="sd">        det_init_axis : `array-like` (shape ``(2,)``), optional</span>
+<span class="sd">            Initial axis defining the detector orientation.</span>
+<span class="sd">            By default, a normalized `perpendicular_vector` to</span>
+<span class="sd">            ``src_to_det_init`` is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">src_to_det_init</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;src_to_det_init&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+        <span class="n">det_init_axis</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;det_init_axis&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">src_to_det_init</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`src_to_det_init` has shape </span><span class="si">{}</span><span class="s1">, &#39;</span>
+                             <span class="s1">&#39;expected (2,)&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">src_to_det_init</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">src_to_det_init</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">10</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`src_to_det_init` </span><span class="si">{}</span><span class="s1"> too close &#39;</span>
+                             <span class="s1">&#39;to zero&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">src_to_det_init</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_src_to_det_init</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">src_to_det_init</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span> <span class="o">/</span>
+                                 <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">src_to_det_init</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">det_init_axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">det_init_axis</span> <span class="o">=</span> <span class="n">perpendicular_vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_src_to_det_init</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_src_radius</span><span class="p">,</span> <span class="n">src_radius_in</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">src_radius</span><span class="p">),</span> <span class="n">src_radius</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">src_radius</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`src_radius` </span><span class="si">{}</span><span class="s1"> is negative&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">src_radius_in</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_det_radius</span><span class="p">,</span> <span class="n">det_radius_in</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">det_radius</span><span class="p">),</span> <span class="n">det_radius</span>
+        <span class="k">if</span> <span class="n">det_radius</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`det_radius` </span><span class="si">{}</span><span class="s1"> is negative&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">det_radius_in</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">src_radius</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">det_radius</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;source and detector radii cannot both be 0&#39;</span><span class="p">)</span>
+
+        <span class="n">detector</span> <span class="o">=</span> <span class="n">Flat1dDetector</span><span class="p">(</span><span class="n">dpart</span><span class="p">,</span> <span class="n">det_init_axis</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">motion_part</span><span class="o">=</span><span class="n">apart</span><span class="p">,</span> <span class="n">detector</span><span class="o">=</span><span class="n">detector</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">src_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Source circle radius of this geometry.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_radius</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">det_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Detector circle radius of this geometry.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_det_radius</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">angles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Discrete angles given in this geometry.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">motion_grid</span><span class="o">.</span><span class="n">coord_vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<div class="viewcode-block" id="FanFlatGeometry.src_position"><a class="viewcode-back" href="../../../../generated/odl.tomo.geometry.fanbeam.FanFlatGeometry.src_position.html#odl.tomo.geometry.fanbeam.FanFlatGeometry.src_position">[docs]</a>    <span class="k">def</span> <span class="nf">src_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the source position at ``angle``.</span>
+
+<span class="sd">        For an angle ``phi``, the source position is given by::</span>
+
+<span class="sd">            src(phi) = -src_rad * rot_matrix(phi) * src_to_det_init</span>
+
+<span class="sd">        where ``src_to_det_init`` is the initial unit vector pointing</span>
+<span class="sd">        from source to detector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        angle : float</span>
+<span class="sd">            Rotation angle given in radians, must be contained in</span>
+<span class="sd">            this geometry&#39;s `motion_params`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        point : `numpy.ndarray`, shape ``(2,)``</span>
+<span class="sd">            Source position corresponding to the given angle</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">motion_params</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`angle` </span><span class="si">{}</span><span class="s1"> is not in the valid range </span><span class="si">{}</span><span class="s1">&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">motion_params</span><span class="p">))</span>
+
+        <span class="c1"># Initial vector from 0 to the source. It can be computed this way</span>
+        <span class="c1"># since source and detector are at maximum distance, i.e. the</span>
+        <span class="c1"># connecting line passes the origin.</span>
+        <span class="n">origin_to_src_init</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">src_radius</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_to_det_init</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">origin_to_src_init</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FanFlatGeometry.det_refpoint"><a class="viewcode-back" href="../../../../generated/odl.tomo.geometry.fanbeam.FanFlatGeometry.det_refpoint.html#odl.tomo.geometry.fanbeam.FanFlatGeometry.det_refpoint">[docs]</a>    <span class="k">def</span> <span class="nf">det_refpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the detector reference point position at ``angle``.</span>
+
+<span class="sd">        For an angle ``phi``, the detector position is given by::</span>
+
+<span class="sd">            ref(phi) = det_rad * rot_matrix(phi) * src_to_det_init</span>
+
+<span class="sd">        where ``src_to_det_init`` is the initial unit vector pointing</span>
+<span class="sd">        from source to detector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        angle : float</span>
+<span class="sd">            Rotation angle given in radians, must be contained in</span>
+<span class="sd">            this geometry&#39;s `motion_params`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        point : `numpy.ndarray`, shape (2,)</span>
+<span class="sd">            Detector reference point corresponding to the given angle</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        rotation_matrix</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">motion_params</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`angle` </span><span class="si">{}</span><span class="s1"> is not in the valid range </span><span class="si">{}</span><span class="s1">&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">motion_params</span><span class="p">))</span>
+
+        <span class="c1"># Initial vector from 0 to the detector. It can be computed this way</span>
+        <span class="c1"># since source and detector are at maximum distance, i.e. the</span>
+        <span class="c1"># connecting line passes the origin.</span>
+        <span class="n">origin_to_det_init</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">det_radius</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_to_det_init</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">origin_to_det_init</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FanFlatGeometry.rotation_matrix"><a class="viewcode-back" href="../../../../generated/odl.tomo.geometry.fanbeam.FanFlatGeometry.rotation_matrix.html#odl.tomo.geometry.fanbeam.FanFlatGeometry.rotation_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the rotation matrix for ``angle``.</span>
+
+<span class="sd">        For an angle ``phi``, the matrix is given by::</span>
+
+<span class="sd">            rot(phi) = [[cos(phi), -sin(phi)],</span>
+<span class="sd">                        [sin(phi), cos(phi)]]</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        angle : float</span>
+<span class="sd">            Rotation angle given in radians, must be contained in</span>
+<span class="sd">            this geometry&#39;s `motion_params`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        rot : `numpy.ndarray`, shape (2, 2)</span>
+<span class="sd">            The rotation matrix mapping the standard basis vectors in</span>
+<span class="sd">            the fixed (&quot;lab&quot;) coordinate system to the basis vectors of</span>
+<span class="sd">            the local coordinate system of the detector reference point,</span>
+<span class="sd">            expressed in the fixed system</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">motion_params</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`angle` </span><span class="si">{}</span><span class="s1"> not in the valid range </span><span class="si">{}</span><span class="s1">&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">motion_params</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">euler_matrix</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span></div>
+
+    <span class="c1"># TODO: back projection weighting function?</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return ``repr(self)``.&quot;&quot;&quot;</span>
+        <span class="n">arg_fstr</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{!r}</span><span class="s1">, </span><span class="si">{!r}</span><span class="s1">, src_radius=</span><span class="si">{}</span><span class="s1">, det_radius=</span><span class="si">{}</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_src_to_det_init</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]):</span>
+            <span class="n">arg_fstr</span> <span class="o">+=</span> <span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">    src_to_det_init=</span><span class="si">{src_to_det_init!r}</span><span class="s1">&#39;</span>
+
+        <span class="n">default_axis</span> <span class="o">=</span> <span class="n">perpendicular_vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_src_to_det_init</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="n">default_axis</span><span class="p">):</span>
+            <span class="n">arg_fstr</span> <span class="o">+=</span> <span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">    det_init_axis=</span><span class="si">{det_init_axis!r}</span><span class="s1">&#39;</span>
+
+        <span class="n">arg_str</span> <span class="o">=</span> <span class="n">arg_fstr</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motion_partition</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">det_partition</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">src_radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">det_radius</span><span class="p">,</span>
+                                  <span class="n">src_to_det_init</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_src_to_det_init</span><span class="p">,</span>
+                                  <span class="n">det_init_axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">arg_str</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># pylint: disable=wrong-import-position</span>
+    <span class="kn">from</span> <span class="nn">odl.util.testutils</span> <span class="k">import</span> <span class="n">run_doctests</span>
+    <span class="n">run_doctests</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2016, ODL development group, KTH.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.5.4.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

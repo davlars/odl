@@ -1,0 +1,6 @@
+DiscreteLp.is_rn
+===================================
+
+.. currentmodule:: odl.discr.lp_discr
+
+.. autoattribute:: DiscreteLp.is_rn

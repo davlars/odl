@@ -1,0 +1,6 @@
+FunctionSetElement.out_dtype
+=============================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoattribute:: FunctionSetElement.out_dtype

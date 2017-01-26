@@ -1,0 +1,6 @@
+scikit_radon_back_projector
+==========================================================
+
+.. currentmodule:: odl.tomo.backends.scikit_radon
+
+.. autofunction:: scikit_radon_back_projector

@@ -1,0 +1,6 @@
+FlatDetector.size
+============================================
+
+.. currentmodule:: odl.tomo.geometry.detector
+
+.. autoattribute:: FlatDetector.size

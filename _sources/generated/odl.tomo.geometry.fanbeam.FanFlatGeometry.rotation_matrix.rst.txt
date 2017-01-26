@@ -1,0 +1,8 @@
+:orphan:
+
+FanFlatGeometry.rotation_matrix
+=========================================================
+
+.. currentmodule:: odl.tomo.geometry.fanbeam
+
+.. automethod:: FanFlatGeometry.rotation_matrix

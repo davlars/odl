@@ -1,0 +1,6 @@
+header_fields_from_table
+==================================================
+
+.. currentmodule:: odl.tomo.data.uncompr_bin
+
+.. autofunction:: header_fields_from_table

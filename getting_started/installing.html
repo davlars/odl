@@ -1,0 +1,706 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installing ODL &mdash; odl 0.5.4.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="odl 0.5.4.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="Getting Started" href="getting_started.html"/>
+        <link rel="next" title="First steps" href="first_steps.html"/>
+        <link rel="prev" title="About ODL" href="about_odl.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> odl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.4.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="getting_started.html">Getting Started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="about_odl.html">About ODL</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Installing ODL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#consider-using-anaconda">Consider using Anaconda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#which-python-version-to-use">Which Python version to use?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#development-enviroment">Development enviroment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#alternative-1-installing-a-release-using-conda-recommended-for-users">Alternative 1: Installing a release using <code class="docutils literal"><span class="pre">conda</span></code> (recommended for users)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#tl-dr">TL;DR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installing-anaconda">Installing Anaconda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installing-odl-and-its-dependencies">Installing ODL and its dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#alternative-2-installing-a-release-using-pip">Alternative 2: Installing a release using <code class="docutils literal"><span class="pre">pip</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">TL;DR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installing-a-python-interpreter">Installing a Python interpreter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Installing ODL and its dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#alternative-3-installation-from-source-recommended-for-developers">Alternative 3: Installation from source (recommended for developers)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#in-a-conda-environment">In a conda environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-only-pip">Using only <code class="docutils literal"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#further-developer-information">Further developer information</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#runing-the-tests">Runing the tests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#installing-testing-dependencies">Installing testing dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#testing-the-code">Testing the code</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#compiled-extensions">Compiled extensions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cuda-backend-for-linear-arrays">CUDA backend for linear arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#astra-for-x-ray-tomography">ASTRA for X-ray tomography</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stir-for-emission-tomography">STIR for emission tomography</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#issues">Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="first_steps.html">First steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Working with ODL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/guide.html">User&#8217;s guide &#8211; selected topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/math.html">Mathematical Background</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer zone</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/dev.html">Contributing to ODL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Useful facts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/faq.html">Frequently asked questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../refs.html">References</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../odl.html">odl</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">odl</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="getting_started.html">Getting Started</a> &raquo;</li>
+      
+    <li>Installing ODL</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/getting_started/installing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installing-odl">
+<span id="id1"></span><h1>Installing ODL<a class="headerlink" href="#installing-odl" title="Permalink to this headline">¶</a></h1>
+<p>This guide will go through all steps necessary for a full ODL installation, starting from nothing more than a working operating system (Linux, MacOS or Windows).</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Installing ODL is intended to be straightforward, and this guide is meant for new users.
+For a working installation you should perform the following steps:</p>
+<ol class="arabic simple">
+<li>Install a Python interpreter</li>
+<li>Install ODL and its dependencies</li>
+<li>(optional) Install extensions for more functionality</li>
+<li>(optional) Run the tests</li>
+</ol>
+<div class="section" id="consider-using-anaconda">
+<h3>Consider using Anaconda<a class="headerlink" href="#consider-using-anaconda" title="Permalink to this headline">¶</a></h3>
+<p>We currently recommend to use <a class="reference external" href="https://anaconda.org/">Anaconda</a> on all platforms since it offers the best out-of-the-box installation and run-time experience.
+Anaconda also has other benefits, for example the possibility to work in completely isolated Python environments with own installed packages, thereby avoiding conflicts with system-wide installed packages.
+Furthermore, Anaconda cooperates with <code class="docutils literal"><span class="pre">pip</span></code> (see below), i.e. packages can be installed with both Anaconda&#8217;s internal mechanism and <code class="docutils literal"><span class="pre">pip</span></code> without conflicts.</p>
+<p>Alternatively, packages can be installed with <a class="reference external" href="https://pip.pypa.io/en/stable/">pip</a> in a user&#8217;s location, which should also avoid conflicts.
+We will provide instructions for this alternative.</p>
+<p>Another possibility is to use <a class="reference external" href="https://virtualenv.pypa.io/en/stable/">virtualenv</a>, which can be seen as a predecessor to Anaconda.
+Following the <code class="docutils literal"><span class="pre">pip</span></code> installation instructions in a <code class="docutils literal"><span class="pre">virtualenv</span></code> without the <code class="docutils literal"><span class="pre">--user</span></code> option works very well in our experience, but we do not provide explicit instructions for this variant.</p>
+</div>
+<div class="section" id="which-python-version-to-use">
+<h3>Which Python version to use?<a class="headerlink" href="#which-python-version-to-use" title="Permalink to this headline">¶</a></h3>
+<p>Any modern Python distribution supporting <a class="reference external" href="http://www.numpy.org/">NumPy</a> and <a class="reference external" href="https://www.scipy.org/">SciPy</a> should work for the core library, but some extensions require CPython (the standard Python distribution).</p>
+<p>ODL fully supports both Python 2 and Python 3.
+If you choose to use your system Python interpreter (the &#8220;pip install as user&#8221; variant), it may be a good idea to stick with the default one, i.e. the one invoked by <code class="docutils literal"><span class="pre">python</span></code>.
+Otherwise, we recommend using Python 3, since Python 2 support will be discontinued in 2020.</p>
+</div>
+<div class="section" id="development-enviroment">
+<h3>Development enviroment<a class="headerlink" href="#development-enviroment" title="Permalink to this headline">¶</a></h3>
+<p>Since ODL is object-oriented, using an Integrated Development Environment (IDE) is recommended, but not required.
+The most popular ones are <a class="reference external" href="https://github.com/spyder-ide/spyder">Spyder</a> which works on all major platforms and can be installed through both <code class="docutils literal"><span class="pre">conda</span></code> and <code class="docutils literal"><span class="pre">pip</span></code>, and <a class="reference external" href="https://www.jetbrains.com/pycharm/">PyCharm</a> which can be integrated with any text editor of your choice, such as Emacs or Vim.</p>
+<hr class="docutils" />
+</div>
+</div>
+<div class="section" id="alternative-1-installing-a-release-using-conda-recommended-for-users">
+<span id="alternative-1"></span><h2>Alternative 1: Installing a release using <code class="docutils literal"><span class="pre">conda</span></code> (recommended for users)<a class="headerlink" href="#alternative-1-installing-a-release-using-conda-recommended-for-users" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tl-dr">
+<h3>TL;DR<a class="headerlink" href="#tl-dr" title="Permalink to this headline">¶</a></h3>
+<p>Instructions for the impatient:</p>
+<ul>
+<li><p class="first">Download and install <a class="reference external" href="http://conda.pydata.org/miniconda.html">Miniconda</a></p>
+</li>
+<li><p class="first">Create conda environment:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda create -c odlgroup -n odl-py35 <span class="nv">python</span><span class="o">=</span>3.5 odl matplotlib pytest scikit-image spyder
+</pre></div>
+</div>
+</li>
+<li><p class="first">Activate the conda enviroment and start working!</p>
+</li>
+</ul>
+</div>
+<div class="section" id="installing-anaconda">
+<span id="id2"></span><h3>Installing Anaconda<a class="headerlink" href="#installing-anaconda" title="Permalink to this headline">¶</a></h3>
+<p>Even though a Python interpreter is included by default in virtually all Linux distributions, it is advisable to use Anaconda&#8217;s Python ecosystem since it gives you full flexibility in the Python version you use and which packages you install.</p>
+<p>Download Anaconda from the Continuum Analytics home page.
+You may choose to download the <a class="reference external" href="https://www.continuum.io/downloads">full Anaconda</a> variant, but we recommend the slim <a class="reference external" href="http://conda.pydata.org/miniconda.html">Miniconda</a> distribution since many of the packages included in full Anaconda are out of date anyway and need to be updated.
+Note that the choice of Python version (2 vs. 3) of the Anaconda installer is not very important since you can later choose to create conda environments with any Python version (see below).</p>
+<p>Make sure that during installation, your <code class="docutils literal"><span class="pre">PATH</span></code> variable is adapted such that <code class="docutils literal"><span class="pre">conda</span></code> and other scripts can be found by your shell:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Do you wish the installer to prepend the Miniconda3 install location
+to PATH in your /home/user/.bashrc ? [yes|no]
+[no] &gt;&gt;&gt; yes
+</pre></div>
+</div>
+<p>After restarting the terminal (for the changed <code class="docutils literal"><span class="pre">PATH</span></code> variable to take effect), you can run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda update --all
+</pre></div>
+</div>
+<p>to make sure you have the latest versions of all packages.</p>
+<p>Optionally, create a new conda environment to work with ODL.
+This is a very convenient way to have several &#8220;ecosystems&#8221; of Python packages in parallel without mutual interference:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda create --name odl-py35 <span class="nv">python</span><span class="o">=</span>3.5
+</pre></div>
+</div>
+<p>Enter the newly created conda environment by running <code class="docutils literal"><span class="pre">source</span> <span class="pre">activate</span> <span class="pre">odl-py35</span></code> (Linux/MacOS) or <code class="docutils literal"><span class="pre">activate</span> <span class="pre">odl-py35</span></code> (Windows).
+If you want to exit later on, run <code class="docutils literal"><span class="pre">source</span> <span class="pre">deactivate</span></code> (Linux/MacOS) or <code class="docutils literal"><span class="pre">deactivate</span></code> (Windows), respectively.
+See the <a class="reference external" href="http://conda.pydata.org/docs/using/envs.html">Managing conda environments</a> documentation for further information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If you want to use <a class="reference external" href="https://github.com/spyder-ide/spyder">Spyder</a> as integrated development environment (IDE, see <a class="reference internal" href="#development-enviroment">Development enviroment</a>) on Linux or MacOS, you should also install it in the new conda environment and run it from there.
+Otherwise, Spyder may not able to use the packages in the conda environment:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install spyder
+</pre></div>
+</div>
+<p class="last">On Windows, you can install Spyder in the root conda environment (run <code class="docutils literal"><span class="pre">deactivate</span></code> to get there), but you need to change its default Python interpreter.
+To do this, open Spyder and use the navigation bar to open &#8220;Tools -&gt; Preferences&#8221;.
+Click on &#8220;Python interpreter&#8221; and change the first setting &#8220;Select the Python interpreter for all Spyder consoles&#8221; from the default setting to &#8220;Use the following Python interpreter:&#8221;.
+In the text field, fill in the path to the Python executable in your newly created conda environment.
+For example, if you installed Miniconda (or Anaconda) in <code class="docutils literal"><span class="pre">C:\Programs\Miniconda3</span></code>, then the environment&#8217;s Python interpreter is <code class="docutils literal"><span class="pre">C:\Programs\Miniconda3\envs\odl-py35\bin\python.exe</span></code>.
+You can use the file system browser (symbol to the right of the text field) to find the interpreter on your system.</p>
+</div>
+</div>
+<div class="section" id="installing-odl-and-its-dependencies">
+<h3>Installing ODL and its dependencies<a class="headerlink" href="#installing-odl-and-its-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>Install ODL and all its (minimal) dependencies in a <code class="docutils literal"><span class="pre">conda</span></code> environment of your choice by running</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install -c odlgroup odl
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>To skip the <code class="docutils literal"><span class="pre">-c</span> <span class="pre">odlgroup</span></code> option in the future, you can permanently add the <code class="docutils literal"><span class="pre">odlgroup</span></code> conda channel (see <a class="reference external" href="http://conda.pydata.org/docs/channels.html">Managing conda channels</a>):</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda config --append channels odlgroup
+</pre></div>
+</div>
+<p class="last">After that, <code class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">odl</span></code> and <code class="docutils literal"><span class="pre">conda</span> <span class="pre">update</span> <span class="pre">odl</span></code> work without the <code class="docutils literal"><span class="pre">-c</span></code> option.</p>
+</div>
+<div class="section" id="extra-dependencies">
+<h4>Extra dependencies<a class="headerlink" href="#extra-dependencies" title="Permalink to this headline">¶</a></h4>
+<p>The following packages are optional and extend the functionality of ODL.</p>
+<ul>
+<li><p class="first">Image and plot displaying capabilities:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install matplotlib
+</pre></div>
+</div>
+</li>
+<li><p class="first">Faster FFT back-end using FFTW (currently not in mainstream conda):</p>
+<ul>
+<li><p class="first">Install the <a class="reference external" href="http://fftw.org/">FFTW</a> C library version 3 (all possible precisions).
+Use your Linux package manager for this task or consult the <a class="reference external" href="http://fftw.org/install/windows.html">Windows</a> or <a class="reference external" href="fftw.org/install/mac.html">MacOS</a> instructions, respectively.</p>
+</li>
+<li><p class="first">Run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install pyfftw
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">Wavelet transforms (currently not in mainstream conda):</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install pywavelets
+</pre></div>
+</div>
+</li>
+<li><p class="first">Simple backend for ray transforms:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install scikit-image
+</pre></div>
+</div>
+</li>
+<li><p class="first">Fast <a class="reference external" href="https://github.com/astra-toolbox/astra-toolbox">ASTRA</a> ray transform backend:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install -c astra-toolbox astra-toolbox
+</pre></div>
+</div>
+<p>If this doesn&#8217;t work, or if you want a more recent version, check out the <a class="reference internal" href="#astra-for-x-ray-tomography">ASTRA for X-ray tomography</a> section below.</p>
+</li>
+<li><p class="first">Bindings to the <a class="reference external" href="http://www.proximal-lang.org/en/latest/">ProxImaL</a> convex optimization package, an extension of <a class="reference external" href="http://www.cvxpy.org/en/latest/">CVXPY</a>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install proximal
+</pre></div>
+</div>
+</li>
+<li><p class="first">To run unit tests:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install pytest
+</pre></div>
+</div>
+</li>
+</ul>
+<hr class="docutils" />
+</div>
+</div>
+</div>
+<div class="section" id="alternative-2-installing-a-release-using-pip">
+<span id="alternative-2"></span><h2>Alternative 2: Installing a release using <code class="docutils literal"><span class="pre">pip</span></code><a class="headerlink" href="#alternative-2-installing-a-release-using-pip" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>TL;DR<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Instructions for the impatient:</p>
+<ul>
+<li><p class="first">Install <a class="reference external" href="https://pip.pypa.io/en/stable/">pip</a></p>
+</li>
+<li><p class="first">Install ODL and dependencies:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install odl<span class="o">[</span>show,pywavelets,scikit,proximal,testing<span class="o">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="installing-a-python-interpreter">
+<h3>Installing a Python interpreter<a class="headerlink" href="#installing-a-python-interpreter" title="Permalink to this headline">¶</a></h3>
+<p>Open a terminal and type <code class="docutils literal"><span class="pre">python</span></code> + Enter.
+If a Python prompt appears, you already have an interpreter installed and can skip this step (exit by running <code class="docutils literal"><span class="pre">exit()</span></code>).
+Otherwise, you need to install it.</p>
+<div class="section" id="on-linux">
+<h4>On Linux:<a class="headerlink" href="#on-linux" title="Permalink to this headline">¶</a></h4>
+<p>In the unlikely event that Python is not installed, consult your distro package manager.</p>
+</div>
+<div class="section" id="on-macos">
+<h4>On MacOS:<a class="headerlink" href="#on-macos" title="Permalink to this headline">¶</a></h4>
+<p>Get the latest release (2 or 3) for MacOS <a class="reference external" href="https://www.python.org/downloads/mac-osx/">here</a> and install it.</p>
+</div>
+<div class="section" id="on-windows">
+<h4>On Windows:<a class="headerlink" href="#on-windows" title="Permalink to this headline">¶</a></h4>
+<p>Python installers can be downloaded from <a class="reference external" href="https://www.python.org/downloads/windows/">this link</a>.
+Pick the latest release for your favorite version (2 or 3).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Correctly installing ODL&#8217;s dependencies on Windows, especially Numpy and Scipy, can be quite a hassle, and we therefore discourage this variant.
+You should really consider using Anaconda instead, see <a class="reference internal" href="#alternative-1"><span class="std std-ref">Alternative 1: Installing a release using conda (recommended for users)</span></a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Installing ODL and its dependencies<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>You may need to <a class="reference external" href="https://pip.pypa.io/en/stable/installing/#installation">install pip</a> to be able to install ODL and its dependencies from the <a class="reference external" href="https://pypi.python.org/pypi">Python Package Index</a> (PyPI).
+If running <code class="docutils literal"><span class="pre">pip</span></code> (alternatively: <code class="docutils literal"><span class="pre">pip2</span></code> or <code class="docutils literal"><span class="pre">pip3</span></code>) shows a help message, it is installed &#8211; otherwise you need to install it first.</p>
+<p>For basic installation without extra dependencies, run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install --user odl
+</pre></div>
+</div>
+<div class="section" id="id5">
+<h4>Extra dependencies<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>The following optional packages extend the functionality of ODL.
+They can be specified as keywords in square brackets, separated by commas (no spaces!):</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install odl<span class="o">[</span>dep1,dep2<span class="o">]</span>
+</pre></div>
+</div>
+<p>Possible choices:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">show</span></code> : Install <a class="reference external" href="http://matplotlib.org/">matplotlib</a> to enable displaying capabilities.</li>
+<li><code class="docutils literal"><span class="pre">fft</span></code> : Install <a class="reference external" href="https://pypi.python.org/pypi/pyFFTW">pyFFTW</a> for fast Fourier transforms. Note that this requires the <a class="reference external" href="http://fftw.org/">FFTW</a> C library to be available on your system.
+Note also that even without this dependency, FFTs can be computed with Numpy&#8217;s FFT library.</li>
+<li><code class="docutils literal"><span class="pre">pywavelets</span></code> : Install <a class="reference external" href="https://pypi.python.org/pypi/PyWavelets">PyWavelets</a> for wavelet transforms.</li>
+<li><code class="docutils literal"><span class="pre">scikit</span></code> : Install <a class="reference external" href="http://scikit-image.org/">scikit-image</a> as a simple backend for ray transforms.</li>
+<li><code class="docutils literal"><span class="pre">proximal</span></code>: Install the <a class="reference external" href="http://www.proximal-lang.org/en/latest/">ProxImaL</a> convex optimization package.</li>
+<li><code class="docutils literal"><span class="pre">testing</span></code>: Pull in the dependencies for unit tests (see <a class="reference internal" href="#running-the-tests"><span class="std std-ref">Runing the tests</span></a>)</li>
+</ul>
+<p>These dependencies are optional and may not be easy to install on your system (especially on Windows).
+In general, a clean ODL installation is enough for most users&#8217; initial needs.</p>
+<hr class="docutils" />
+</div>
+</div>
+</div>
+<div class="section" id="alternative-3-installation-from-source-recommended-for-developers">
+<span id="alternative-3"></span><h2>Alternative 3: Installation from source (recommended for developers)<a class="headerlink" href="#alternative-3-installation-from-source-recommended-for-developers" title="Permalink to this headline">¶</a></h2>
+<p>This installation method is intended for developers who want to make changes to the code.
+It assumes that the <a class="reference external" href="http://www.git-scm.com/">Git</a> version control system is available on your system; for up-to-date instructions, consult the <a class="reference external" href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Git installation instructions</a>.
+You also need <a class="reference external" href="https://pip.pypa.io/en/stable/">pip</a> to perform the installation.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You should consider performing all described steps in a <a class="reference external" href="http://conda.pydata.org/docs/using/envs.html">conda environment</a> &#8211; it gives you the same encapsulation benefits as developer that you would enjoy also as a user (no conflicting packages, free to choose Python version, ...).
+See the <a class="reference internal" href="#id2">Installing Anaconda</a> section for setup instructions.</p>
+</div>
+<p>To get ODL, navigate to a folder where you want the ODL repository to be stored and clone the repository with the command</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ git clone https://github.com/odlgroup/odl
+</pre></div>
+</div>
+<p>No GitHub account is required for this step.</p>
+<div class="section" id="in-a-conda-environment">
+<h3>In a conda environment<a class="headerlink" href="#in-a-conda-environment" title="Permalink to this headline">¶</a></h3>
+<p>This part assumes that you have activated a conda environment before (see <a class="reference internal" href="#installing-anaconda"><span class="std std-ref">Installing Anaconda</span></a>).</p>
+<p>You can choose to install dependencies first:</p>
+<p><strong>On Linux/MacOS:</strong></p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install nomkl numpy scipy future matplotlib
+</pre></div>
+</div>
+<p><strong>On Windows:</strong></p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install numpy scipy future matplotlib
+</pre></div>
+</div>
+<p>After that, enter the top-level directory of the cloned repository and run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install --editable .
+</pre></div>
+</div>
+<p><strong>Optional dependencies:</strong></p>
+<p>You may also want to install optional dependencies:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install matplotlib pytest pytest-pep8
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-only-pip">
+<h3>Using only <code class="docutils literal"><span class="pre">pip</span></code><a class="headerlink" href="#using-only-pip" title="Permalink to this headline">¶</a></h3>
+<p>Enter the top-level directory of the cloned repository and run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install --user --editable .
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><strong>Don&#8217;t forget the &#8221;.&#8221; (dot) at the end</strong> - it refers to the current directory, the location from where <code class="docutils literal"><span class="pre">pip</span></code> is supposed to install ODL.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We recommend the <code class="docutils literal"><span class="pre">--editable</span></code> option (can be shortened to <code class="docutils literal"><span class="pre">-e</span></code>) since it installs a link instead of copying the files to your Python packages location.
+This way, local changes to the code (e.g. after a <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code>) take immediate effect after reloading the package, without requiring reinstallation.</p>
+</div>
+</div>
+<div class="section" id="further-developer-information">
+<h3>Further developer information<a class="headerlink" href="#further-developer-information" title="Permalink to this headline">¶</a></h3>
+<p>See <a class="reference internal" href="../dev/dev.html#contributing"><span class="std std-ref">Contributing to ODL</span></a> for more information.</p>
+<hr class="docutils" />
+</div>
+</div>
+<div class="section" id="runing-the-tests">
+<span id="running-the-tests"></span><h2>Runing the tests<a class="headerlink" href="#runing-the-tests" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests in ODL are based on <a class="reference external" href="https://pypi.python.org/pypi/pytest">pytest</a>.
+They can be run either from within <code class="docutils literal"><span class="pre">odl</span></code> or by invoking <code class="docutils literal"><span class="pre">pytest</span></code> directly.</p>
+<div class="section" id="installing-testing-dependencies">
+<h3>Installing testing dependencies<a class="headerlink" href="#installing-testing-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>If you installed an ODL release using <code class="docutils literal"><span class="pre">conda</span></code> or <code class="docutils literal"><span class="pre">pip</span></code>, respectively, you should install <code class="docutils literal"><span class="pre">pytest</span></code> using the same method.
+For source installations, you can choose your favorite method below.</p>
+<div class="section" id="using-conda">
+<h4>Using <code class="docutils literal"><span class="pre">conda</span></code>:<a class="headerlink" href="#using-conda" title="Permalink to this headline">¶</a></h4>
+<p>If you installed ODL using conda, <code class="docutils literal"><span class="pre">pytest</span></code> is already installed as dependency, so there should not be anything left to do.
+Otherwise, you can install it by running</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install pytest
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-pip">
+<h4>Using <code class="docutils literal"><span class="pre">pip</span></code>:<a class="headerlink" href="#using-pip" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install --user odl<span class="o">[</span>testing<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="testing-the-code">
+<h3>Testing the code<a class="headerlink" href="#testing-the-code" title="Permalink to this headline">¶</a></h3>
+<p>Now you can check that everything was installed properly by running</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python -c <span class="s2">&quot;import odl; odl.test()&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you have several versions of ODL and run this command in the top-level directory of an ODL clone, the tests in the repository will be run, not the ones in the installed package.</p>
+</div>
+<p>If you have installed ODL from source, you can also use <code class="docutils literal"><span class="pre">pytest</span></code> directly in the root of your ODL clone:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pytest
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="compiled-extensions">
+<h2>Compiled extensions<a class="headerlink" href="#compiled-extensions" title="Permalink to this headline">¶</a></h2>
+<p>There are several compiled extensions to ODL.
+Some of them can be installed using <code class="docutils literal"><span class="pre">conda</span></code>, others require manual compilation.</p>
+<div class="section" id="cuda-backend-for-linear-arrays">
+<h3>CUDA backend for linear arrays<a class="headerlink" href="#cuda-backend-for-linear-arrays" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference external" href="https://github.com/odlgroup/odlcuda">odlcuda</a> backend for fast array calculations on CUDA requires the <a class="reference external" href="https://developer.nvidia.com/cuda-toolkit">CUDA toolkit</a> (on Linux: use your distro package manager) and a CUDA capable graphics card with compute capability of at least 3.0.
+Search <a class="reference external" href="https://en.wikipedia.org/wiki/CUDA#GPUs_supported">this table</a> for your model.</p>
+<div class="section" id="installation-using-conda">
+<h4>Installation using <code class="docutils literal"><span class="pre">conda</span></code><a class="headerlink" href="#installation-using-conda" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In conda, the <code class="docutils literal"><span class="pre">odlcuda</span></code> package is currently available only for Linux 64-bit and Python 3.5.
+Furthermore, you may experience failures due to &#8220;invalid device function&#8221; &#8211; this is a known issue, and we&#8217;re trying to fix it.</p>
+</div>
+<p>If you have installed an ODL release, simply run (in a directory of your choice)</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install -c odlgroup odlcuda
+</pre></div>
+</div>
+<p>If you have installed ODL from source, you need to prevent conda from installing its version of ODL.
+To do this, find out the dependencies of <code class="docutils literal"><span class="pre">odlcuda</span></code> by running</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install --dry-run odlcuda
+</pre></div>
+</div>
+<p>Install all its dependencies except <code class="docutils literal"><span class="pre">odl</span></code> and <code class="docutils literal"><span class="pre">odlcuda</span></code>.
+Finally, install <code class="docutils literal"><span class="pre">odlcuda</span></code> without dependencies:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install --no-deps odlcuda
+</pre></div>
+</div>
+</div>
+<div class="section" id="building-from-source">
+<h4>Building from source<a class="headerlink" href="#building-from-source" title="Permalink to this headline">¶</a></h4>
+<p>You have two options of building <code class="docutils literal"><span class="pre">odlcuda</span></code> from source.
+For both, first clone the <code class="docutils literal"><span class="pre">odlcuda</span></code> GitHub repository and enter the new directory:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ git clone https://github.com/odlgroup/odlcuda.git
+$ <span class="nb">cd</span> odlcuda
+</pre></div>
+</div>
+<ol class="arabic">
+<li><p class="first"><strong>Using conda build</strong></p>
+<p>This is the simpler option and should work on any Linux or MacOS system (we currently have no Windows build recipe, sorry).</p>
+<p>To build the conda recipe, you should be <strong>in the root conda environment</strong> (see <a class="reference internal" href="#installing-anaconda"><span class="std std-ref">Installing Anaconda</span></a> for details) and in the top-level directory of your <code class="docutils literal"><span class="pre">odlcuda</span></code> clone.
+You also need the <code class="docutils literal"><span class="pre">conda-build</span></code> package, which is installed by</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install conda-build
+</pre></div>
+</div>
+<p>Next, switch to the <code class="docutils literal"><span class="pre">conda-build</span></code> branch:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ git checkout conda-build
+</pre></div>
+</div>
+<p>Finally, build the package using <code class="docutils literal"><span class="pre">conda</span> <span class="pre">build</span></code>.
+Currently, this requires you to manually provide the location of the CUDA toolkit and the compute capability of your graphics card using the environment variables <code class="docutils literal"><span class="pre">CUDA_ROOT</span></code> and <code class="docutils literal"><span class="pre">CUDA_COMPUTE</span></code>.
+(If you forget them, the build recipe will only issue a warning in the beginning but fail later on.)
+The <code class="docutils literal"><span class="pre">CUDA_ROOT</span></code> is given as path, e.g. <code class="docutils literal"><span class="pre">/usr/local/cuda</span></code>, and <code class="docutils literal"><span class="pre">CUDA_COMPUTE</span></code> as 2-digit number without dot, e.g. <code class="docutils literal"><span class="pre">30</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can consult <a class="reference external" href="https://en.wikipedia.org/wiki/CUDA#GPUs_supported">this table</a> for the compute capability of your device.
+The minimum required is <code class="docutils literal"><span class="pre">30</span></code>, which corresponds to the &#8220;Kepler&#8221; generation.</p>
+</div>
+<p>Assuming the example configuration above, the build command to run is</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ <span class="nv">CUDA_ROOT</span><span class="o">=</span>/usr/local/cuda <span class="nv">CUDA_COMPUTE</span><span class="o">=</span><span class="m">30</span> conda build ./conda
+</pre></div>
+</div>
+<p>This command builds <code class="docutils literal"><span class="pre">odlcuda</span></code> in a separate build conda environment and tries to import it and run some tests after the build has finished.
+If all goes well, you will get a message at the end that shows the path to the conda package.</p>
+<p>Finally, install this package file <strong>in your working conda environment</strong> (e.g. <code class="docutils literal"><span class="pre">source</span> <span class="pre">activate</span> <span class="pre">odl-py35</span></code>) by invoking e.g.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install /path/to/your/miniconda/conda-bld/linux-64/odlcuda-0.3.0-py35_0.tar.bz2
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Manually with CMake</strong></p>
+<p>This option requires more manual work but is known to work on all platforms.</p>
+<p>See <a class="reference external" href="https://github.com/odlgroup/odlcuda.git">here</a> for build instructions.
+You may want to use include and library paths (GCC, boost, ...) of a conda enviroment and install the package in it.</p>
+</li>
+</ol>
+<p>A simple test if this build of <code class="docutils literal"><span class="pre">odlcuda</span></code> works, you can run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python -c <span class="s2">&quot;import odl; odl.rn(3, impl=&#39;cuda&#39;).element()&quot;</span>
+</pre></div>
+</div>
+<p>If you get a <code class="docutils literal"><span class="pre">KeyError:</span> <span class="pre">'cuda'</span></code>, then something went wrong with the package installation since it cannot be imported.
+If the above command instead raises a <code class="docutils literal"><span class="pre">MemoryError</span></code> or similar, your graphics card is not properly configured, and you should solve that issue first.</p>
+</div>
+</div>
+<div class="section" id="astra-for-x-ray-tomography">
+<h3>ASTRA for X-ray tomography<a class="headerlink" href="#astra-for-x-ray-tomography" title="Permalink to this headline">¶</a></h3>
+<p>To calculate fast forward and backward projections for image reconstruction in X-ray tomography, install the <a class="reference external" href="https://github.com/astra-toolbox/astra-toolbox">ASTRA tomography toolbox</a>.
+ASTRA projectors are fully supported in ODL.</p>
+<p>You can try using the conda package, but we can give no guarantee that it works out of the box:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ conda install -c astra-toolbox astra-toolbox
+</pre></div>
+</div>
+<p>For further instructions, check <a class="reference external" href="https://github.com/astra-toolbox/astra-toolbox">the ASTRA GitHub page</a>.</p>
+</div>
+<div class="section" id="stir-for-emission-tomography">
+<h3>STIR for emission tomography<a class="headerlink" href="#stir-for-emission-tomography" title="Permalink to this headline">¶</a></h3>
+<p>For applications in emission tomography, i.e. PET or SPECT, install <a class="reference external" href="https://github.com/UCL/STIR">STIR</a> with Python bindings.
+Support for STIR is currently very limited.</p>
+</div>
+</div>
+<div class="section" id="issues">
+<h2>Issues<a class="headerlink" href="#issues" title="Permalink to this headline">¶</a></h2>
+<p>If you have any problems during installation, consult the help in the <a class="reference internal" href="../guide/faq.html#faq"><span class="std std-ref">FAQ</span></a>.
+If that does not help, <a class="reference external" href="https://github.com/odlgroup/odl/issues">make an issue on GitHub</a> or send us an email (<a class="reference external" href="mailto:odl&#37;&#52;&#48;math&#46;kth&#46;se">odl<span>&#64;</span>math<span>&#46;</span>kth<span>&#46;</span>se</a>) and we&#8217;ll try to assist you promptly.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="first_steps.html" class="btn btn-neutral float-right" title="First steps" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="about_odl.html" class="btn btn-neutral" title="About ODL" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2016, ODL development group, KTH.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.5.4.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

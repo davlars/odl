@@ -1,0 +1,8 @@
+:orphan:
+
+MatVecOperator.derivative
+===============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. automethod:: MatVecOperator.derivative

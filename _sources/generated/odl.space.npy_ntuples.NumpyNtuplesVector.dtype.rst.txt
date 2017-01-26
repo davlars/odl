@@ -1,0 +1,6 @@
+NumpyNtuplesVector.dtype
+==============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyNtuplesVector.dtype

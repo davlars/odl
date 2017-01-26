@@ -1,0 +1,6 @@
+NumpyNtuplesVector.space
+==============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyNtuplesVector.space

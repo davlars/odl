@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.motion_params
+=================================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.motion_params

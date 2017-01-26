@@ -1,0 +1,8 @@
+:orphan:
+
+SolverCallback.reset
+==============================================
+
+.. currentmodule:: odl.solvers.util.callback
+
+.. automethod:: SolverCallback.reset

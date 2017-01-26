@@ -1,0 +1,6 @@
+NumpyFn.is_weighted
+=========================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFn.is_weighted

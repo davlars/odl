@@ -1,0 +1,6 @@
+NumpyFnMatrixWeighting.repr_part
+======================================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnMatrixWeighting.repr_part

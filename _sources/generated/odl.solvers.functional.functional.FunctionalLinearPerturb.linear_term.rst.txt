@@ -1,0 +1,6 @@
+FunctionalLinearPerturb.linear_term
+=====================================================================
+
+.. currentmodule:: odl.solvers.functional.functional
+
+.. autoattribute:: FunctionalLinearPerturb.linear_term

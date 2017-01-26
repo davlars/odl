@@ -1,0 +1,6 @@
+BackProjectorByBinWrapper.is_linear
+===================================================================
+
+.. currentmodule:: odl.tomo.backends.stir_bindings
+
+.. autoattribute:: BackProjectorByBinWrapper.is_linear

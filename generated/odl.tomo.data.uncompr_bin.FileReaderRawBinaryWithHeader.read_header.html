@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FileReaderRawBinaryWithHeader.read_header &mdash; odl 0.5.4.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="odl 0.5.4.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="FileReaderRawBinaryWithHeader" href="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.html"/>
+        <link rel="next" title="FileWriterRawBinaryWithHeader" href="odl.tomo.data.uncompr_bin.FileWriterRawBinaryWithHeader.html"/>
+        <link rel="prev" title="FileReaderRawBinaryWithHeader.read_data" href="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.read_data.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> odl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.4.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Working with ODL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/guide.html">User&#8217;s guide &#8211; selected topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/math.html">Mathematical Background</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer zone</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/dev.html">Contributing to ODL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Useful facts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/faq.html">Frequently asked questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../refs.html">References</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../odl.html">odl</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../odl.deform.html">deform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.diagnostics.html">diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.discr.html">discr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.operator.html">operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.phantom.html">phantom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.set.html">set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.solvers.html">solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.space.html">space</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../odl.tomo.html">tomo</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.analytic.html">analytic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.backends.html">backends</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../odl.tomo.data.html">data</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../odl.tomo.data.mrc.html">mrc</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../odl.tomo.data.uncompr_bin.html">uncompr_bin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.geometry.html">geometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.operators.html">operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.util.html">util</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.trafos.html">trafos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.ufunc_ops.html">ufunc_ops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.util.html">util</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">odl</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../odl.html">odl</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.html">tomo</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.data.html">data</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.data.uncompr_bin.html">uncompr_bin</a> &raquo;</li>
+      
+          <li><a href="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.html">FileReaderRawBinaryWithHeader</a> &raquo;</li>
+      
+    <li>FileReaderRawBinaryWithHeader.read_header</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/generated/odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.read_header.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="filereaderrawbinarywithheader-read-header">
+<h1>FileReaderRawBinaryWithHeader.read_header<a class="headerlink" href="#filereaderrawbinarywithheader-read-header" title="Permalink to this headline">¶</a></h1>
+<dl class="method">
+<dt id="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.read_header">
+<code class="descclassname">FileReaderRawBinaryWithHeader.</code><code class="descname">read_header</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/odl/tomo/data/uncompr_bin.html#FileReaderRawBinaryWithHeader.read_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.read_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the header from <a class="reference internal" href="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.file.html#odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.file" title="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.file"><code class="xref any py py-attr docutils literal"><span class="pre">file</span></code></a>.</p>
+<p>The header is also stored in the <a class="reference internal" href="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.header.html#odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.header" title="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.header"><code class="xref any py py-attr docutils literal"><span class="pre">header</span></code></a> attribute.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>header</strong> : <code class="xref any docutils literal"><span class="pre">OrderedDict</span></code></p>
+<blockquote class="last">
+<div><p>Header from <a class="reference internal" href="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.file.html#odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.file" title="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.file"><code class="xref any py py-attr docutils literal"><span class="pre">file</span></code></a>, stored in an ordered dictionary, where each
+entry has the following form:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value_as_array</span><span class="p">,</span>
+         <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset_in_bytes</span>
+         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description_string</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>All <code class="docutils literal"><span class="pre">'value'</span></code>&#8216;s are <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref any docutils literal"><span class="pre">numpy.ndarray</span></code></a>&#8216;s with at least one
+dimension. If a <code class="docutils literal"><span class="pre">'shape'</span></code> is given in <a class="reference internal" href="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.header_fields.html#odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.header_fields" title="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.header_fields"><code class="xref any py py-attr docutils literal"><span class="pre">header_fields</span></code></a>,
+the resulting array is reshaped accordingly.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.read_data.html#odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.read_data" title="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.read_data"><code class="xref py py-obj docutils literal"><span class="pre">read_data</span></code></a></p>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="odl.tomo.data.uncompr_bin.FileWriterRawBinaryWithHeader.html" class="btn btn-neutral float-right" title="FileWriterRawBinaryWithHeader" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader.read_data.html" class="btn btn-neutral" title="FileReaderRawBinaryWithHeader.read_data" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2016, ODL development group, KTH.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.5.4.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

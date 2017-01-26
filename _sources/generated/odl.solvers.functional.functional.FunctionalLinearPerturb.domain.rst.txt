@@ -1,0 +1,6 @@
+FunctionalLinearPerturb.domain
+================================================================
+
+.. currentmodule:: odl.solvers.functional.functional
+
+.. autoattribute:: FunctionalLinearPerturb.domain

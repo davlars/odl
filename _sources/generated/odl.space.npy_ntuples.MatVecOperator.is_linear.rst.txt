@@ -1,0 +1,6 @@
+MatVecOperator.is_linear
+==============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: MatVecOperator.is_linear

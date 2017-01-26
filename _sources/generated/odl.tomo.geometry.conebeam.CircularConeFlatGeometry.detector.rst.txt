@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.detector
+============================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.detector

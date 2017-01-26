@@ -1,0 +1,6 @@
+FileReaderMRC.cell_sides
+==========================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileReaderMRC.cell_sides

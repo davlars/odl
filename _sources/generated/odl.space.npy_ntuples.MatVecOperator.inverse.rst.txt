@@ -1,0 +1,6 @@
+MatVecOperator.inverse
+============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: MatVecOperator.inverse

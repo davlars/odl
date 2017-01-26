@@ -1,0 +1,6 @@
+DiscreteLpElement.ntuple
+===========================================
+
+.. currentmodule:: odl.discr.lp_discr
+
+.. autoattribute:: DiscreteLpElement.ntuple

@@ -1,0 +1,6 @@
+MatrixWeighting.matrix_issparse
+===================================================
+
+.. currentmodule:: odl.space.weighting
+
+.. autoattribute:: MatrixWeighting.matrix_issparse

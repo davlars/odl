@@ -1,0 +1,6 @@
+FunctionalLinearPerturb.proximal
+==================================================================
+
+.. currentmodule:: odl.solvers.functional.functional
+
+.. autoattribute:: FunctionalLinearPerturb.proximal

@@ -1,0 +1,6 @@
+NoWeighting.dist_using_inner
+================================================
+
+.. currentmodule:: odl.space.weighting
+
+.. autoattribute:: NoWeighting.dist_using_inner

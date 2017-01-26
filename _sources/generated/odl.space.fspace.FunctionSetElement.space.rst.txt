@@ -1,0 +1,6 @@
+FunctionSetElement.space
+=========================================
+
+.. currentmodule:: odl.space.fspace
+
+.. autoattribute:: FunctionSetElement.space

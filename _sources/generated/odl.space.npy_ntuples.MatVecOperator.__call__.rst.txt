@@ -1,0 +1,8 @@
+:orphan:
+
+MatVecOperator.__call__
+=============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. automethod:: MatVecOperator.__call__

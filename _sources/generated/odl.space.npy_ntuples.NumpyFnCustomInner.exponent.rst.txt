@@ -1,0 +1,6 @@
+NumpyFnCustomInner.exponent
+=================================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnCustomInner.exponent

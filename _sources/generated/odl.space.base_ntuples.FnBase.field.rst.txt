@@ -1,0 +1,6 @@
+FnBase.field
+===================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: FnBase.field

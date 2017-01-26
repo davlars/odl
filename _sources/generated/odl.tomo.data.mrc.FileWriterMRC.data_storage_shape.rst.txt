@@ -1,0 +1,6 @@
+FileWriterMRC.data_storage_shape
+==================================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileWriterMRC.data_storage_shape

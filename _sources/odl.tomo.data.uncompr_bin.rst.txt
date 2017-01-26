@@ -1,0 +1,25 @@
+uncompr_bin
+===========
+
+Utilities and class for reading uncompressed binary files with header.
+
+.. currentmodule:: odl.tomo.data.uncompr_bin
+
+
+
+.. rubric:: Classes
+
+.. autosummary::
+   :toctree: generated/
+
+   ~odl.tomo.data.uncompr_bin.FileReaderRawBinaryWithHeader
+   ~odl.tomo.data.uncompr_bin.FileWriterRawBinaryWithHeader
+
+
+.. rubric:: Functions
+
+.. autosummary::
+   :toctree: generated/
+
+   ~odl.tomo.data.uncompr_bin.header_fields_from_table
+

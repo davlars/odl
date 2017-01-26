@@ -1,0 +1,8 @@
+:orphan:
+
+ParallelGeometry.rotation_matrix
+===========================================================
+
+.. currentmodule:: odl.tomo.geometry.parallel
+
+.. automethod:: ParallelGeometry.rotation_matrix

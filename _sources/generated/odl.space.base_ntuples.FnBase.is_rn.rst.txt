@@ -1,0 +1,6 @@
+FnBase.is_rn
+===================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: FnBase.is_rn

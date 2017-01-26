@@ -1,0 +1,6 @@
+MRCHeaderProperties.cell_sides_angstrom
+=========================================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: MRCHeaderProperties.cell_sides_angstrom

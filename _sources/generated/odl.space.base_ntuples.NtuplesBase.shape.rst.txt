@@ -1,0 +1,6 @@
+NtuplesBase.shape
+========================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: NtuplesBase.shape

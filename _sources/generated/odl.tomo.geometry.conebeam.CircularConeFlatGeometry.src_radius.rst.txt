@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.src_radius
+==============================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.src_radius

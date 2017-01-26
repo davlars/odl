@@ -1,0 +1,6 @@
+HelicalConeFlatGeometry.params
+=========================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: HelicalConeFlatGeometry.params

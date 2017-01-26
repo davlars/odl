@@ -1,0 +1,8 @@
+:orphan:
+
+ParallelGeometry.det_refpoint
+========================================================
+
+.. currentmodule:: odl.tomo.geometry.parallel
+
+.. automethod:: ParallelGeometry.det_refpoint

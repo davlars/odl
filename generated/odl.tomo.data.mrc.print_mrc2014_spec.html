@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>print_mrc2014_spec &mdash; odl 0.5.4.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="odl 0.5.4.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="mrc" href="../odl.tomo.data.mrc.html"/>
+        <link rel="next" title="uncompr_bin" href="../odl.tomo.data.uncompr_bin.html"/>
+        <link rel="prev" title="print_fei_ext_header_spec" href="odl.tomo.data.mrc.print_fei_ext_header_spec.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> odl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.4.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Working with ODL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/guide.html">User&#8217;s guide &#8211; selected topics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/math.html">Mathematical Background</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer zone</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/dev.html">Contributing to ODL</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Useful facts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/faq.html">Frequently asked questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../refs.html">References</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../odl.html">odl</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../odl.deform.html">deform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.diagnostics.html">diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.discr.html">discr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.operator.html">operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.phantom.html">phantom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.set.html">set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.solvers.html">solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.space.html">space</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../odl.tomo.html">tomo</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.analytic.html">analytic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.backends.html">backends</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../odl.tomo.data.html">data</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../odl.tomo.data.mrc.html">mrc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../odl.tomo.data.uncompr_bin.html">uncompr_bin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.geometry.html">geometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.operators.html">operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../odl.tomo.util.html">util</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.trafos.html">trafos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.ufunc_ops.html">ufunc_ops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../odl.util.html">util</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">odl</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../odl.html">odl</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.html">tomo</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.data.html">data</a> &raquo;</li>
+      
+          <li><a href="../odl.tomo.data.mrc.html">mrc</a> &raquo;</li>
+      
+    <li>print_mrc2014_spec</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/generated/odl.tomo.data.mrc.print_mrc2014_spec.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="print-mrc2014-spec">
+<h1>print_mrc2014_spec<a class="headerlink" href="#print-mrc2014-spec" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="odl.tomo.data.mrc.print_mrc2014_spec">
+<code class="descclassname">odl.tomo.data.mrc.</code><code class="descname">print_mrc2014_spec</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/odl/tomo/data/mrc.html#print_mrc2014_spec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odl.tomo.data.mrc.print_mrc2014_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the MRC2014 specification table.</p>
+<blockquote>
+<div>The specification table is as follows:</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="12%" />
+<col width="15%" />
+<col width="12%" />
+<col width="47%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Long word</th>
+<th class="head">Byte</th>
+<th class="head">Data type</th>
+<th class="head">Name</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>1-4</td>
+<td>Int32</td>
+<td>NX</td>
+<td>Number of columns</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>5-8</td>
+<td>Int32</td>
+<td>NY</td>
+<td>Number of rows</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>9-12</td>
+<td>Int32</td>
+<td>NZ</td>
+<td>Number of sections</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>13-16</td>
+<td>Int32</td>
+<td>MODE</td>
+<td>Data type</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>29-32</td>
+<td>Int32</td>
+<td>MX</td>
+<td>Number of intervals along X of
+the &#8220;unit cell&#8221;</td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>33-36</td>
+<td>Int32</td>
+<td>MY</td>
+<td>Number of intervals along Y of
+the &#8220;unit cell&#8221;</td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>37-40</td>
+<td>Int32</td>
+<td>MZ</td>
+<td>Number of intervals along Z of
+the &#8220;unit cell&#8221;</td>
+</tr>
+<tr class="row-odd"><td>11-13</td>
+<td>41-52</td>
+<td>Float32</td>
+<td>CELLA</td>
+<td>Cell dimension in angstroms
+(whole volume)</td>
+</tr>
+<tr class="row-even"><td>17</td>
+<td>65-68</td>
+<td>Int32</td>
+<td>MAPC</td>
+<td>axis corresponding to columns
+(1,2,3 for X,Y,Z)</td>
+</tr>
+<tr class="row-odd"><td>18</td>
+<td>69-72</td>
+<td>Int32</td>
+<td>MAPR</td>
+<td>axis corresponding to rows
+(1,2,3 for X,Y,Z)</td>
+</tr>
+<tr class="row-even"><td>19</td>
+<td>73-76</td>
+<td>Int32</td>
+<td>MAPS</td>
+<td>axis corresponding to sections
+(1,2,3 for X,Y,Z)</td>
+</tr>
+<tr class="row-odd"><td>20</td>
+<td>77-80</td>
+<td>Float32</td>
+<td>DMIN</td>
+<td>Minimum density value</td>
+</tr>
+<tr class="row-even"><td>21</td>
+<td>81-84</td>
+<td>Float32</td>
+<td>DMAX</td>
+<td>Maximum density value</td>
+</tr>
+<tr class="row-odd"><td>22</td>
+<td>85-88</td>
+<td>Float32</td>
+<td>DMEAN</td>
+<td>Mean density value</td>
+</tr>
+<tr class="row-even"><td>23</td>
+<td>89-92</td>
+<td>Int32</td>
+<td>ISPG</td>
+<td>Space group number 0, 1, or 401</td>
+</tr>
+<tr class="row-odd"><td>24</td>
+<td>93-96</td>
+<td>Int32</td>
+<td>NSYMBT</td>
+<td>Number of bytes in extended
+header</td>
+</tr>
+<tr class="row-even"><td>27</td>
+<td>105-108</td>
+<td>String</td>
+<td>EXTTYPE</td>
+<td>Extended header type</td>
+</tr>
+<tr class="row-odd"><td>28</td>
+<td>109-112</td>
+<td>Int32</td>
+<td>NVERSION</td>
+<td>Format version identification
+number</td>
+</tr>
+<tr class="row-even"><td>50-52</td>
+<td>197-208</td>
+<td>Int32</td>
+<td>ORIGIN</td>
+<td>Origin in X, Y, Z used in
+transform</td>
+</tr>
+<tr class="row-odd"><td>53</td>
+<td>209-212</td>
+<td>String</td>
+<td>MAP</td>
+<td>Character string &#8216;MAP&#8217; to
+identify file type</td>
+</tr>
+<tr class="row-even"><td>54</td>
+<td>213-216</td>
+<td>String</td>
+<td>MACHST</td>
+<td>Machine stamp</td>
+</tr>
+<tr class="row-odd"><td>55</td>
+<td>217-220</td>
+<td>Float32</td>
+<td>RMS</td>
+<td>RMS deviation of map from mean
+density</td>
+</tr>
+<tr class="row-even"><td>56</td>
+<td>221-224</td>
+<td>Int32</td>
+<td>NLABL</td>
+<td>Number of labels being used</td>
+</tr>
+<tr class="row-odd"><td>57-256</td>
+<td>225-1024</td>
+<td>String(80)</td>
+<td>LABEL</td>
+<td>10 80-character text labels</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../odl.tomo.data.uncompr_bin.html" class="btn btn-neutral float-right" title="uncompr_bin" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="odl.tomo.data.mrc.print_fei_ext_header_spec.html" class="btn btn-neutral" title="print_fei_ext_header_spec" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2016, ODL development group, KTH.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.5.4.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

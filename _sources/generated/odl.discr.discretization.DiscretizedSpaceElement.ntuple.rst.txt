@@ -1,0 +1,6 @@
+DiscretizedSpaceElement.ntuple
+=======================================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSpaceElement.ntuple

@@ -1,0 +1,6 @@
+NoWeighting.exponent
+========================================
+
+.. currentmodule:: odl.space.weighting
+
+.. autoattribute:: NoWeighting.exponent

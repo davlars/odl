@@ -1,0 +1,6 @@
+HelicalConeFlatGeometry.partition
+============================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: HelicalConeFlatGeometry.partition

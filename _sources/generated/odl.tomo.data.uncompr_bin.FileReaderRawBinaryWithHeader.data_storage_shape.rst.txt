@@ -1,0 +1,6 @@
+FileReaderRawBinaryWithHeader.data_storage_shape
+==========================================================================
+
+.. currentmodule:: odl.tomo.data.uncompr_bin
+
+.. autoattribute:: FileReaderRawBinaryWithHeader.data_storage_shape

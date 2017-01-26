@@ -1,0 +1,6 @@
+ForwardProjectorByBinWrapper.is_functional
+==========================================================================
+
+.. currentmodule:: odl.tomo.backends.stir_bindings
+
+.. autoattribute:: ForwardProjectorByBinWrapper.is_functional

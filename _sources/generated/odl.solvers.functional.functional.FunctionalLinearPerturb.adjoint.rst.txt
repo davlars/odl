@@ -1,0 +1,6 @@
+FunctionalLinearPerturb.adjoint
+=================================================================
+
+.. currentmodule:: odl.solvers.functional.functional
+
+.. autoattribute:: FunctionalLinearPerturb.adjoint

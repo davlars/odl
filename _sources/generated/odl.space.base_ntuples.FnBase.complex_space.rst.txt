@@ -1,0 +1,6 @@
+FnBase.complex_space
+===========================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: FnBase.complex_space

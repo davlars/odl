@@ -1,0 +1,6 @@
+ProductSpaceConstWeighting.dist_using_inner
+============================================================
+
+.. currentmodule:: odl.space.pspace
+
+.. autoattribute:: ProductSpaceConstWeighting.dist_using_inner

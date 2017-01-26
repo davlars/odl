@@ -1,0 +1,51 @@
+HelicalConeFlatGeometry
+==================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoclass:: HelicalConeFlatGeometry
+   :show-inheritance:
+   
+   
+   .. automethod:: __init__
+   
+      
+   
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         HelicalConeFlatGeometry.det_point_position
+         HelicalConeFlatGeometry.det_refpoint
+         HelicalConeFlatGeometry.det_to_src
+         HelicalConeFlatGeometry.rotation_matrix
+         HelicalConeFlatGeometry.src_position
+   
+
+    
+   .. HACK -- the point here is that we don't want this to appear in the output, but the autosummary should still generate the pages.
+      .. autosummary::
+         :toctree:
+      
+         HelicalConeFlatGeometry.angles
+         HelicalConeFlatGeometry.axis
+         HelicalConeFlatGeometry.det_grid
+         HelicalConeFlatGeometry.det_init_axes
+         HelicalConeFlatGeometry.det_params
+         HelicalConeFlatGeometry.det_partition
+         HelicalConeFlatGeometry.det_radius
+         HelicalConeFlatGeometry.detector
+         HelicalConeFlatGeometry.grid
+         HelicalConeFlatGeometry.implementation_cache
+         HelicalConeFlatGeometry.motion_grid
+         HelicalConeFlatGeometry.motion_params
+         HelicalConeFlatGeometry.motion_partition
+         HelicalConeFlatGeometry.ndim
+         HelicalConeFlatGeometry.params
+         HelicalConeFlatGeometry.partition
+         HelicalConeFlatGeometry.pitch
+         HelicalConeFlatGeometry.pitch_offset
+         HelicalConeFlatGeometry.src_radius
+         HelicalConeFlatGeometry.src_to_det_init
+   
+   

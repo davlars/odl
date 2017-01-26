@@ -1,0 +1,6 @@
+CircularConeFlatGeometry.implementation_cache
+========================================================================
+
+.. currentmodule:: odl.tomo.geometry.conebeam
+
+.. autoattribute:: CircularConeFlatGeometry.implementation_cache

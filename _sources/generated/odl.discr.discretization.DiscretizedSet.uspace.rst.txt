@@ -1,0 +1,6 @@
+DiscretizedSet.uspace
+==============================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSet.uspace

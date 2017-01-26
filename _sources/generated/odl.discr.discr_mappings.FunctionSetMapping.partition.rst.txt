@@ -1,0 +1,6 @@
+FunctionSetMapping.partition
+=====================================================
+
+.. currentmodule:: odl.discr.discr_mappings
+
+.. autoattribute:: FunctionSetMapping.partition

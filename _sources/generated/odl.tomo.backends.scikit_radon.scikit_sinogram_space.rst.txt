@@ -1,0 +1,6 @@
+scikit_sinogram_space
+====================================================
+
+.. currentmodule:: odl.tomo.backends.scikit_radon
+
+.. autofunction:: scikit_sinogram_space

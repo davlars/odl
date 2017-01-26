@@ -1,0 +1,6 @@
+FileWriterMRC.data_kind
+=========================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileWriterMRC.data_kind

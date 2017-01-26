@@ -1,0 +1,6 @@
+FnBase.is_cn
+===================================
+
+.. currentmodule:: odl.space.base_ntuples
+
+.. autoattribute:: FnBase.is_cn

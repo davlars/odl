@@ -1,0 +1,6 @@
+FileReaderRawBinaryWithHeader.header_size
+===================================================================
+
+.. currentmodule:: odl.tomo.data.uncompr_bin
+
+.. autoattribute:: FileReaderRawBinaryWithHeader.header_size

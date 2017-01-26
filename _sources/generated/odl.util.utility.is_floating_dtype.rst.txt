@@ -1,0 +1,6 @@
+is_floating_dtype
+==================================
+
+.. currentmodule:: odl.util.utility
+
+.. autofunction:: is_floating_dtype

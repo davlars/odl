@@ -1,0 +1,6 @@
+CustomDist.dist_using_inner
+===============================================
+
+.. currentmodule:: odl.space.weighting
+
+.. autoattribute:: CustomDist.dist_using_inner

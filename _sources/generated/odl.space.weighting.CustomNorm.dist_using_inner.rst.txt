@@ -1,0 +1,6 @@
+CustomNorm.dist_using_inner
+===============================================
+
+.. currentmodule:: odl.space.weighting
+
+.. autoattribute:: CustomNorm.dist_using_inner

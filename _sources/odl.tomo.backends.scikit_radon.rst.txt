@@ -1,0 +1,21 @@
+scikit_radon
+============
+
+Radon transform (ray transform) in 2d using skimage.transform.
+
+.. currentmodule:: odl.tomo.backends.scikit_radon
+
+
+
+
+.. rubric:: Functions
+
+.. autosummary::
+   :toctree: generated/
+
+   ~odl.tomo.backends.scikit_radon.clamped_interpolation
+   ~odl.tomo.backends.scikit_radon.scikit_radon_back_projector
+   ~odl.tomo.backends.scikit_radon.scikit_radon_forward
+   ~odl.tomo.backends.scikit_radon.scikit_sinogram_space
+   ~odl.tomo.backends.scikit_radon.scikit_theta
+

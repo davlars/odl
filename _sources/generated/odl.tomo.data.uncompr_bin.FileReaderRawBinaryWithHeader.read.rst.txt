@@ -1,0 +1,8 @@
+:orphan:
+
+FileReaderRawBinaryWithHeader.read
+============================================================
+
+.. currentmodule:: odl.tomo.data.uncompr_bin
+
+.. automethod:: FileReaderRawBinaryWithHeader.read

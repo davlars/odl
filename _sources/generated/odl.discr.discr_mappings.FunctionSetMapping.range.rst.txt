@@ -1,0 +1,6 @@
+FunctionSetMapping.range
+=================================================
+
+.. currentmodule:: odl.discr.discr_mappings
+
+.. autoattribute:: FunctionSetMapping.range

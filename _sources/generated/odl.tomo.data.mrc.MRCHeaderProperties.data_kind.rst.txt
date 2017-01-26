@@ -1,0 +1,6 @@
+MRCHeaderProperties.data_kind
+===============================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: MRCHeaderProperties.data_kind

@@ -1,0 +1,6 @@
+DiscretizedSpace.uspace
+================================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSpace.uspace

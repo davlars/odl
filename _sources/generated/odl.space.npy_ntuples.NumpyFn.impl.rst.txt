@@ -1,0 +1,6 @@
+NumpyFn.impl
+==================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFn.impl

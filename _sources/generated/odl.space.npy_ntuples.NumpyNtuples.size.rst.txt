@@ -1,0 +1,6 @@
+NumpyNtuples.size
+=======================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyNtuples.size

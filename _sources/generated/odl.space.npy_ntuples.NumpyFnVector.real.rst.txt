@@ -1,0 +1,6 @@
+NumpyFnVector.real
+========================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnVector.real

@@ -1,0 +1,6 @@
+FanFlatGeometry.motion_grid
+=====================================================
+
+.. currentmodule:: odl.tomo.geometry.fanbeam
+
+.. autoattribute:: FanFlatGeometry.motion_grid

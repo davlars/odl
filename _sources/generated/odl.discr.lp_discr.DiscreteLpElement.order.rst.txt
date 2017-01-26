@@ -1,0 +1,6 @@
+DiscreteLpElement.order
+==========================================
+
+.. currentmodule:: odl.discr.lp_discr
+
+.. autoattribute:: DiscreteLpElement.order

@@ -1,0 +1,6 @@
+NumpyFnCustomInner.dist_using_inner
+=========================================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnCustomInner.dist_using_inner

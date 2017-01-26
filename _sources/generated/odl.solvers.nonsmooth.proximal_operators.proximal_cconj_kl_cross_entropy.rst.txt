@@ -1,0 +1,6 @@
+proximal_cconj_kl_cross_entropy
+========================================================================
+
+.. currentmodule:: odl.solvers.nonsmooth.proximal_operators
+
+.. autofunction:: proximal_cconj_kl_cross_entropy

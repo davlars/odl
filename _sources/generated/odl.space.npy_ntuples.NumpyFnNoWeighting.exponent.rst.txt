@@ -1,0 +1,6 @@
+NumpyFnNoWeighting.exponent
+=================================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnNoWeighting.exponent

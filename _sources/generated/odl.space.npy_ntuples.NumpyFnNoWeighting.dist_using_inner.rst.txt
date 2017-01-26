@@ -1,0 +1,6 @@
+NumpyFnNoWeighting.dist_using_inner
+=========================================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnNoWeighting.dist_using_inner

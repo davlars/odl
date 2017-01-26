@@ -1,0 +1,6 @@
+is_complex_floating_dtype
+==========================================
+
+.. currentmodule:: odl.util.utility
+
+.. autofunction:: is_complex_floating_dtype

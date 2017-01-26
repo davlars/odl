@@ -1,0 +1,6 @@
+FileWriterMRC.cell_sides
+==========================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: FileWriterMRC.cell_sides

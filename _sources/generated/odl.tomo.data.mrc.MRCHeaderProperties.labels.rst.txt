@@ -1,0 +1,6 @@
+MRCHeaderProperties.labels
+============================================
+
+.. currentmodule:: odl.tomo.data.mrc
+
+.. autoattribute:: MRCHeaderProperties.labels

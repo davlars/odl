@@ -1,0 +1,6 @@
+DiscretizedSet.impl
+============================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSet.impl

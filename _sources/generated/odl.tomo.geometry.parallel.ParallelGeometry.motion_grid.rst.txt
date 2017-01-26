@@ -1,0 +1,6 @@
+ParallelGeometry.motion_grid
+=======================================================
+
+.. currentmodule:: odl.tomo.geometry.parallel
+
+.. autoattribute:: ParallelGeometry.motion_grid

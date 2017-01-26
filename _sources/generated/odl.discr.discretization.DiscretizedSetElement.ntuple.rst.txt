@@ -1,0 +1,6 @@
+DiscretizedSetElement.ntuple
+=====================================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSetElement.ntuple

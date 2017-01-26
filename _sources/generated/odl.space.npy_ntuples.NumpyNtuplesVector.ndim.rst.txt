@@ -1,0 +1,6 @@
+NumpyNtuplesVector.ndim
+=============================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyNtuplesVector.ndim

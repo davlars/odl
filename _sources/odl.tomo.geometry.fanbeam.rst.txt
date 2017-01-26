@@ -1,0 +1,17 @@
+fanbeam
+=======
+
+Fan beam geometries in 2 dimensions.
+
+.. currentmodule:: odl.tomo.geometry.fanbeam
+
+
+
+.. rubric:: Classes
+
+.. autosummary::
+   :toctree: generated/
+
+   ~odl.tomo.geometry.fanbeam.FanFlatGeometry
+
+

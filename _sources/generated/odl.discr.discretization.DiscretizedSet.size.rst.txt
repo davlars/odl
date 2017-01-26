@@ -1,0 +1,6 @@
+DiscretizedSet.size
+============================================
+
+.. currentmodule:: odl.discr.discretization
+
+.. autoattribute:: DiscretizedSet.size

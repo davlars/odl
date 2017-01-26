@@ -1,0 +1,6 @@
+ParallelGeometry.detector
+====================================================
+
+.. currentmodule:: odl.tomo.geometry.parallel
+
+.. autoattribute:: ParallelGeometry.detector

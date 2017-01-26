@@ -1,0 +1,6 @@
+NumpyFnMatrixWeighting.matrix_issparse
+============================================================
+
+.. currentmodule:: odl.space.npy_ntuples
+
+.. autoattribute:: NumpyFnMatrixWeighting.matrix_issparse

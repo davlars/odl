@@ -1,0 +1,6 @@
+Flat1dDetector.normal
+================================================
+
+.. currentmodule:: odl.tomo.geometry.detector
+
+.. autoattribute:: Flat1dDetector.normal
